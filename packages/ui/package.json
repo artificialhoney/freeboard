@@ -1,0 +1,14 @@
+{
+  "name": "@freeboard/ui",
+  "version": "0.1.0",
+  "scripts": {
+    "build": "node esbuild.js",
+    "watch": "node esbuild.js --watch",
+    "start": "node esbuild.js --serve"
+  },
+  "devDependencies": {
+    "esbuild": "0.24.0",
+    "esbuild-copy-static-files": "^0.1.0",
+    "esbuild-server": "^0.3.0"
+  }
+}
