@@ -14,14 +14,14 @@
    - show-hint.js
  */
 
-!(function (a) {
+!function (a) {
   if ("object" == typeof exports && "object" == typeof module)
     module.exports = a();
   else {
     if ("function" == typeof define && define.amd) return define([], a);
     this.CodeMirror = a();
   }
-})(function () {
+}.call(window, function () {
   "use strict";
   function y(a, c) {
     if (!(this instanceof y)) return new y(a, c);

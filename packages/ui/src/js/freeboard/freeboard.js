@@ -1,3 +1,10 @@
+import "../thirdparty/head.js";
+import "../thirdparty/jquery.js";
+import "../thirdparty/jquery-ui.js";
+import "../thirdparty/jquery.gridster.js";
+import "../thirdparty/jquery.caret.js";
+import "../thirdparty/jquery.xdomainrequest.js";
+import "../thirdparty/codemirror.js";
 import { FreeboardUI } from "./FreeboardUI.js";
 import { ko } from "../thirdparty/knockout.js";
 import { FreeboardModel } from "./FreeboardModel.js";
@@ -8,6 +15,7 @@ import { PaneModel } from "./PaneModel.js";
 import { PluginEditor } from "./PluginEditor.js";
 import { ValueEditor } from "./ValueEditor.js";
 import { WidgetModel } from "./WidgetModel.js";
+import { DialogBox } from "./DialogBox.js";
 // ┌────────────────────────────────────────────────────────────────────┐ \\
 // │ F R E E B O A R D                                                  │ \\
 // ├────────────────────────────────────────────────────────────────────┤ \\

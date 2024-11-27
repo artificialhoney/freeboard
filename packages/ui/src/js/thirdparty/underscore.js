@@ -876,6 +876,6 @@
         return this._wrapped;
       },
     });
-}).call(_);
+}).call(window);
 
 export const _ = window._;

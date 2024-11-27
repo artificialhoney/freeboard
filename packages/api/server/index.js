@@ -10,13 +10,6 @@ const { mongoURI: db } = process.env;
 
 const pubsub = createPubSub();
 
-const options = {
-  port: process.env.PORT || "4000",
-  endpoint: "/graphql",
-  subscriptions: "/subscriptions",
-  playground: "/playground",
-};
-
 const context = {
   models,
   pubsub,
@@ -33,12 +26,11 @@ mongoose
 const server = createServer(
   createYoga({
     landingPage: false,
-    graphqlEndpoint: "/playground",
     schema,
     context,
   }),
 );
 
-server.listen(4000, () => {
+server.listen(process.env.PORT || 4000, () => {
   console.info("Server is running on http://localhost:4000/graphql");
 });

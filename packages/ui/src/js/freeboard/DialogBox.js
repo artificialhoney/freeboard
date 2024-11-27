@@ -1,4 +1,10 @@
-function DialogBox(contentElement, title, okTitle, cancelTitle, okCallback) {
+export function DialogBox(
+  contentElement,
+  title,
+  okTitle,
+  cancelTitle,
+  okCallback,
+) {
   var modal_width = 900;
 
   // Initialize our modal overlay

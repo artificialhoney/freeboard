@@ -4,34 +4,32 @@ export default `
     updated: String
   }
 
-  type Post {
+  type Dashboard {
     _id: ID!
     title: String!
     body: String!
     published: Boolean!
-    author: User!
-    comments: [Comment!]!
     date: Dates
   }
 
   type Query {
-    post(_id: ID!): Post!
-    posts: [Post!]!
+    dashboard(_id: ID!): Dashboard!
+    dashboards: [Dashboard!]!
   }
 
   type Mutation {
-    createPost(post: CreatePostInput): Post!
-    updatePost(_id: ID!, post: UpdatePostInput): Post!
-    deletePost(_id: ID!): Post!
+    createDashboard(dashboard: CreateDashboardInput): Dashboard!
+    updateDashboard(_id: ID!, dashboard: UpdateDashboardInput): Dashboard!
+    deleteDashboard(_id: ID!): Dashboard!
   }
 
   type Subscription {
-    post: PostSubscriptionPayload!
+    dashboard: DashboardSubscriptionPayload!
   }
 
-  type PostSubscriptionPayload {
+  type DashboardSubscriptionPayload {
     mutation: MutationType!
-    post: Post!
+    dashboard: Dashboard!
   }
 
   input DatesInput {
@@ -39,15 +37,14 @@ export default `
     updated: String
   }
 
-  input CreatePostInput {
+  input CreateDashboardInput {
     title: String!
     body: String!
     published: Boolean!
-    author: ID!
     date: DatesInput
   }
 
-  input UpdatePostInput {
+  input UpdateDashboardInput {
     title: String
     body: String
     published: Boolean

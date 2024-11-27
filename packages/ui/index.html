@@ -1,5 +1,4 @@
 <!doctype html>
-<!-- Dev Version links to full versions (non-minified) of javascript and css files -->
 <html>
   <head>
     <meta charset="UTF-8" />
@@ -11,48 +10,6 @@
       name="viewport"
       content="width = device-width, initial-scale = 1, user-scalable = no"
     />
-    <link href="lib/css/thirdparty/jquery.gridster.min.css" rel="stylesheet" />
-    <link href="lib/css/thirdparty/codemirror.css" rel="stylesheet" />
-    <link href="lib/css/thirdparty/codemirror-ambiance.css" rel="stylesheet" />
-    <link href="lib/css/freeboard/styles.css" rel="stylesheet" />
-    <script src="lib/js/thirdparty/head.js"></script>
-    <script type="text/javascript">
-      head.js(
-        "lib/js/thirdparty/knockout.js",
-        "lib/js/thirdparty/jquery.js",
-        "lib/js/thirdparty/jquery-ui.js",
-        "lib/js/thirdparty/underscore.js",
-        "lib/js/thirdparty/jquery.gridster.js",
-        "lib/js/thirdparty/jquery.caret.js",
-        "lib/js/thirdparty/codemirror.js",
-        "lib/js/thirdparty/jquery.xdomainrequest.js",
-
-        "lib/js/freeboard/FreeboardModel.js",
-        "lib/js/freeboard/DatasourceModel.js",
-        "lib/js/freeboard/PaneModel.js",
-        "lib/js/freeboard/WidgetModel.js",
-        "lib/js/freeboard/FreeboardUI.js",
-        "lib/js/freeboard/DialogBox.js",
-        "lib/js/freeboard/PluginEditor.js",
-        "lib/js/freeboard/ValueEditor.js",
-        "lib/js/freeboard/JSEditor.js",
-        "lib/js/freeboard/DeveloperConsole.js",
-        "lib/js/freeboard/freeboard.js",
-
-        "plugins/freeboard/freeboard.datasources.js",
-        "plugins/freeboard/freeboard.widgets.js",
-        "examples/plugin_example.js",
-
-        // *** Load more plugins here ***
-        function () {
-          $(function () {
-            //DOM Ready
-            freeboard.setAssetRoot("/freeboard-ui/");
-            freeboard.initialize(true);
-          });
-        },
-      );
-    </script>
   </head>
   <body>
     <div id="board-content">
@@ -68,7 +25,9 @@
       <div id="admin-bar">
         <div id="admin-menu">
           <div id="board-tools">
-            <h1 id="board-logo" class="title bordered">freeboard</h1>
+            <h1 id="board-logo" class="title">
+              <i class="ra ra-bolt-shield ra-2x"></i>
+            </h1>
             <div id="board-actions">
               <ul class="board-toolbar vertical">
                 <li data-bind="click: loadDashboardFromLocalFile">
@@ -235,5 +194,6 @@
         </section>
       </li>
     </script>
+    <script type="module" src="/src/main.js"></script>
   </body>
 </html>
