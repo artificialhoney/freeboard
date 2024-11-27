@@ -13,7 +13,7 @@
   --fieldset-border: #c0c0c0;
   --html-background: #101214;
   --body-background: #101214;
-  --body-color: #101214;
+  --body-color: #8b8b8b;
   --modal-background: #2a2a2a;
   --modal-header-background: #272727;
   --modal-header-color: #8b8b8b;
@@ -80,7 +80,7 @@
   --onoffswitch-switch-background: #a1a1a1;
   --onoffswitch-switch-border: #3d3d3d;
   --onoffswitch-checked-background: #ff9900;
-  --code-window-background: #2a2a2aå;
+  --code-window-background: #2a2a2a;
 }
 
 article,
@@ -896,7 +896,6 @@ header h1 {
   width: 100%;
   position: fixed;
   z-index: 50;
-  display: none;
 }
 
 #admin-bar {

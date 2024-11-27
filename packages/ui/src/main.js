@@ -1,13 +1,8 @@
-import "./main.css";
+import { createApp } from "vue";
+import App from "./App.vue";
 
-import "./js/freeboard/freeboard.js";
+import { createPinia } from "pinia";
 
-import "./plugins/freeboard/freeboard.datasources.js";
-import "./plugins/freeboard/freeboard.widgets.js";
-(function () {
-  $(function () {
-    //DOM Ready
-    // freeboard.setAssetRoot("/freeboard-ui/");
-    freeboard.initialize(true);
-  });
-})();
+const pinia = createPinia();
+
+createApp(App).use(pinia).mount("#app");
