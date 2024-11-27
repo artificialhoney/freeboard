@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
-import { ObjectID } from "mongodb";
+import { ObjectId } from "mongodb";
 
 const Schema = mongoose.Schema;
 
-ObjectID.prototype.valueOf = function () {
+ObjectId.prototype.valueOf = function () {
   return this.toString();
 };
 

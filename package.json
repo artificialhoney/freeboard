@@ -3,10 +3,12 @@
   "title": "freeboard",
   "version": "1.2.0-dev",
   "scripts": {
+    "start": "docker compose -f docker-compose.dev.yml up -d --force-recreate && concurrently --kill-others  \"npm run start --workspace=packages/ui\" \"npm run server --workspace=packages/api\"",
     "lint:fix": "eslint --fix"
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",
+    "concurrently": "^9.1.0",
     "eslint": "^9.15.0",
     "globals": "^15.12.0"
   },

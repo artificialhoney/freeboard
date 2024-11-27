@@ -1,5 +1,6 @@
 require("dotenv").config();
-import { GraphQLServer, PubSub } from "graphql-yoga";
+import { createServer } from "http";
+import { createPubSub, createSchema, createYoga } from "graphql-yoga";
 import mongoose from "mongoose";
 
 import schema from "../graphql/";
@@ -7,7 +8,7 @@ import { models } from "./config/db/";
 
 const { mongoURI: db } = process.env;
 
-const pubsub = new PubSub();
+const pubsub = createPubSub();
 
 const options = {
   port: process.env.PORT || "4000",
@@ -24,17 +25,20 @@ const context = {
 // Connect to MongoDB with Mongoose.
 mongoose
   .connect(db, {
-    useCreateIndex: true,
     useNewUrlParser: true,
   })
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.log(err));
 
-const server = new GraphQLServer({
-  schema,
-  context,
-});
+const server = createServer(
+  createYoga({
+    landingPage: false,
+    graphqlEndpoint: "/playground",
+    schema,
+    context,
+  }),
+);
 
-server.start(options, ({ port }) => {
-  console.log(`🚀 Server is running on http://localhost:${port}`);
+server.listen(4000, () => {
+  console.info("Server is running on http://localhost:4000/graphql");
 });

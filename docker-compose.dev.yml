@@ -1,0 +1,16 @@
+version: "3.1"
+
+services:
+  mongo:
+    image: mongo
+    restart: unless-stopped
+    ports:
+      - 27017:27017
+    volumes:
+      - ./db:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: unsecure
+      MONGO_INITDB_DATABASE: freeboard
+      MONGO_NON_ROOT_USERNAME: freeboard
+      MONGO_NON_ROOT_PASSWORD: unsecure
