@@ -1,6 +1,6 @@
 <script setup lang="js">
 import { onMounted, ref, onBeforeUnmount } from "vue";
-import { Pane, useDashboardStore } from "../stores/dashboard";
+import { Pane } from "../stores/dashboard";
 import { useAppStore } from "../stores/app";
 import { storeToRefs } from "pinia";
 import WidgetUI from "./WidgetUI.vue";

@@ -51,7 +51,10 @@ export const useAppStore = defineStore("app", {
   }),
   actions: {
     _isPotentialTypeMatch(value, expectsType) {
-      if (_.isArray(value) || _.isObject(value)) {
+      if (
+        value.constructor === Array ||
+        (typeof value === "object" && !Array.isArray(value) && value !== null)
+      ) {
         return true;
       }
       return this._isTypeMatch(value, expectsType);
@@ -62,15 +65,17 @@ export const useAppStore = defineStore("app", {
         case EXPECTED_TYPE.ANY:
           return true;
         case EXPECTED_TYPE.ARRAY:
-          return _.isArray(value);
+          return value.constructor === Array;
         case EXPECTED_TYPE.OBJECT:
-          return _.isObject(value);
+          return (
+            typeof value === "object" && !Array.isArray(value) && value !== null
+          );
         case EXPECTED_TYPE.STRING:
-          return _.isString(value);
+          return typeof value === "string";
         case EXPECTED_TYPE.NUMBER:
-          return _.isNumber(value);
+          return typeof value === "number";
         case EXPECTED_TYPE.BOOLEAN:
-          return _.isBoolean(value);
+          return typeof value === "boolean";
       }
     },
 
@@ -106,7 +111,7 @@ export const useAppStore = defineStore("app", {
       if (match) {
         // Editor value is: datasources["; List all datasources
         if (match[1] == "") {
-          _.each(datasources, function (datasource) {
+          datasources.forEach(function (datasource) {
             options.push({
               value: datasource.name(),
               entity: undefined,
@@ -116,10 +121,10 @@ export const useAppStore = defineStore("app", {
           });
         }
         // Editor value is a partial match for a datasource; list matching datasources
-        else if (match[1] != "" && _.isUndefined(match[2])) {
+        else if (match[1] != "" && match[2] === undefined) {
           let replacementString = match[1];
 
-          _.each(datasources, function (datasource) {
+          datasources.forEach(function (datasource) {
             let dsName = datasource.name();
 
             if (
@@ -138,16 +143,16 @@ export const useAppStore = defineStore("app", {
         // Editor value matches a datasources; parse JSON in order to populate list
         else {
           // We already have a datasource selected; find it
-          let datasource = _.find(datasources, (datasource) => {
+          let datasource = datasources.find((datasource) => {
             return datasource.name() === match[1];
           });
 
-          if (!_.isUndefined(datasource)) {
+          if (datasource !== undefined) {
             let dataPath = "data";
             let remainder = "";
 
             // Parse the partial JSON selectors
-            if (!_.isUndefined(match[2])) {
+            if (match[2] !== undefined) {
               // Strip any incomplete field values, and store the remainder
               let remainderIndex = match[3].lastIndexOf("]") + 1;
               dataPath = dataPath + match[3].substring(0, remainderIndex);
@@ -161,7 +166,7 @@ export const useAppStore = defineStore("app", {
             this.currentValue = dataValue;
 
             // For arrays, list out the indices
-            if (_.isArray(dataValue)) {
+            if (dataValue.constructor === Array) {
               for (let index = 0; index < dataValue.length; index++) {
                 if (index.toString().indexOf(remainder) == 0) {
                   let value = dataValue[index];
@@ -178,8 +183,12 @@ export const useAppStore = defineStore("app", {
               }
             }
             // For objects, list out the keys
-            else if (_.isObject(dataValue)) {
-              _.each(dataValue, function (value, name) {
+            else if (
+              typeof dataValue === "object" &&
+              !Array.isArray(dataValue) &&
+              dataValue !== null
+            ) {
+              dataValue.forEach(function (value, name) {
                 if (name.indexOf(remainder) == 0) {
                   if (this._isPotentialTypeMatch(value, expectsType)) {
                     options.push({
@@ -238,7 +247,7 @@ export const useAppStore = defineStore("app", {
         let selected = true;
         this.selectedOptionIndex = 0;
 
-        _.each(this.autocompleteOptions, (option, index) => {
+        this.autocompleteOptions.forEach((option, index) => {
           let li = this._renderAutocompleteDropdownOption(
             element,
             inputString,
@@ -501,7 +510,7 @@ export const useAppStore = defineStore("app", {
       this.updateGridColumnControls();
     },
     getMaxDisplayableColumnCount() {
-      let available_width = $("#board-content").width();
+      const available_width = $("#board-content").width();
       return Math.floor(available_width / COLUMN_WIDTH);
     },
     updateGridColumnControls() {
@@ -601,25 +610,24 @@ export const useAppStore = defineStore("app", {
       const dashboardStore = useDashboardStore();
       let num_cols = this.grid.cols + 1;
       if (this.updateGridWidth(num_cols)) {
-        this.repositionGrid(function () {
-          let paneElement = this;
-          let paneModel = ko.dataFor(paneElement);
+        this.repositionGrid((paneElement) => {
+          let paneModel = ko.dataFor();
 
           let prevColumnIndex = this.grid.cols > 1 ? this.grid.cols - 1 : 1;
           let prevCol = paneModel.col[prevColumnIndex];
           let prevRow = paneModel.row[prevColumnIndex];
           let newPosition;
           if (shift) {
-            leftPreviewCol = true;
+            this.leftPreviewCol = true;
             let newCol =
               prevCol < this.grid.cols ? prevCol + 1 : this.grid.cols;
             newPosition = { row: prevRow, col: newCol };
           } else {
-            rightPreviewCol = true;
+            this.rightPreviewCol = true;
             newPosition = { row: prevRow, col: prevCol };
           }
           $(paneElement)
-            .attr("data-sizex", Math.min(paneModel.col_width(), this.grid.cols))
+            .attr("data-sizex", Math.min(paneModel.colWidth(), this.grid.cols))
             .attr("data-row", newPosition.row)
             .attr("data-col", newPosition.col);
         });
@@ -629,10 +637,10 @@ export const useAppStore = defineStore("app", {
     },
 
     subtractGridColumn(shift) {
+      const dashboardStore = useDashboardStore();
       let num_cols = this.grid.cols - 1;
       if (this.updateGridWidth(num_cols)) {
-        this.repositionGrid(function () {
-          let paneElement = this;
+        this.repositionGrid((paneElement) => {
           let paneModel = ko.dataFor(paneElement);
 
           let prevColumnIndex = this.grid.cols + 1;
@@ -652,8 +660,8 @@ export const useAppStore = defineStore("app", {
             .attr("data-col", newPosition.col);
         });
       }
-      this.pdateGridColumnControls();
-      this.dashboardStore.setUserColumns(this.grid.cols);
+      this.updateGridColumnControls();
+      dashboardStore.setUserColumns(this.grid.cols);
     },
     removeWidget(element) {
       this.grid.remove_widget($(element));
@@ -751,18 +759,18 @@ export const useAppStore = defineStore("app", {
         typeaheadSource,
         typeaheadDataSegment,
       ) => {
-        _.each(settingsDefs, (settingDef) => {
+        settingsDefs.forEach((settingDef) => {
           // Set a default value if one doesn't exist
           if (
-            !_.isUndefined(settingDef.default_value) &&
-            _.isUndefined(currentSettingsValues[settingDef.name])
+            settingDef.default_value !== undefined &&
+            currentSettingsValues[settingDef.name] === undefined
           ) {
             currentSettingsValues[settingDef.name] = settingDef.default_value;
           }
 
           let displayName = settingDef.name;
 
-          if (!_.isUndefined(settingDef.display_name)) {
+          if (settingDef.display_name !== undefined) {
             displayName = settingDef.display_name;
           }
 
@@ -784,10 +792,10 @@ export const useAppStore = defineStore("app", {
               let currentSubSettingValues = [];
 
               // Create our headers
-              _.each(settingDef.settings, (subSettingDef) => {
+              settingDef.settings.forEach((subSettingDef) => {
                 let subsettingDisplayName = subSettingDef.name;
 
-                if (!_.isUndefined(subSettingDef.display_name)) {
+                if (subSettingDef.display_name !== undefined) {
                   subsettingDisplayName = subSettingDef.display_name;
                 }
 
@@ -814,17 +822,17 @@ export const useAppStore = defineStore("app", {
 
                 let newSetting = {};
 
-                if (!_.isArray(newSettings.settings[settingDef.name])) {
+                if (!Array.isArray(newSettings.settings[settingDef.name])) {
                   newSettings.settings[settingDef.name] = [];
                 }
 
                 newSettings.settings[settingDef.name].push(newSetting);
 
-                _.each(settingDef.settings, (subSettingDef) => {
+                settingDef.settings.forEach((subSettingDef) => {
                   let subsettingCol = $("<td></td>").appendTo(subsettingRow);
                   let subsettingValueString = "";
 
-                  if (!_.isUndefined(subsettingValue[subSettingDef.name])) {
+                  if (subsettingValue[subSettingDef.name] !== undefined) {
                     subsettingValueString = subsettingValue[subSettingDef.name];
                   }
 
@@ -872,7 +880,7 @@ export const useAppStore = defineStore("app", {
                 .click(() => {
                   let newSubsettingValue = {};
 
-                  _.each(settingDef.settings, (subSettingDef) => {
+                  settingDef.settings.forEach((subSettingDef) => {
                     newSubsettingValue[subSettingDef.name] = "";
                   });
 
@@ -880,8 +888,7 @@ export const useAppStore = defineStore("app", {
                 });
 
               // Create our rows
-              _.each(
-                currentSubSettingValues,
+              currentSubSettingValues.forEach(
                 (currentSubSettingValue, subSettingIndex) => {
                   createSubsettingRow(currentSubSettingValue);
                 },
@@ -926,22 +933,26 @@ export const useAppStore = defineStore("app", {
                   newSettings.settings[settingDef.name] = $(this).val();
                 });
 
-              _.each(settingDef.options, (option) => {
+              settingDef.options.forEach((option) => {
                 let optionName;
                 let optionValue;
 
-                if (_.isObject(option)) {
+                if (
+                  typeof option === "object" &&
+                  !Array.isArray(option) &&
+                  option !== null
+                ) {
                   optionName = option.name;
                   optionValue = option.value;
                 } else {
                   optionName = option;
                 }
 
-                if (_.isUndefined(optionValue)) {
+                if (optionValue === undefined) {
                   optionValue = optionName;
                 }
 
-                if (_.isUndefined(defaultValue)) {
+                if (defaultValue === undefined) {
                   defaultValue = optionValue;
                 }
 
@@ -966,7 +977,10 @@ export const useAppStore = defineStore("app", {
               if (settingDef.type == "calculated") {
                 if (settingDef.name in currentSettingsValues) {
                   let currentValue = currentSettingsValues[settingDef.name];
-                  if (settingDef.multi_input && _.isArray(currentValue)) {
+                  if (
+                    settingDef.multi_input &&
+                    currentValue.constructor === Array
+                  ) {
                     let includeRemove = false;
                     for (let i = 0; i < currentValue.length; i++) {
                       this._appendCalculatedSettingRow(
@@ -1052,18 +1066,20 @@ export const useAppStore = defineStore("app", {
                     },
                   });
 
-                  input.change(function (event) {
+                  input.change((event) => {
                     let value = input.val();
-                    let source = _.template(typeaheadSource)({ input: value });
+                    let source = this.template()(typeaheadSource, {
+                      input: value,
+                    });
                     $.get(source, function (data) {
                       if (typeaheadDataSegment) {
                         data = data[typeaheadDataSegment];
                       }
-                      data = _.select(data, function (elm) {
+                      data = data.filter(function (elm) {
                         return elm[settingDef.typeahead_field][0] == value[0];
                       });
 
-                      typeaheadValues = _.map(data, function (elm) {
+                      typeaheadValues = data.map(function (elm) {
                         return elm[settingDef.typeahead_field];
                       });
                       $(input).autocomplete(
@@ -1078,9 +1094,10 @@ export const useAppStore = defineStore("app", {
                         for (let field in data) {
                           if (data.hasOwnProperty(field)) {
                             let otherInput = $(
-                              _.template(
+                              this.template()(
                                 "input.typeahead_data_field-<%= field %>",
-                              )({ field: field }),
+                                { field: field },
+                              ),
                             );
                             if (otherInput) {
                               otherInput.val(data[field]);
@@ -1100,13 +1117,13 @@ export const useAppStore = defineStore("app", {
             }
           }
 
-          if (!_.isUndefined(settingDef.suffix)) {
+          if (settingDef.suffix !== undefined) {
             valueCell.append(
               $('<div class="input-suffix">' + settingDef.suffix + "</div>"),
             );
           }
 
-          if (!_.isUndefined(settingDef.description)) {
+          if (settingDef.description !== undefined) {
             valueCell.append(
               $(
                 '<div class="setting-description">' +
@@ -1127,7 +1144,7 @@ export const useAppStore = defineStore("app", {
 
           if (
             settingDef.required &&
-            (_.isUndefined(newSettings.settings[settingDef.name]) ||
+            (newSettings.settings[settingDef.name] === undefined ||
               newSettings.settings[settingDef.name] == "")
           ) {
             this._displayValidationError(settingDef.name, "This is required.");
@@ -1150,13 +1167,13 @@ export const useAppStore = defineStore("app", {
           }
         }
 
-        if (_.isFunction(settingsSavedCallback)) {
+        if (typeof settingsSavedCallback === "function") {
           settingsSavedCallback(newSettings);
         }
       });
 
       // Create our body
-      let pluginTypeNames = _.keys(pluginTypes);
+      let pluginTypeNames = Object.keys(pluginTypes);
       let typeSelect;
 
       if (pluginTypeNames.length > 1) {
@@ -1169,7 +1186,7 @@ export const useAppStore = defineStore("app", {
           $("<option>Select a type...</option>").attr("value", "undefined"),
         );
 
-        _.each(pluginTypes, function (pluginType) {
+        pluginTypes.forEach(function (pluginType) {
           typeSelect.append(
             $("<option></option>")
               .text(pluginType.display_name)
@@ -1186,7 +1203,7 @@ export const useAppStore = defineStore("app", {
 
           selectedType = pluginTypes[typeSelect.val()];
 
-          if (_.isUndefined(selectedType)) {
+          if (selectedType === undefined) {
             $("#setting-row-instance-name").hide();
             $("#dialog-ok").hide();
           } else {
@@ -1217,7 +1234,7 @@ export const useAppStore = defineStore("app", {
       }
 
       if (typeSelect) {
-        if (_.isUndefined(currentTypeName)) {
+        if (currentTypeName === undefined) {
           $("#setting-row-instance-name").hide();
           $("#dialog-ok").hide();
         } else {
@@ -1368,7 +1385,7 @@ export const useAppStore = defineStore("app", {
 
       this.isEditing = isEditing;
 
-      if (_.isUndefined(animate)) {
+      if (animate === undefined) {
         animate = true;
       }
 
@@ -1404,7 +1421,7 @@ export const useAppStore = defineStore("app", {
       this.showPaneEditIcons(isEditing, animate);
     },
     showPaneEditIcons(show, animate) {
-      if (_.isUndefined(animate)) {
+      if (animate === undefined) {
         animate = true;
       }
 
@@ -1442,7 +1459,7 @@ export const useAppStore = defineStore("app", {
       this.isEditing = !this.isEditing;
     },
     loadDatasourcePlugin(plugin) {
-      if (_.isUndefined(plugin.display_name)) {
+      if (plugin.display_name === undefined) {
         plugin.display_name = plugin.type_name;
       }
 
@@ -1520,11 +1537,11 @@ export const useAppStore = defineStore("app", {
             data: body,
             beforeSend: function (xhr) {
               try {
-                _.each(currentSettings.headers, function (header) {
+                currentSettings.headers.forEach(function (header) {
                   let name = header.name;
                   let value = header.value;
 
-                  if (!_.isUndefined(name) && !_.isUndefined(value)) {
+                  if (name !== undefined && value !== undefined) {
                     xhr.setRequestHeader(name, value);
                   }
                 });
@@ -1851,7 +1868,7 @@ export const useAppStore = defineStore("app", {
             url: currentSettings.datafile,
             dataType: currentSettings.is_jsonp ? "JSONP" : "JSON",
             success: function (data) {
-              if (_.isArray(data)) {
+              if (data.constructor === Array) {
                 currentDataset = data;
               } else {
                 currentDataset = [];
@@ -2106,7 +2123,7 @@ export const useAppStore = defineStore("app", {
       dashboardStore.deserialize(dashboardData, () => {
         this.showLoadingIndicator = false;
 
-        if (_.isFunction(callback)) {
+        if (typeof callback === "function") {
           callback();
         }
         // TODO
@@ -2178,7 +2195,7 @@ export const useAppStore = defineStore("app", {
       let datasources = this.datasources;
 
       // Find the datasource with the name specified
-      let datasource = _.find(datasources, function (datasourceModel) {
+      let datasource = datasources.find(function (datasourceModel) {
         return datasourceModel.name.value === datasourceName;
       });
 
@@ -2192,7 +2209,7 @@ export const useAppStore = defineStore("app", {
       let datasources = this.datasources;
 
       // Find the datasource with the name specified
-      let datasource = _.find(datasources, function (datasourceModel) {
+      let datasource = datasources.find(function (datasourceModel) {
         return datasourceModel.name.value === datasourceName;
       });
 
@@ -2200,13 +2217,13 @@ export const useAppStore = defineStore("app", {
         return;
       }
 
-      let combinedSettings = _.defaults(settings, datasource.settings());
+      let combinedSettings = Object.assign(settings, datasource.settings);
       datasource.settings(combinedSettings);
     },
     getStyleString(name) {
       let returnString = "";
 
-      _.each(this.currentStyle[name], function (value, name) {
+      this.currentStyle[name]?.forEach(function (value, name) {
         returnString = returnString + name + ":" + value + ";";
       });
 
@@ -2233,7 +2250,7 @@ export const useAppStore = defineStore("app", {
       }
     },
     loadWidgetPlugin(plugin) {
-      if (_.isUndefined(plugin.display_name)) {
+      if (plugin.display_name === undefined) {
         plugin.display_name = plugin.type_name;
       }
 
@@ -2338,8 +2355,8 @@ export const useAppStore = defineStore("app", {
         }
       };
 
-      if (_.isArray(value)) {
-        _.each(value, collateValues);
+      if (value.constructor === Array) {
+        value.forEach(collateValues);
       } else {
         collateValues(value, 0);
       }
@@ -2350,7 +2367,7 @@ export const useAppStore = defineStore("app", {
       let tooltipHTML = '<span style="color: {{color}}">&#9679;</span> {{y}}';
 
       let composite = false;
-      _.each(values, function (valueArray, valueIndex) {
+      values.forEach(function (valueArray, valueIndex) {
         $(element).sparkline(valueArray, {
           type: "line",
           composite: composite,
@@ -2426,7 +2443,7 @@ export const useAppStore = defineStore("app", {
 
         function updateValueSizing() {
           if (
-            !_.isUndefined(currentSettings.units) &&
+            currentSettings.units !== undefined &&
             currentSettings.units != ""
           ) {
             // If we're displaying our units
@@ -2464,9 +2481,9 @@ export const useAppStore = defineStore("app", {
           currentSettings = newSettings;
 
           let shouldDisplayTitle =
-            !_.isUndefined(newSettings.title) && newSettings.title != "";
+            newSettings.title !== undefined && newSettings.title != "";
           let shouldDisplayUnits =
-            !_.isUndefined(newSettings.units) && newSettings.units != "";
+            newSettings.units !== undefined && newSettings.units != "";
 
           if (newSettings.sparkline) {
             sparklineElement.attr("style", null);
@@ -2478,7 +2495,7 @@ export const useAppStore = defineStore("app", {
 
           if (shouldDisplayTitle) {
             titleElement.html(
-              _.isUndefined(newSettings.title) ? "" : newSettings.title,
+              newSettings.title === undefined ? "" : newSettings.title,
             );
             titleElement.attr("style", null);
           } else {
@@ -2488,7 +2505,7 @@ export const useAppStore = defineStore("app", {
 
           if (shouldDisplayUnits) {
             unitsElement.html(
-              _.isUndefined(newSettings.units) ? "" : newSettings.units,
+              newSettings.units === undefined ? "" : newSettings.units,
             );
             unitsElement.attr("style", null);
           } else {
@@ -2622,15 +2639,18 @@ export const useAppStore = defineStore("app", {
 
           gaugeObject = new JustGage({
             id: thisGaugeID,
-            value: _.isUndefined(currentSettings.min_value)
-              ? 0
-              : currentSettings.min_value,
-            min: _.isUndefined(currentSettings.min_value)
-              ? 0
-              : currentSettings.min_value,
-            max: _.isUndefined(currentSettings.max_value)
-              ? 0
-              : currentSettings.max_value,
+            value:
+              currentSettings.min_value === undefined
+                ? 0
+                : currentSettings.min_value,
+            min:
+              currentSettings.min_value === undefined
+                ? 0
+                : currentSettings.min_value,
+            max:
+              currentSettings.max_value === undefined
+                ? 0
+                : currentSettings.max_value,
             label: currentSettings.units,
             showInnerShadow: false,
             valueFontColor: "#d3d4d4",
@@ -2665,7 +2685,7 @@ export const useAppStore = defineStore("app", {
         };
 
         this.onCalculatedValueChanged = function (settingName, newValue) {
-          if (!_.isUndefined(gaugeObject)) {
+          if (gaugeObject !== undefined) {
             gaugeObject.refresh(Number(newValue));
           }
         };
@@ -2738,7 +2758,7 @@ export const useAppStore = defineStore("app", {
         this.onSettingsChanged = function (newSettings) {
           currentSettings = newSettings;
           titleElement.html(
-            _.isUndefined(newSettings.title) ? "" : newSettings.title,
+            newSettings.title === undefined ? "" : newSettings.title,
           );
 
           if (newSettings.include_legend) {
@@ -2875,7 +2895,7 @@ export const useAppStore = defineStore("app", {
 
         this.onCalculatedValueChanged = function (settingName, newValue) {
           if (settingName == "direction") {
-            if (!_.isUndefined(triangle)) {
+            if (triangle !== undefined) {
               let direction = "r";
 
               let oppositeCurrent = currentValue + 180;
@@ -3050,16 +3070,16 @@ export const useAppStore = defineStore("app", {
 
           if (isOn) {
             stateElement.text(
-              _.isUndefined(onText)
-                ? _.isUndefined(currentSettings.on_text)
+              onText === undefined
+                ? currentSettings.on_text === undefined
                   ? ""
                   : currentSettings.on_text
                 : onText,
             );
           } else {
             stateElement.text(
-              _.isUndefined(offText)
-                ? _.isUndefined(currentSettings.off_text)
+              offText === undefined
+                ? currentSettings.off_text === undefined
                   ? ""
                   : currentSettings.off_text
                 : offText,
@@ -3077,7 +3097,7 @@ export const useAppStore = defineStore("app", {
         this.onSettingsChanged = function (newSettings) {
           currentSettings = newSettings;
           titleElement.html(
-            _.isUndefined(newSettings.title) ? "" : newSettings.title,
+            newSettings.title === undefined ? "" : newSettings.title,
           );
           updateState();
         };
@@ -3392,8 +3412,8 @@ export const useAppStore = defineStore("app", {
 
       this.datasourceData[datasourceName] = newData;
 
-      _.each(this.panes, function (pane) {
-        _.each(this.widgets, function (widget) {
+      this.panes.forEach(function (pane) {
+        this.widgets.forEach(function (widget) {
           widget.processDatasourceUpdate(datasourceName);
         });
       });
@@ -3401,11 +3421,11 @@ export const useAppStore = defineStore("app", {
     getDatasourceTypes() {
       let returnTypes = [];
 
-      _.each(this.datasourcePlugins, function (datasourcePluginType) {
+      this.datasourcePlugins.forEach(function (datasourcePluginType) {
         let typeName = datasourcePluginType.type_name;
         let displayName = typeName;
 
-        if (!_.isUndefined(datasourcePluginType.display_name)) {
+        if (datasourcePluginType.display_name !== undefined) {
           displayName = datasourcePluginType.display_name;
         }
 
@@ -3421,11 +3441,11 @@ export const useAppStore = defineStore("app", {
     getWidgetTypes() {
       let returnTypes = [];
 
-      _.each(this.widgetPlugins, function (widgetPluginType) {
+      this.widgetPlugins.forEach(function (widgetPluginType) {
         let typeName = widgetPluginType.type_name;
         let displayName = typeName;
 
-        if (!_.isUndefined(widgetPluginType.display_name)) {
+        if (widgetPluginType.display_name !== undefined) {
           displayName = widgetPluginType.display_name;
         }
 
@@ -3465,7 +3485,7 @@ export const useAppStore = defineStore("app", {
           .click(function () {
             let hold = false;
 
-            if (_.isFunction(okCallback)) {
+            if (typeof okCallback === "function") {
               hold = okCallback();
             }
 
@@ -3494,7 +3514,10 @@ export const useAppStore = defineStore("app", {
     getPositionForScreenSize(paneModel) {
       let cols = this.grid.cols;
 
-      if (_.isNumber(paneModel.row) && _.isNumber(paneModel.col)) {
+      if (
+        typeof paneModel.row === "number" &&
+        typeof paneModel.col === "number"
+      ) {
         // Support for legacy format
         let obj = {};
         obj[cols] = paneModel.row;
@@ -3541,8 +3564,92 @@ export const useAppStore = defineStore("app", {
     updatePositionForScreenSize(paneModel, row, col) {
       let displayCols = this.grid.cols;
 
-      if (!_.isUndefined(row)) paneModel.row[displayCols] = row;
-      if (!_.isUndefined(col)) paneModel.col[displayCols] = col;
+      if (row !== undefined) paneModel.row[displayCols] = row;
+      if (col !== undefined) paneModel.col[displayCols] = col;
+    },
+    template() {
+      // By default, Underscore uses ERB-style template delimiters, change the
+      // following template settings to use alternative delimiters.
+      var settings = {
+        evaluate: /<%([\s\S]+?)%>/g,
+        interpolate: /<%=([\s\S]+?)%>/g,
+        escape: /<%-([\s\S]+?)%>/g,
+      };
+
+      // When customizing `templateSettings`, if you don't want to define an
+      // interpolation, evaluation or escaping regex, we need one that is
+      // guaranteed not to match.
+      var noMatch = /.^/;
+
+      // Certain characters need to be escaped so that they can be put into a
+      // string literal.
+      var escapes = {
+        "\\": "\\",
+        "'": "'",
+        r: "\r",
+        n: "\n",
+        t: "\t",
+        u2028: "\u2028",
+        u2029: "\u2029",
+      };
+
+      for (var p in escapes) {
+        escapes[escapes[p]] = p;
+      }
+
+      var escaper = /\\|'|\r|\n|\t|\u2028|\u2029/g;
+      var unescaper = /\\(\\|'|r|n|t|u2028|u2029)/g;
+
+      return function (text, data, objectName) {
+        settings.variable = objectName;
+
+        // Compile the template source, taking care to escape characters that
+        // cannot be included in a string literal and then unescape them in code
+        // blocks.
+        var source =
+          "__p+='" +
+          text
+            .replace(escaper, function (match) {
+              return "\\" + escapes[match];
+            })
+            .replace(settings.escape || noMatch, function (match, code) {
+              return "'+\n_.escape(" + unescape(code) + ")+\n'";
+            })
+            .replace(settings.interpolate || noMatch, function (match, code) {
+              return "'+\n(" + unescape(code) + ")+\n'";
+            })
+            .replace(settings.evaluate || noMatch, function (match, code) {
+              return "';\n" + unescape(code) + "\n;__p+='";
+            }) +
+          "';\n";
+
+        // If a variable is not specified, place data values in local scope.
+        if (!settings.variable) {
+          source = "with(obj||{}){\n" + source + "}\n";
+        }
+
+        source =
+          "var __p='';var print=function(){__p+=Array.prototype.join.call(arguments, '')};\n" +
+          source +
+          "return __p;\n";
+
+        var render = new Function(settings.variable || "obj", source);
+
+        if (data) {
+          return render(data);
+        }
+
+        var template = function (data) {
+          return render.call(this, data);
+        };
+
+        // Provide the compiled function source as a convenience for build time
+        // precompilation.
+        template.source =
+          "function(" + (settings.variable || "obj") + "){\n" + source + "}";
+
+        return template;
+      };
     },
   },
 });

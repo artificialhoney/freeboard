@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, computed } from "vue";
+import { onMounted, ref } from "vue";
 import { storeToRefs } from "pinia";
 import { useAppStore } from "../stores/app";
 import { useDashboardStore } from "../stores/dashboard";
@@ -7,14 +7,9 @@ import PaneUI from "./PaneUI.vue";
 const appStore = useAppStore();
 const dashboardStore = useDashboardStore();
 const { allowEdit, isEditing } = storeToRefs(appStore);
-const { headerImage, datasources } = storeToRefs(dashboardStore);
+const { headerImage, datasources, panes } = storeToRefs(dashboardStore);
 
 const grid = ref(null);
-
-const panes = computed(() => {
-  const refs = storeToRefs(dashboardStore);
-  return refs.panes.value;
-});
 
 onMounted(() => {
   appStore.createGrid(grid.value);
@@ -127,21 +122,27 @@ onMounted(() => {
     </div>
     <div id="column-tools" class="responsive-column-width">
       <ul class="board-toolbar left-columns">
-        <li class="column-tool add" @click="appStore.addGridColumnLeft">
+        <li class="column-tool add" @click="() => appStore.addGridColumnLeft()">
           <span class="column-icon right"></span
           ><i class="icon-arrow-left icon-white"></i>
         </li>
-        <li class="column-tool sub" @click="appStore.subGridColumnLeft">
+        <li class="column-tool sub" @click="() => appStore.subGridColumnLeft()">
           <span class="column-icon left"></span
           ><i class="icon-arrow-right icon-white"></i>
         </li>
       </ul>
       <ul class="board-toolbar right-columns">
-        <li class="column-tool sub" @click="appStore.subGridColumnRight">
+        <li
+          class="column-tool sub"
+          @click="() => appStore.subGridColumnRight()"
+        >
           <span class="column-icon right"></span
           ><i class="icon-arrow-left icon-white"></i>
         </li>
-        <li class="column-tool add" @click="appStore.addGridColumnRight">
+        <li
+          class="column-tool add"
+          @click="() => appStore.addGridColumnRight()"
+        >
           <span class="column-icon left"></span
           ><i class="icon-arrow-right icon-white"></i>
         </li>

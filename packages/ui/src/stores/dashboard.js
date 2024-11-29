@@ -14,8 +14,8 @@ export class Datasource {
 
   set settings(newValue) {
     if (
-      !_.isUndefined(this.datasourceInstance) &&
-      _.isFunction(this.datasourceInstance.onSettingsChanged)
+      this.datasourceInstance !== undefined &&
+      typeof this.datasourceInstance.onSettingsChanged === "function"
     ) {
       this.datasourceInstance.onSettingsChanged(newValue);
     }
@@ -34,7 +34,7 @@ export class Datasource {
 
     if (
       newValue in datasourceData &&
-      _.isFunction(datasourceData[newValue].newInstance)
+      typeof datasourceData[newValue].newInstance === "function"
     ) {
       let datasourceType = datasourceData[newValue];
 
@@ -65,8 +65,8 @@ export class Datasource {
   }
 
   disposeDatasourceInstance() {
-    if (!_.isUndefined(this.datasourceInstance)) {
-      if (_.isFunction(this.datasourceInstance.onDispose)) {
+    if (this.datasourceInstance !== undefined) {
+      if (typeof this.datasourceInstance.onDispose === "function") {
         this.datasourceInstance.onDispose();
       }
 
@@ -105,8 +105,8 @@ export class Datasource {
 
   updateNow() {
     if (
-      !_.isUndefined(this.datasourceInstance) &&
-      _.isFunction(this.datasourceInstance.updateNow)
+      this.datasourceInstance !== undefined &&
+      typeof this.datasourceInstance.updateNow === "function"
     ) {
       this.datasourceInstance.updateNow();
     }
@@ -164,20 +164,16 @@ export class Pane {
     // Give the animation a moment to complete. Really hacky.
     // TODO: Make less hacky. Also, doesn't work when screen resizes.
     setTimeout(() => {
-      _.each(this.widgets, function (widget) {
+      this.widgets.forEach(function (widget) {
         widget.processSizeChange();
       });
     }, 1000);
   }
 
   getCalculatedHeight() {
-    let sumHeights = _.reduce(
-      this.widgets,
-      function (memo, widget) {
-        return memo + widget.height;
-      },
-      0,
-    );
+    let sumHeights = this.widgets.reduce(function (memo, widget) {
+      return memo + widget.height;
+    }, 0);
 
     sumHeights *= 6;
     sumHeights += 3;
@@ -192,7 +188,7 @@ export class Pane {
   serialize() {
     let widgets = [];
 
-    _.each(this.widgets, function (widget) {
+    this.widgets.forEach(function (widget) {
       widgets.push(widget.serialize());
     });
 
@@ -214,7 +210,7 @@ export class Pane {
     this.col = object.col;
     this.colWidth = object.colWidth || 1;
 
-    _.each(object.widgets, (widgetConfig) => {
+    object.widgets.forEach((widgetConfig) => {
       const dashboardStore = useDashboardStore();
       let widget = new Widget();
       widget.deserialize(widgetConfig);
@@ -223,7 +219,7 @@ export class Pane {
   }
 
   dispose() {
-    _.each(this.widgets, function (widget) {
+    this.widgets.forEach(function (widget) {
       widget.dispose();
     });
   }
@@ -244,7 +240,7 @@ export class Widget {
     this.disposeWidgetInstance();
     if (
       newValue in widgetPlugins.value &&
-      _.isFunction(widgetPlugins.value[newValue].newInstance)
+      typeof widgetPlugins.value[newValue].newInstance === "function"
     ) {
       let widgetType = widgetPlugins.value[newValue];
 
@@ -273,8 +269,8 @@ export class Widget {
 
   set settings(newValue) {
     if (
-      !_.isUndefined(this.widgetInstance) &&
-      _.isFunction(this.widgetInstance.onSettingsChanged)
+      this.widgetInstance !== undefined &&
+      typeof this.widgetInstance.onSettingsChanged === "function"
     ) {
       this.widgetInstance.onSettingsChanged(newValue);
     }
@@ -289,8 +285,8 @@ export class Widget {
   }
 
   disposeWidgetInstance() {
-    if (!_.isUndefined(this.widgetInstance)) {
-      if (_.isFunction(this.widgetInstance.onDispose)) {
+    if (this.widgetInstance !== undefined) {
+      if (typeof this.widgetInstance.onDispose === "function") {
         this.widgetInstance.onDispose();
       }
 
@@ -302,8 +298,8 @@ export class Widget {
     let refreshSettingNames =
       this.datasourceRefreshNotifications[datasourceName];
 
-    if (_.isArray(refreshSettingNames)) {
-      _.each(refreshSettingNames, function (settingName) {
+    if (refreshSettingNames.constructor === Array) {
+      refreshSettingNames.forEach(function (settingName) {
         this.processCalculatedSetting(settingName);
       });
     }
@@ -317,15 +313,15 @@ export class Widget {
 
   thisprocessSizeChange() {
     if (
-      !_.isUndefined(this.widgetInstance) &&
-      _.isFunction(this.widgetInstance.onSizeChanged)
+      this.widgetInstance !== undefined &&
+      typeof this.widgetInstance.onSizeChanged === "function"
     ) {
       this.widgetInstance.onSizeChanged();
     }
   }
 
   processCalculatedSetting(settingName) {
-    if (_.isFunction(this.calculatedSettingScripts[settingName])) {
+    if (typeof this.calculatedSettingScripts[settingName] === "function") {
       let returnValue = undefined;
 
       try {
@@ -342,9 +338,9 @@ export class Widget {
       }
 
       if (
-        !_.isUndefined(this.widgetInstance) &&
-        _.isFunction(this.widgetInstance.onCalculatedValueChanged) &&
-        !_.isUndefined(returnValue)
+        this.widgetInstance !== undefined &&
+        typeof this.widgetInstance.onCalculatedValueChanged === "function" &&
+        returnValue !== undefined
       ) {
         try {
           this.widgetInstance.onCalculatedValueChanged(
@@ -378,12 +374,12 @@ export class Widget {
     );
     let currentSettings = this.settings;
 
-    _.each(settingsDefs, function (settingDef) {
+    settingsDefs.forEach(function (settingDef) {
       if (settingDef.type == "calculated") {
         let script = currentSettings[settingDef.name];
 
-        if (!_.isUndefined(script)) {
-          if (_.isArray(script)) {
+        if (script !== undefined) {
+          if (script.constructor === Array) {
             script = "[" + script.join(",") + "]";
           }
 
@@ -422,12 +418,12 @@ export class Widget {
             let refreshSettingNames =
               this.datasourceRefreshNotifications[dsName];
 
-            if (_.isUndefined(refreshSettingNames)) {
+            if (refreshSettingNames === undefined) {
               refreshSettingNames = [];
               this.datasourceRefreshNotifications[dsName] = refreshSettingNames;
             }
 
-            if (_.indexOf(refreshSettingNames, settingDef.name) == -1) {
+            if (refreshSettingNames.indexOf(settingDef.name) === -1) {
               // Only subscribe to this notification once.
               refreshSettingNames.push(settingDef.name);
             }
@@ -445,8 +441,8 @@ export class Widget {
       self._heightUpdate();
 
       if (
-        !_.isUndefined(self.widgetInstance) &&
-        _.isFunction(self.widgetInstance.getHeight)
+        self.widgetInstance !== undefined &&
+        typeof self.widgetInstance.getHeight === 'function'
       ) {
         return self.widgetInstance.getHeight();
       }
@@ -459,8 +455,8 @@ export class Widget {
   render(element) {
     this.shouldRender = false;
     if (
-      !_.isUndefined(this.widgetInstance) &&
-      _.isFunction(this.widgetInstance.render)
+      this.widgetInstance !== undefined &&
+      typeof this.widgetInstance.render === "function"
     ) {
       this.widgetInstance.render(element);
       this.updateCalculatedSettings();
@@ -515,13 +511,13 @@ export const useDashboardStore = defineStore("dashboards", {
     serialize() {
       let panes = [];
 
-      _.each(this.panes, (pane) => {
+      this.panes.forEach((pane) => {
         panes.push(pane.serialize());
       });
 
       let datasources = [];
 
-      _.each(this.datasources, function (datasource) {
+      this.datasources.forEach(function (datasource) {
         datasources.push(datasource.serialize());
       });
 
@@ -544,23 +540,23 @@ export const useDashboardStore = defineStore("dashboards", {
         this.version = object.version || 0;
         this.headerImage = object.headerImage;
 
-        _.each(object.datasources, (datasourceConfig) => {
+        object.datasources.forEach((datasourceConfig) => {
           const datasource = new Datasource();
           datasource.deserialize(datasourceConfig);
           this.addDatasource(datasource);
         });
 
-        const sortedPanes = _.sortBy(object.panes, (pane) => {
+        const sortedPanes = object.panes.sort((pane) => {
           return appStore.getPositionForScreenSize(pane).row;
         });
 
-        _.each(sortedPanes, (paneConfig) => {
+        sortedPanes.forEach((paneConfig) => {
           let pane = new Pane();
           pane.deserialize(paneConfig);
           this.addPane(pane);
         });
 
-        if (_.isFunction(finishedCallback)) {
+        if (typeof finishedCallback === "function") {
           finishedCallback();
         }
 
@@ -568,12 +564,12 @@ export const useDashboardStore = defineStore("dashboards", {
       };
 
       // This could have been self.plugins(object.plugins), but for some weird reason head.js was causing a function to be added to the list of plugins.
-      _.each(object.plugins, function (plugin) {
+      object.plugins.forEach(function (plugin) {
         this.addPluginSource(plugin);
       });
 
       // Load any plugins referenced in this definition
-      if (_.isArray(object.plugins) && object.plugins.length > 0) {
+      if (object.plugins.constructor === Array && object.plugins.length > 0) {
         // TODO
         head.js(object.plugins, function () {
           finishLoad();
@@ -609,11 +605,11 @@ export const useDashboardStore = defineStore("dashboards", {
       this.panes = [...this.panes];
     },
     clearDashboard() {
-      _.each(this.datasources, (datasource) => {
+      this.datasources.forEach((datasource) => {
         datasource.dispose();
       });
 
-      _.each(this.panes, (pane) => {
+      this.panes.forEach((pane) => {
         pane.dispose();
       });
 

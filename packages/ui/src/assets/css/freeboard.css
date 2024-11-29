@@ -1087,11 +1087,6 @@ ol {
   cursor: pointer;
 }
 
-.column-tool.min.sub,
-.column-tool.max.add {
-  display: none;
-}
-
 .column-icon {
   display: inline-block;
   background-color: white;
