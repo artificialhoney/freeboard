@@ -3,17 +3,12 @@ import { onMounted, ref } from "vue";
 
 import $ from "jquery";
 window.$ = window.jQuery = $;
-import "~/jquery-ui/dist/jquery-ui";
-import "../jquery.plugins.js";
-import * as _ from "underscore";
-window._ = _;
+
 import FreeboardUI from "./FreeboardUI.vue";
 
 import { useAppStore } from "../stores/app";
 
 const appStore = useAppStore();
-
-const ui = ref(null);
 
 onMounted(() => {
   appStore.createJSONDatasource();
@@ -48,5 +43,5 @@ onMounted(() => {
 </script>
 
 <template>
-  <FreeboardUI ref="ui" />
+  <FreeboardUI />
 </template>

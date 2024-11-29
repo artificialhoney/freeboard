@@ -14,20 +14,22 @@ onBeforeUnmount(() => {
 });
 
 onMounted(() => {
+  /*
   let position = appStore.getPositionForScreenSize(pane);
   let col = position.col;
   let row = position.row;
   let width = Number(pane.width);
   let height = Number(pane.getCalculatedHeight());
+  */
 
-  appStore.addWidget(panel.value, width, height, col, row);
+  // appStore.addWidget(panel.value, width, height, col, row);
 
   if (isEditing) {
     $(panel.value).css({ cursor: "pointer" });
     appStore.showPaneEditIcons(true);
   }
 
-  appStore.updatePositionForScreenSize(pane, row, col);
+  // appStore.updatePositionForScreenSize(pane, row, col);
 });
 
 const { pane } = defineProps({ pane: Pane });
