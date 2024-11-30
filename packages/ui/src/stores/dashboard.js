@@ -1,5 +1,5 @@
 import { defineStore, storeToRefs } from "pinia";
-import { useAppStore } from "./app";
+import { useFreeboardStore } from "./freeboard";
 
 export const SERIALIZATION_VERSION = 1;
 export const MIN_COLUMNS = 3;
@@ -27,8 +27,8 @@ export class Datasource {
   }
 
   set type(newValue) {
-    const appStore = useAppStore();
-    const { datasourceData } = storeToRefs(appStore);
+    const freeboardStore = useFreeboardStore();
+    const { datasourceData } = storeToRefs(freeboardStore);
 
     this.disposeDatasourceInstance();
 
@@ -75,8 +75,8 @@ export class Datasource {
   }
 
   updateCallback(newData) {
-    const appStore = useAppStore();
-    appStore.processDatasourceUpdate(this, newData);
+    const freeboardStore = useFreeboardStore();
+    freeboardStore.processDatasourceUpdate(this, newData);
 
     this.latestData = newData;
 
@@ -235,8 +235,8 @@ export class Widget {
   _settings = null;
 
   set type(newValue) {
-    const appStore = useAppStore();
-    const { widgetPlugins } = storeToRefs(appStore);
+    const freeboardStore = useFreeboardStore();
+    const { widgetPlugins } = storeToRefs(freeboardStore);
     this.disposeWidgetInstance();
     if (
       newValue in widgetPlugins.value &&
@@ -306,8 +306,8 @@ export class Widget {
   }
 
   callValueFunction(theFunction) {
-    const appStore = useAppStore();
-    const { datasourceData } = storeToRefs(appStore);
+    const freeboardStore = useFreeboardStore();
+    const { datasourceData } = storeToRefs(freeboardStore);
     return theFunction.call(undefined, datasourceData);
   }
 
@@ -356,8 +356,8 @@ export class Widget {
   }
 
   updateCalculatedSettings() {
-    const appStore = useAppStore();
-    const { widgetPlugins } = storeToRefs(appStore);
+    const freeboardStore = useFreeboardStore();
+    const { widgetPlugins } = storeToRefs(freeboardStore);
 
     this.datasourceRefreshNotifications = {};
     this.calculatedSettingScripts = {};
@@ -501,7 +501,7 @@ export const useDashboardStore = defineStore("dashboards", {
       this.datasources = [...this.datasources, datasource];
     },
     deleteDatasource(datasource) {
-      const { datasourceData } = useAppStore();
+      const { datasourceData } = useFreeboardStore();
       delete datasourceData[datasource.name.value];
       datasource.dispose();
       this.datasources = this.datasources.filter(function (item) {
@@ -532,7 +532,7 @@ export const useDashboardStore = defineStore("dashboards", {
     },
 
     deserialize(object, finishedCallback) {
-      const appStore = useAppStore();
+      const freeboardStore = useFreeboardStore();
       this.clearDashboard();
 
       const finishLoad = () => {
@@ -547,7 +547,7 @@ export const useDashboardStore = defineStore("dashboards", {
         });
 
         const sortedPanes = object.panes.sort((pane) => {
-          return appStore.getPositionForScreenSize(pane).row;
+          return freeboardStore.getPositionForScreenSize(pane).row;
         });
 
         sortedPanes.forEach((paneConfig) => {
@@ -560,7 +560,7 @@ export const useDashboardStore = defineStore("dashboards", {
           finishedCallback();
         }
 
-        // appStore.processResize(true);
+        // freeboardStore.processResize(true);
       };
 
       // This could have been self.plugins(object.plugins), but for some weird reason head.js was causing a function to be added to the list of plugins.
@@ -582,7 +582,7 @@ export const useDashboardStore = defineStore("dashboards", {
       this.panes = [...this.panes, pane];
     },
     deletePane(pane) {
-      const appStore = useAppStore();
+      const freeboardStore = useFreeboardStore();
       pane.dispose();
       this.panes = this.panes.filter(function (item) {
         return item !== pane;

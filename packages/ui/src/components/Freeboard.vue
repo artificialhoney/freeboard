@@ -4,44 +4,35 @@ import { onMounted, ref } from "vue";
 import $ from "jquery";
 window.$ = window.jQuery = $;
 
-import FreeboardUI from "./FreeboardUI.vue";
+import Header from "./Header.vue";
+import Board from "./Board.vue";
 
-import { useAppStore } from "../stores/app";
+import { useFreeboardStore } from "../stores/freeboard";
 
-const appStore = useAppStore();
+const freeboardStore = useFreeboardStore();
 
 onMounted(() => {
-  appStore.createJSONDatasource();
-  appStore.createOpenWeatherMapDatasource();
-  appStore.createDweetioDatasource();
-  appStore.createPlaybackDatasource();
-  appStore.createMeshbluDatasource();
+  freeboardStore.createJSONDatasource();
+  freeboardStore.createOpenWeatherMapDatasource();
+  freeboardStore.createDweetioDatasource();
+  freeboardStore.createPlaybackDatasource();
+  freeboardStore.createMeshbluDatasource();
 
-  appStore.createTextWidget();
-  appStore.createGoogleMapWidget();
-  appStore.createGaugeWidget();
-  appStore.createHTMLWidget();
-  appStore.createPictureWidget();
-  appStore.createPointerWidget();
-  appStore.createSparklineWidget();
+  freeboardStore.createTextWidget();
+  freeboardStore.createGoogleMapWidget();
+  freeboardStore.createGaugeWidget();
+  freeboardStore.createHTMLWidget();
+  freeboardStore.createPictureWidget();
+  freeboardStore.createPointerWidget();
+  freeboardStore.createSparklineWidget();
 
-  let resizeTimer;
-
-  function resizeEnd() {
-    appStore.processResize(false);
-  }
-
-  $(window).resize(function () {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(resizeEnd, 500);
-  });
-
-  appStore.setAllowEdit(true);
-  appStore.setIsEditing(true);
-  appStore.showLoadingIndicator(false);
+  freeboardStore.setAllowEdit(true);
+  freeboardStore.setIsEditing(true);
+  freeboardStore.showLoadingIndicator(false);
 });
 </script>
 
 <template>
-  <FreeboardUI />
+  <Header />
+  <Board />
 </template>

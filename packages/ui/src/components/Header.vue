@@ -1,61 +1,16 @@
 <script setup lang="js">
-import { ref, watch } from "vue";
 import { storeToRefs } from "pinia";
-import { useAppStore } from "../stores/app";
-import { GridLayout, GridItem } from "vue-grid-layout-v3";
+import { useFreeboardStore } from "../stores/freeboard";
 import { useDashboardStore } from "../stores/dashboard";
-import PaneUI from "./PaneUI.vue";
-const appStore = useAppStore();
+
+const freeboardStore = useFreeboardStore();
+const { allowEdit, isEditing } = storeToRefs(freeboardStore);
+
 const dashboardStore = useDashboardStore();
-const { allowEdit, isEditing } = storeToRefs(appStore);
-const { headerImage, datasources, panes } = storeToRefs(dashboardStore);
-
-const layout = ref([]);
-
-watch(panes, () => {
-  // const el = { x: 0, y: 0, w: 2, h: 2, i: "0" };
-  const l = [];
-  panes.value.forEach((pane, index) => {
-    l.push({
-      x: (panes.value.length * 2) % (index || 12),
-      y: panes.value.length + (index || 12), // puts it at the bottom
-      w: 2,
-      h: 2,
-      i: index,
-      pane,
-    });
-  });
-
-  layout.value = l;
-});
+const { datasources } = storeToRefs(dashboardStore);
 </script>
 
 <template>
-  <div id="board-content">
-    <img id="dash-logo" v-if="headerImage" :src="headerImage" />
-    <GridLayout
-      :layout="layout"
-      :col-num="12"
-      :row-height="30"
-      :is-draggable="true"
-      :is-resizable="true"
-      :vertical-compact="true"
-      :margin="[10, 10]"
-      :use-css-transforms="true"
-    >
-      <GridItem
-        v-for="item in layout"
-        :x="item.x"
-        :y="item.y"
-        :w="item.w"
-        :h="item.h"
-        :i="item.i"
-        :key="item.i"
-      >
-        <PaneUI :pane="item.pane" />
-      </GridItem>
-    </GridLayout>
-  </div>
   <header id="main-header" v-if="allowEdit">
     <div id="admin-bar">
       <div id="admin-menu">
@@ -65,23 +20,23 @@ watch(panes, () => {
           </h1>
           <div id="board-actions">
             <ul class="board-toolbar vertical">
-              <li @click="appStore.loadDashboardFromLocalFile">
+              <li @click="freeboardStore.loadDashboardFromLocalFile">
                 <i id="full-screen-icon" class="icon-folder-open icon-white"></i
                 ><label id="full-screen">Load Freeboard</label>
               </li>
               <li>
                 <i class="icon-download-alt icon-white"></i>
-                <label @click="appStore.saveDashboardClicked"
+                <label @click="freeboardStore.saveDashboardClicked"
                   >Save Freeboard</label
                 >
                 <label
                   style="display: none"
-                  @click="() => appStore.saveDashboard(true)"
+                  @click="() => freeboardStore.saveDashboard(true)"
                   >[Pretty]</label
                 >
                 <label
                   style="display: none"
-                  @click="() => appStore.saveDashboard(false)"
+                  @click="() => freeboardStore.saveDashboard(false)"
                   >[Minified]</label
                 >
               </li>
@@ -114,7 +69,7 @@ watch(panes, () => {
                       class="text-button datasource-name"
                       @click="
                         () =>
-                          appStore.updatePluginEditor(
+                          freeboardStore.updatePluginEditor(
                             'edit',
                             'datasource',
                             datasource,
@@ -132,7 +87,7 @@ watch(panes, () => {
                       <li
                         @click="
                           () =>
-                            appStore.updatePluginEditor(
+                            freeboardStore.updatePluginEditor(
                               'delete',
                               'datasource',
                               datasource,
@@ -149,7 +104,9 @@ watch(panes, () => {
           </div>
           <span
             class="text-button table-operation"
-            @click="() => appStore.updatePluginEditor('add', 'datasource')"
+            @click="
+              () => freeboardStore.updatePluginEditor('add', 'datasource')
+            "
             >ADD</span
           >
         </div>
@@ -157,11 +114,17 @@ watch(panes, () => {
     </div>
     <div id="column-tools" class="responsive-column-width">
       <ul class="board-toolbar left-columns">
-        <li class="column-tool add" @click="() => appStore.addGridColumnLeft()">
+        <li
+          class="column-tool add"
+          @click="() => freeboardStore.addGridColumnLeft()"
+        >
           <span class="column-icon right"></span
           ><i class="icon-arrow-left icon-white"></i>
         </li>
-        <li class="column-tool sub" @click="() => appStore.subGridColumnLeft()">
+        <li
+          class="column-tool sub"
+          @click="() => freeboardStore.subGridColumnLeft()"
+        >
           <span class="column-icon left"></span
           ><i class="icon-arrow-right icon-white"></i>
         </li>
@@ -169,21 +132,24 @@ watch(panes, () => {
       <ul class="board-toolbar right-columns">
         <li
           class="column-tool sub"
-          @click="() => appStore.subGridColumnRight()"
+          @click="() => freeboardStore.subGridColumnRight()"
         >
           <span class="column-icon right"></span
           ><i class="icon-arrow-left icon-white"></i>
         </li>
         <li
           class="column-tool add"
-          @click="() => appStore.addGridColumnRight()"
+          @click="() => freeboardStore.addGridColumnRight()"
         >
           <span class="column-icon left"></span
           ><i class="icon-arrow-right icon-white"></i>
         </li>
       </ul>
     </div>
-    <div id="toggle-header" @click="() => appStore.setIsEditing(!isEditing)">
+    <div
+      id="toggle-header"
+      @click="() => freeboardStore.setIsEditing(!isEditing)"
+    >
       <i id="toggle-header-icon" class="icon-wrench icon-white"></i>
     </div>
   </header>

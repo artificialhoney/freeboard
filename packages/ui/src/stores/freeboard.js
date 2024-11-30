@@ -35,7 +35,7 @@ let EXPECTED_TYPE = {
   BOOLEAN: "boolean",
 };
 
-export const useAppStore = defineStore("app", {
+export const useFreeboardStore = defineStore("freeboard", {
   state: () => ({
     allowEdit: true,
     isEditing: false,

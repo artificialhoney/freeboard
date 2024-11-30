@@ -1,13 +1,13 @@
 <script setup lang="js">
 import { onMounted, ref } from "vue";
-import { useAppStore } from "../stores/app";
+import { useFreeboardStore } from "../stores/freeboard";
 
-const appStore = useAppStore();
+const freeboardStore = useFreeboardStore();
 
 const widgetRef = ref(null);
 
 onMounted(() => {
-  appStore.attachWidgetEditIcons($(widgetRef.value));
+  freeboardStore.attachWidgetEditIcons($(widgetRef.value));
 });
 
 const { widget } = defineProps({
@@ -30,13 +30,16 @@ const { widget } = defineProps({
             <i class="icon-chevron-down icon-white"></i>
           </li>
           <li
-            @click="() => appStore.updatePluginEditor('edit', 'widget', widget)"
+            @click="
+              () => freeboardStore.updatePluginEditor('edit', 'widget', widget)
+            "
           >
             <i class="icon-wrench icon-white"></i>
           </li>
           <li
             @click="
-              () => appStore.updatePluginEditor('delete', 'widget', widget)
+              () =>
+                freeboardStore.updatePluginEditor('delete', 'widget', widget)
             "
           >
             <i class="icon-trash icon-white"></i>
