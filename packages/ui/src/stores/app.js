@@ -476,199 +476,15 @@ export const useAppStore = defineStore("app", {
           }
         });
     },
-    processResize(layoutWidgets) {
-      const dashboardStore = useDashboardStore();
-      let maxDisplayableColumns = this.getMaxDisplayableColumnCount();
-      let repositionFunction = function () {};
-      if (layoutWidgets) {
-        repositionFunction = function () {
-          let paneElement = this;
-          let paneModel = ko.dataFor(paneElement);
-
-          let newPosition = this.getPositionForScreenSize(paneModel);
-          $(paneElement)
-            .attr(
-              "data-sizex",
-              Math.min(
-                paneModel.col_width(),
-                maxDisplayableColumns,
-                this.grid.cols,
-              ),
-            )
-            .attr("data-row", newPosition.row)
-            .attr("data-col", newPosition.col);
-
-          paneModel.processSizeChange();
-        };
-      }
-
-      this.updateGridWidth(
-        Math.min(maxDisplayableColumns, dashboardStore.userColumns.value),
-      );
-
-      this.repositionGrid(repositionFunction);
-      this.updateGridColumnControls();
-    },
     getMaxDisplayableColumnCount() {
       const available_width = $("#board-content").width();
       return Math.floor(available_width / COLUMN_WIDTH);
     },
-    updateGridColumnControls() {
-      let col_controls = $(".column-tool");
-      let available_width = $("#board-content").width();
-      let max_columns = Math.floor(available_width / COLUMN_WIDTH);
 
-      if (this.grid.cols <= MIN_COLUMNS) {
-        col_controls.addClass("min");
-      } else {
-        col_controls.removeClass("min");
-      }
-
-      if (this.grid.cols >= max_columns) {
-        col_controls.addClass("max");
-      } else {
-        col_controls.removeClass("max");
-      }
-    },
-
-    updateGridWidth(newCols) {
-      if (newCols === undefined || newCols < MIN_COLUMNS) {
-        newCols = MIN_COLUMNS;
-      }
-
-      let max_columns = this.getMaxDisplayableColumnCount();
-      if (newCols > max_columns) {
-        newCols = max_columns;
-      }
-
-      // +newCols to account for scaling on zoomed browsers
-      let new_width = COLUMN_WIDTH * newCols + newCols;
-      $(".responsive-column-width").css("max-width", new_width);
-
-      if (newCols === this.grid.cols) {
-        return false;
-      } else {
-        return true;
-      }
-    },
-
-    repositionGrid(repositionFunction) {
-      let rootElement = $(this.grid);
-
-      rootElement.find("> li").unbind().removeData();
-      $(".responsive-column-width").css("width", "");
-      this.grid.generate_grid_and_stylesheet();
-
-      rootElement.find("> li").each(repositionFunction);
-
-      this.grid.init();
-      $(".responsive-column-width").css(
-        "width",
-        this.grid.cols * PANE_WIDTH + this.grid.cols * PANE_MARGIN * 2,
-      );
-    },
-    createGrid(element) {
-      this.grid = $(element)
-        .gridster({
-          widget_margins: [PANE_MARGIN, PANE_MARGIN],
-          widget_base_dimensions: [PANE_WIDTH, 10],
-          resize: {
-            enabled: false,
-            axes: "x",
-          },
-        })
-        .data("gridster");
-
-      this.processResize(false);
-      this.disableGrid();
-    },
-    enableGrid() {
-      this.grid.enable();
-    },
-
-    disableGrid() {
-      this.grid.disable();
-    },
-
-    addGridColumnLeft() {
-      this.addGridColumn(true);
-    },
-
-    addGridColumnRight() {
-      this.addGridColumn(false);
-    },
-
-    subGridColumnLeft() {
-      this.subtractGridColumn(true);
-    },
-
-    subGridColumnRight() {
-      this.subtractGridColumn(false);
-    },
-
-    addGridColumn(shift) {
-      const dashboardStore = useDashboardStore();
-      let num_cols = this.grid.cols + 1;
-      if (this.updateGridWidth(num_cols)) {
-        this.repositionGrid((paneElement) => {
-          let paneModel = ko.dataFor();
-
-          let prevColumnIndex = this.grid.cols > 1 ? this.grid.cols - 1 : 1;
-          let prevCol = paneModel.col[prevColumnIndex];
-          let prevRow = paneModel.row[prevColumnIndex];
-          let newPosition;
-          if (shift) {
-            this.leftPreviewCol = true;
-            let newCol =
-              prevCol < this.grid.cols ? prevCol + 1 : this.grid.cols;
-            newPosition = { row: prevRow, col: newCol };
-          } else {
-            this.rightPreviewCol = true;
-            newPosition = { row: prevRow, col: prevCol };
-          }
-          $(paneElement)
-            .attr("data-sizex", Math.min(paneModel.colWidth(), this.grid.cols))
-            .attr("data-row", newPosition.row)
-            .attr("data-col", newPosition.col);
-        });
-      }
-      this.updateGridColumnControls();
-      dashboardStore.setUserColumns(this.grid.cols);
-    },
-
-    subtractGridColumn(shift) {
-      const dashboardStore = useDashboardStore();
-      let num_cols = this.grid.cols - 1;
-      if (this.updateGridWidth(num_cols)) {
-        this.repositionGrid((paneElement) => {
-          let paneModel = ko.dataFor(paneElement);
-
-          let prevColumnIndex = this.grid.cols + 1;
-          let prevCol = paneModel.col[prevColumnIndex];
-          let prevRow = paneModel.row[prevColumnIndex];
-          let newPosition;
-          if (shift) {
-            let newCol = prevCol > 1 ? prevCol - 1 : 1;
-            newPosition = { row: prevRow, col: newCol };
-          } else {
-            let newCol = prevCol <= this.grid.cols ? prevCol : this.grid.cols;
-            newPosition = { row: prevRow, col: newCol };
-          }
-          $(paneElement)
-            .attr("data-sizex", Math.min(paneModel.col_width(), this.grid.cols))
-            .attr("data-row", newPosition.row)
-            .attr("data-col", newPosition.col);
-        });
-      }
-      this.updateGridColumnControls();
-      dashboardStore.setUserColumns(this.grid.cols);
-    },
-    removeWidget(element) {
-      this.grid.remove_widget($(element));
-    },
-    addWidget(element, width, height, col, row) {
-      this.grid.add_widget(element, width, height, col, row);
-    },
+    addGridColumnLeft() {},
+    addGridColumnRight() {},
+    subGridColumnLeft() {},
+    subGridColumnRight() {},
     displayJSEditor(value, callback) {
       let exampleText =
         '// Example: Convert temp from C to F and truncate to 2 decimal places.\n// return (datasources["MyDatasource"].sensor.tempInF * 1.8 + 32).toFixed(2);';
@@ -1186,7 +1002,8 @@ export const useAppStore = defineStore("app", {
           $("<option>Select a type...</option>").attr("value", "undefined"),
         );
 
-        pluginTypes.forEach(function (pluginType) {
+        pluginTypeNames.forEach(function (pluginTypeName) {
+          const pluginType = pluginTypes[pluginTypeName];
           typeSelect.append(
             $("<option></option>")
               .text(pluginType.display_name)
@@ -1354,7 +1171,7 @@ export const useAppStore = defineStore("app", {
               if (type == "pane") {
                 viewModel.title = newSettings.settings.title;
                 viewModel.colWidth = newSettings.settings.colWidth;
-                this.processResize(false);
+                // this.processResize(false);
               } else {
                 if (type == "datasource") {
                   viewModel.name = newSettings.settings.name;

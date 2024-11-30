@@ -560,16 +560,16 @@ export const useDashboardStore = defineStore("dashboards", {
           finishedCallback();
         }
 
-        appStore.processResize(true);
+        // appStore.processResize(true);
       };
 
       // This could have been self.plugins(object.plugins), but for some weird reason head.js was causing a function to be added to the list of plugins.
-      object.plugins.forEach(function (plugin) {
+      object.plugins?.forEach(function (plugin) {
         this.addPluginSource(plugin);
       });
 
       // Load any plugins referenced in this definition
-      if (object.plugins.constructor === Array && object.plugins.length > 0) {
+      if (object.plugins?.constructor === Array && object.plugins.length > 0) {
         // TODO
         head.js(object.plugins, function () {
           finishLoad();

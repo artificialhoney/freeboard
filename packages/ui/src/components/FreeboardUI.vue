@@ -33,7 +33,16 @@ watch(panes, () => {
 <template>
   <div id="board-content">
     <img id="dash-logo" v-if="headerImage" :src="headerImage" />
-    <GridLayout v-if="layout.length" :layout="layout">
+    <GridLayout
+      :layout="layout"
+      :col-num="12"
+      :row-height="30"
+      :is-draggable="true"
+      :is-resizable="true"
+      :vertical-compact="true"
+      :margin="[10, 10]"
+      :use-css-transforms="true"
+    >
       <GridItem
         v-for="item in layout"
         :x="item.x"

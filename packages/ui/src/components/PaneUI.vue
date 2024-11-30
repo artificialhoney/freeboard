@@ -1,5 +1,5 @@
 <script setup lang="js">
-import { onMounted, ref, onBeforeUnmount } from "vue";
+import { onMounted, ref } from "vue";
 import { Pane } from "../stores/dashboard";
 import { useAppStore } from "../stores/app";
 import { storeToRefs } from "pinia";
@@ -7,36 +7,17 @@ import WidgetUI from "./WidgetUI.vue";
 const appStore = useAppStore();
 const { isEditing } = storeToRefs(appStore);
 
-const panel = ref(null);
-
-onBeforeUnmount(() => {
-  appStore.removeWidget(panel.value);
-});
-
 onMounted(() => {
-  /*
-  let position = appStore.getPositionForScreenSize(pane);
-  let col = position.col;
-  let row = position.row;
-  let width = Number(pane.width);
-  let height = Number(pane.getCalculatedHeight());
-  */
-
-  // appStore.addWidget(panel.value, width, height, col, row);
-
   if (isEditing) {
-    $(panel.value).css({ cursor: "pointer" });
     appStore.showPaneEditIcons(true);
   }
-
-  // appStore.updatePositionForScreenSize(pane, row, col);
 });
 
 const { pane } = defineProps({ pane: Pane });
 </script>
 
 <template>
-  <div ref="panel">
+  <div :style="{ cursor: isEditing && 'pointer' }">
     <header>
       <h1>{{ pane.title }}</h1>
       <ul class="board-toolbar pane-tools">
