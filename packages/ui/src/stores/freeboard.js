@@ -43,7 +43,6 @@ export const useFreeboardStore = defineStore("freeboard", {
     showLoadingIndicator: true,
     currentStyle: {},
     widgetPlugins: {},
-    grid: null,
     dropdown: null,
     autocompleteOptions: [],
     selectedOptionIndex: undefined,
@@ -479,11 +478,6 @@ export const useFreeboardStore = defineStore("freeboard", {
       const available_width = $("#board-content").width();
       return Math.floor(available_width / COLUMN_WIDTH);
     },
-
-    addGridColumnLeft() {},
-    addGridColumnRight() {},
-    subGridColumnLeft() {},
-    subGridColumnRight() {},
     displayJSEditor(value, callback) {
       let exampleText =
         '// Example: Convert temp from C to F and truncate to 2 decimal places.\n// return (datasources["MyDatasource"].sensor.tempInF * 1.8 + 32).toFixed(2);';
@@ -1212,7 +1206,7 @@ export const useFreeboardStore = defineStore("freeboard", {
         $("#toggle-header-icon")
           .addClass("icon-wrench")
           .removeClass("icon-chevron-up");
-        $(".gridster .gs_w").css({ cursor: "default" });
+        $(".vue-grid-layout section").css({ cursor: "default" });
         $("#main-header").animate(
           { top: "-" + barHeight + "px" },
           animateLength,
@@ -1224,7 +1218,7 @@ export const useFreeboardStore = defineStore("freeboard", {
         $("#toggle-header-icon")
           .addClass("icon-chevron-up")
           .removeClass("icon-wrench");
-        $(".gridster .gs_w").css({ cursor: "pointer" });
+        $(".vue-grid-layout section").css({ cursor: "pointer" });
         $("#main-header").animate({ top: "0px" }, animateLength);
         $("#board-content").animate(
           { top: barHeight + 20 + "px" },
@@ -3326,62 +3320,6 @@ export const useFreeboardStore = defineStore("freeboard", {
       overlay.append(modalDialog);
       $("body").append(overlay);
       overlay.fadeIn(200);
-    },
-    getPositionForScreenSize(paneModel) {
-      let cols = this.grid.cols;
-
-      if (
-        typeof paneModel.row === "number" &&
-        typeof paneModel.col === "number"
-      ) {
-        // Support for legacy format
-        let obj = {};
-        obj[cols] = paneModel.row;
-        paneModel.row = obj;
-
-        obj = {};
-        obj[cols] = paneModel.col;
-        paneModel.col = obj;
-      }
-
-      let newColumnIndex = 1;
-      let columnDiff = 1000;
-
-      for (let columnIndex in paneModel.col) {
-        if (columnIndex == cols) {
-          // If we already have a position defined for this number of columns, return that position
-          return {
-            row: paneModel.row[columnIndex],
-            col: paneModel.col[columnIndex],
-          };
-        } else if (paneModel.col[columnIndex] > cols) {
-          // If it's greater than our display columns, put it in the last column
-          newColumnIndex = cols;
-        } // If it's less than, pick whichever one is closest
-        else {
-          let delta = cols - columnIndex;
-
-          if (delta < columnDiff) {
-            newColumnIndex = columnIndex;
-            columnDiff = delta;
-          }
-        }
-      }
-
-      if (newColumnIndex in paneModel.col && newColumnIndex in paneModel.row) {
-        return {
-          row: paneModel.row[newColumnIndex],
-          col: paneModel.col[newColumnIndex],
-        };
-      }
-
-      return { row: 1, col: newColumnIndex };
-    },
-    updatePositionForScreenSize(paneModel, row, col) {
-      let displayCols = this.grid.cols;
-
-      if (row !== undefined) paneModel.row[displayCols] = row;
-      if (col !== undefined) paneModel.col[displayCols] = col;
     },
     template() {
       // By default, Underscore uses ERB-style template delimiters, change the

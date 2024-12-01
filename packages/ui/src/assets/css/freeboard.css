@@ -865,6 +865,10 @@ a:focus {
   text-transform: uppercase;
 }
 
+.vue-grid-layout .vuew-grid-item {
+  box-sizing: border-box;
+}
+
 header h1 {
   font-size: 12px;
   white-space: nowrap;

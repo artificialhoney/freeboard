@@ -5,28 +5,27 @@ import { GridLayout, GridItem } from "vue-grid-layout-v3";
 import { useDashboardStore } from "../stores/dashboard";
 import PaneUI from "./Pane.vue";
 const dashboardStore = useDashboardStore();
-const { headerImage, panes, maxWidth } = storeToRefs(dashboardStore);
-
-const layout = ref([]);
+const { headerImage, panes, maxWidth, layout } = storeToRefs(dashboardStore);
 
 const cols = ref(4);
 
 watch(panes, () => {
-  // const el = { x: 0, y: 0, w: 2, h: 2, i: "0" };
   const l = [];
   panes.value.forEach((pane, index) => {
-    l.push({
-      x: index % cols.value,
-      y: Math.floor(index / cols.value),
-      w: 1,
-      h: 1,
-      i: index,
-      pane,
-    });
-    console.log(l);
+    if (index < layout.value.length) {
+      l.push(layout.value[index]);
+    } else {
+      l.push({
+        x: index % cols.value,
+        y: Math.floor(index / cols.value),
+        w: 1,
+        h: 1,
+        i: index,
+        pane,
+      });
+    }
+    layout.value = l;
   });
-
-  layout.value = l;
 });
 </script>
 
@@ -35,12 +34,13 @@ watch(panes, () => {
     <img id="dash-logo" v-if="headerImage" :src="headerImage" />
     <GridLayout
       :class="`responsive-column-width-${maxWidth}`"
-      :layout="layout"
+      v-model:layout="layout"
       :col-num="cols"
       :row-height="30"
       :is-draggable="true"
       :is-resizable="true"
       :vertical-compact="true"
+      :is-bounded="true"
       :margin="[10, 10]"
       :use-css-transforms="true"
     >
@@ -51,6 +51,8 @@ watch(panes, () => {
         :w="item.w"
         :h="item.h"
         :i="item.i"
+        :is-draggable="true"
+        :is-resizable="true"
         :key="item.i"
       >
         <PaneUI :pane="item.pane" />

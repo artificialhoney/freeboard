@@ -2,7 +2,6 @@
 import { storeToRefs } from "pinia";
 import { useFreeboardStore } from "../stores/freeboard";
 import { useDashboardStore } from "../stores/dashboard";
-import { ref } from "vue";
 
 const freeboardStore = useFreeboardStore();
 const { allowEdit, isEditing } = storeToRefs(freeboardStore);
@@ -17,7 +16,7 @@ const { datasources, maxWidth } = storeToRefs(dashboardStore);
       <div id="admin-menu">
         <div id="board-tools">
           <h1 id="board-logo" class="title">
-            <i class="ra ra-feather-wing ra-2x"></i>
+            <i class="ra ra-feather-wing"></i>
             Freeboard
           </h1>
           <div id="board-actions">

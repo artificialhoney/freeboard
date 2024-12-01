@@ -489,6 +489,7 @@ export const useDashboardStore = defineStore("dashboard", {
     userColumns: MIN_COLUMNS,
     maxWidth: "md",
     panes: [],
+    layout: [],
   }),
   actions: {
     decreaseMaxWidth() {
