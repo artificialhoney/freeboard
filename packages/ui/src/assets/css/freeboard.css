@@ -901,7 +901,7 @@ header h1 {
 #admin-bar {
   background-color: var(--admin-bar-background);
   width: 100%;
-  height: 200px;
+  height: 220px;
   position: relative;
   -webkit-box-shadow: 0 0 5px var(--admin-bar-shadow);
   box-shadow: 0 0 5px var(--admin-bar-shadow);

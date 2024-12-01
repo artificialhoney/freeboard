@@ -16,7 +16,8 @@ const { datasources } = storeToRefs(dashboardStore);
       <div id="admin-menu">
         <div id="board-tools">
           <h1 id="board-logo" class="title">
-            <i class="ra ra-bolt-shield ra-2x"></i>
+            <i class="ra ra-feather-wing ra-2x"></i>
+            Freeboard
           </h1>
           <div id="board-actions">
             <ul class="board-toolbar vertical">
@@ -24,10 +25,14 @@ const { datasources } = storeToRefs(dashboardStore);
                 <i id="full-screen-icon" class="icon-folder-open icon-white"></i
                 ><label id="full-screen">Load Freeboard</label>
               </li>
+              <li @click="freeboardStore.loadDashboardFromLocalFile">
+                <i id="full-screen-icon" class="icon-bookmark icon-white"></i
+                ><label id="full-screen">Save Freeboard</label>
+              </li>
               <li>
                 <i class="icon-download-alt icon-white"></i>
                 <label @click="freeboardStore.saveDashboardClicked"
-                  >Save Freeboard</label
+                  >Export Freeboard</label
                 >
                 <label
                   style="display: none"
