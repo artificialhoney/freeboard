@@ -2473,3 +2473,15 @@ textarea:-moz-placeholder {
   width: 100%;
   height: 100% !important;
 }
+
+.responsive-column-width-md {
+  max-width: 960px;
+}
+
+.responsive-column-width-lg {
+  max-width: 1280px;
+}
+
+.responsive-column-width-xl {
+  max-width: 1536px;
+}

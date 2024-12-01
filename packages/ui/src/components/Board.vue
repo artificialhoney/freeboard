@@ -5,7 +5,7 @@ import { GridLayout, GridItem } from "vue-grid-layout-v3";
 import { useDashboardStore } from "../stores/dashboard";
 import PaneUI from "./Pane.vue";
 const dashboardStore = useDashboardStore();
-const { headerImage, panes } = storeToRefs(dashboardStore);
+const { headerImage, panes, maxWidth } = storeToRefs(dashboardStore);
 
 const layout = ref([]);
 
@@ -34,6 +34,7 @@ watch(panes, () => {
   <div id="board-content">
     <img id="dash-logo" v-if="headerImage" :src="headerImage" />
     <GridLayout
+      :class="`responsive-column-width-${maxWidth}`"
       :layout="layout"
       :col-num="cols"
       :row-height="30"

@@ -488,9 +488,30 @@ export const useDashboardStore = defineStore("dashboards", {
     headerImage: null,
     datasources: [],
     userColumns: MIN_COLUMNS,
+    maxWidth: "md",
     panes: [],
   }),
   actions: {
+    decreaseMaxWidth() {
+      if (this.maxWidth === "md") {
+        return;
+      }
+      if (this.maxWidth === "lg") {
+        this.maxWidth = "md";
+      } else {
+        this.maxWidth = "lg";
+      }
+    },
+    increaseMaxWidth() {
+      if (this.maxWidth === "xl") {
+        return;
+      }
+      if (this.maxWidth === "lg") {
+        this.maxWidth = "xl";
+      } else {
+        this.maxWidth = "lg";
+      }
+    },
     getUserColumns() {
       return this.userColumns;
     },

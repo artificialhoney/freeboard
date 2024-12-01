@@ -2,12 +2,13 @@
 import { storeToRefs } from "pinia";
 import { useFreeboardStore } from "../stores/freeboard";
 import { useDashboardStore } from "../stores/dashboard";
+import { ref } from "vue";
 
 const freeboardStore = useFreeboardStore();
 const { allowEdit, isEditing } = storeToRefs(freeboardStore);
 
 const dashboardStore = useDashboardStore();
-const { datasources } = storeToRefs(dashboardStore);
+const { datasources, maxWidth } = storeToRefs(dashboardStore);
 </script>
 
 <template>
@@ -117,18 +118,18 @@ const { datasources } = storeToRefs(dashboardStore);
         </div>
       </div>
     </div>
-    <div id="column-tools" class="responsive-column-width">
+    <div id="column-tools" :class="`responsive-column-width-${maxWidth}`">
       <ul class="board-toolbar left-columns">
         <li
           class="column-tool add"
-          @click="() => freeboardStore.addGridColumnLeft()"
+          @click="() => dashboardStore.increaseMaxWidth()"
         >
           <span class="column-icon right"></span
           ><i class="icon-arrow-left icon-white"></i>
         </li>
         <li
           class="column-tool sub"
-          @click="() => freeboardStore.subGridColumnLeft()"
+          @click="() => dashboardStore.decreaseMaxWidth()"
         >
           <span class="column-icon left"></span
           ><i class="icon-arrow-right icon-white"></i>
@@ -137,14 +138,14 @@ const { datasources } = storeToRefs(dashboardStore);
       <ul class="board-toolbar right-columns">
         <li
           class="column-tool sub"
-          @click="() => freeboardStore.subGridColumnRight()"
+          @click="() => dashboardStore.decreaseMaxWidth()"
         >
           <span class="column-icon right"></span
           ><i class="icon-arrow-left icon-white"></i>
         </li>
         <li
           class="column-tool add"
-          @click="() => freeboardStore.addGridColumnRight()"
+          @click="() => dashboardStore.increaseMaxWidth()"
         >
           <span class="column-icon left"></span
           ><i class="icon-arrow-right icon-white"></i>
