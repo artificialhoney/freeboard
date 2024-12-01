@@ -1,15 +1,15 @@
 export default `
-  type Dates {
-    published: String
-    updated: String
-  }
+  scalar Object
 
   type Dashboard {
     _id: ID!
     title: String!
-    body: String!
     published: Boolean!
-    date: Dates
+    headerImage: String
+    datasources: [Object]
+    userColumns: Int
+    maxWidth: String
+    panes: [Object]
   }
 
   type Query {

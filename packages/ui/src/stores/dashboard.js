@@ -480,10 +480,9 @@ export class Widget {
   }
 }
 
-export const useDashboardStore = defineStore("dashboards", {
+export const useDashboardStore = defineStore("dashboard", {
   state: () => ({
     title: null,
-    board: null,
     published: true,
     headerImage: null,
     datasources: [],

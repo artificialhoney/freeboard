@@ -18,13 +18,30 @@ const DashboardSchema = new Schema(
       type: String,
       required: true,
     },
-    board: {
-      type: Object,
-      required: true,
-    },
     published: {
       type: Boolean,
       required: true,
+    },
+    headerImage: {
+      type: String,
+      required: false,
+    },
+    datasources: {
+      type: [Object],
+      required: false,
+    },
+    userColumns: {
+      type: Number,
+      required: false,
+    },
+    maxWidth: {
+      type: String,
+      required: false,
+      default: "md",
+    },
+    panes: {
+      type: [Object],
+      required: false,
     },
   },
   {

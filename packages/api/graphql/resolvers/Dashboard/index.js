@@ -5,18 +5,14 @@ import { transformDashboard } from "../merge";
 export default {
   Query: {
     dashboard: async (parent, { _id }, context, info) => {
-      return await Dashboard.findOne({ _id }).exec();
+      const res = await Dashboard.findOne({ _id }).exec();
+
+      return transformDashboard(res);
     },
     dashboards: async (parent, args, context, info) => {
       const res = await Dashboard.find({}).populate().exec();
 
-      return res.map((u) => ({
-        _id: u._id.toString(),
-        title: u.title,
-        body: u.body,
-        published: u.published,
-        date: u.date,
-      }));
+      return res.map(transformDashboard);
     },
   },
   Mutation: {
@@ -25,18 +21,19 @@ export default {
         title: dashboard.title,
         body: dashboard.body,
         published: dashboard.published,
-        date: dashboard.date,
+        headerImage: dashboard.headerImage,
+        datasources: dashboard.datasources,
+        userColumns: dashboard.userColumns,
+        panes: dashboard.panes,
+        maxWidth: dashboard.maxWidth,
       });
-      let createdDashboard;
       try {
         // const result = await newDashboard.save();
-        const result = await new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
           newDashboard.save((err, res) => {
-            err ? reject(err) : resolve(res);
+            err ? reject(err) : resolve(transformDashboard(res));
           });
         });
-        createdDashboard = transformDashboard(result);
-        return createdDashboard;
       } catch (error) {
         console.log(error);
         throw error;
@@ -49,17 +46,16 @@ export default {
           { $set: { ...dashboard } },
           { new: true },
         ).exec((err, res) => {
-          err ? reject(err) : resolve(res);
+          err ? reject(err) : resolve(transformDashboard(res));
         });
       });
     },
     deleteDashboard: async (parent, { _id }, context, info) => {
       try {
         // searching for creator of the dashboard and deleting it from the list
-        const dashboard = await Dashboard.findById(_id);
         return new Promise((resolve, reject) => {
           Dashboard.findByIdAndDelete(_id).exec((err, res) => {
-            err ? reject(err) : resolve(res);
+            err ? reject(err) : resolve(transformDashboard(res));
           });
         });
       } catch (error) {
