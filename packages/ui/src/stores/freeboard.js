@@ -1208,22 +1208,24 @@ export const useFreeboardStore = defineStore("freeboard", {
           .removeClass("icon-chevron-up");
         $(".vue-grid-layout section").css({ cursor: "default" });
         $("#main-header").animate(
-          { top: "-" + barHeight + "px" },
+          { [`margin-top`]: "-" + barHeight + "px" },
           animateLength,
         );
-        $("#board-content").animate({ top: "20" }, animateLength);
-        $("#main-header").data().shown = false;
+        // $("#board-content").animate({ top: "20" }, animateLength);
+        // $("#main-header").data().shown = false;
         $(".sub-section").unbind();
       } else {
         $("#toggle-header-icon")
           .addClass("icon-chevron-up")
           .removeClass("icon-wrench");
         $(".vue-grid-layout section").css({ cursor: "pointer" });
-        $("#main-header").animate({ top: "0px" }, animateLength);
+        $("#main-header").animate({ [`margin-top`]: "0px" }, animateLength);
+        /*
         $("#board-content").animate(
-          { top: barHeight + 20 + "px" },
+          { height: barHeight + 20 + "px" },
           animateLength,
         );
+        */
         $("#main-header").data().shown = true;
         this.attachWidgetEditIcons($(".sub-section"));
       }

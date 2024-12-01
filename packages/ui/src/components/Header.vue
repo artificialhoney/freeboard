@@ -16,7 +16,7 @@ const { datasources, maxWidth } = storeToRefs(dashboardStore);
       <div id="admin-menu">
         <div id="board-tools">
           <h1 id="board-logo" class="title">
-            <i class="ra ra-feather-wing"></i>
+            <i class="ra ra-feather-wing ra-2x"></i>
             Freeboard
           </h1>
           <div id="board-actions">
