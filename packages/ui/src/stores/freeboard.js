@@ -214,9 +214,8 @@ export const useFreeboardStore = defineStore("freeboard", {
     _renderAutocompleteDropdown(element, expectsType) {
       const dashboardStore = useDashboardStore();
       const { datasources } = storeToRefs(dashboardStore);
-      let inputString = $(element)
-        .val()
-        .substring(0, $(element).getCaretPosition());
+      let inputString = $(element).val();
+      //.substring(0, $(element).getCaretPosition());
 
       // Weird issue where the textarea box was putting in ASCII (nbsp) for spaces.
       inputString = inputString.replace(String.fromCharCode(160), " ");

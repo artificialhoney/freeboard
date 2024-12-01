@@ -856,7 +856,7 @@ a:focus {
   text-decoration: underline;
 }
 
-.gridster header {
+.vue-grid-layout header {
   background-color: var(--gridster-header-background);
   height: 30px;
   margin: 0;
@@ -875,7 +875,7 @@ header h1 {
   line-height: 30px;
 }
 
-.gridster section {
+.vue-grid-layout section {
   line-height: normal;
   bottom: 0;
   left: 0;
@@ -1102,7 +1102,7 @@ ol {
   float: left;
 }
 
-.gridster {
+.vue-grid-layout {
   max-width: 960px;
   margin: 0 auto;
   left: 0;
@@ -1110,7 +1110,7 @@ ol {
   top: 0;
 }
 
-.gridster .gs_w {
+.vue-grid-layout section {
   background: var(--gridster-gs-w-background);
   padding: 0px;
   margin: 0px;
@@ -1124,7 +1124,7 @@ ol {
   user-select: text;
 }
 
-.gridster .preview-holder {
+.vue-grid-layout .preview-holder {
   border: none !important;
   border-radius: 0 !important;
   background: var(--gridster-preview-holder-background) !important;

@@ -9,18 +9,21 @@ const { headerImage, panes } = storeToRefs(dashboardStore);
 
 const layout = ref([]);
 
+const cols = ref(4);
+
 watch(panes, () => {
   // const el = { x: 0, y: 0, w: 2, h: 2, i: "0" };
   const l = [];
   panes.value.forEach((pane, index) => {
     l.push({
-      x: (panes.value.length * 2) % (index || 12),
-      y: panes.value.length + (index || 12), // puts it at the bottom
-      w: 2,
-      h: 2,
+      x: index % cols.value,
+      y: Math.floor(index / cols.value),
+      w: 1,
+      h: 1,
       i: index,
       pane,
     });
+    console.log(l);
   });
 
   layout.value = l;
@@ -32,7 +35,7 @@ watch(panes, () => {
     <img id="dash-logo" v-if="headerImage" :src="headerImage" />
     <GridLayout
       :layout="layout"
-      :col-num="12"
+      :col-num="cols"
       :row-height="30"
       :is-draggable="true"
       :is-resizable="true"
