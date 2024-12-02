@@ -17,9 +17,7 @@ const context = {
 
 // Connect to MongoDB with Mongoose.
 mongoose
-  .connect(db, {
-    useNewUrlParser: true,
-  })
+  .connect(db, {})
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.log(err));
 

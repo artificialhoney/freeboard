@@ -4,6 +4,7 @@ export default `
   type Dashboard {
     _id: ID!
     title: String!
+    version: String!
     published: Boolean!
     image: String
     datasources: [Object]
@@ -35,6 +36,7 @@ export default `
 
   input CreateDashboardInput {
     title: String!
+    version: String!
     published: Boolean!
     image: String
     datasources: [Object]
@@ -46,6 +48,7 @@ export default `
 
   input UpdateDashboardInput {
     title: String
+    version: String
     published: Boolean
     image: String
     datasources: [Object]

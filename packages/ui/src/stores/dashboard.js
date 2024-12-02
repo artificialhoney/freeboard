@@ -1,8 +1,8 @@
 import { defineStore, storeToRefs } from "pinia";
 import { useFreeboardStore } from "./freeboard";
 
-export const SERIALIZATION_VERSION = 1;
 export const MIN_COLUMNS = 3;
+export const VERSION = __APP_VERSION__;
 
 export class Datasource {
   name = null;
@@ -432,26 +432,6 @@ export class Widget {
       }
     });
   }
-
-  // TODO
-  /*
-  this._heightUpdate = ko.observable();
-  this.height = ko.computed({
-    read: function () {
-      self._heightUpdate();
-
-      if (
-        self.widgetInstance !== undefined &&
-        typeof self.widgetInstance.getHeight === 'function'
-      ) {
-        return self.widgetInstance.getHeight();
-      }
-
-      return 1;
-    },
-  })
-    */
-
   render(element) {
     this.shouldRender = false;
     if (
@@ -482,41 +462,43 @@ export class Widget {
 
 export const useDashboardStore = defineStore("dashboard", {
   state: () => ({
-    title: null,
+    version: VERSION,
+    _id: null,
+    title: "Dashboard",
     published: true,
-    headerImage: null,
+    image: null,
+    columns: MIN_COLUMNS,
+    width: "md",
     datasources: [],
-    userColumns: MIN_COLUMNS,
-    maxWidth: "md",
     panes: [],
     layout: [],
   }),
   actions: {
     decreaseMaxWidth() {
-      if (this.maxWidth === "md") {
+      if (this.width === "md") {
         return;
       }
-      if (this.maxWidth === "lg") {
-        this.maxWidth = "md";
+      if (this.width === "lg") {
+        this.width = "md";
       } else {
-        this.maxWidth = "lg";
+        this.width = "lg";
       }
     },
     increaseMaxWidth() {
-      if (this.maxWidth === "xl") {
+      if (this.width === "xl") {
         return;
       }
-      if (this.maxWidth === "lg") {
-        this.maxWidth = "xl";
+      if (this.width === "lg") {
+        this.width = "xl";
       } else {
-        this.maxWidth = "lg";
+        this.width = "lg";
       }
     },
     getUserColumns() {
-      return this.userColumns;
+      return this.columns;
     },
     setUserColumns(numCols) {
-      this.userColumns = Math.max(MIN_COLUMNS, numCols);
+      this.columns = Math.max(MIN_COLUMNS, numCols);
     },
     addDatasource(datasource) {
       this.datasources = [...this.datasources, datasource];
@@ -538,66 +520,45 @@ export const useDashboardStore = defineStore("dashboard", {
 
       let datasources = [];
 
-      this.datasources.forEach(function (datasource) {
+      this.datasources.forEach((datasource) => {
         datasources.push(datasource.serialize());
       });
 
       return {
-        version: SERIALIZATION_VERSION,
-        headerImage: this.headerImage,
-        plugins: this.plugins,
-        panes: panes,
+        version: this.version,
+        _id: this._id,
+        title: this.title,
+        published: this.published,
+        image: this.image,
+        columns: this.columns,
+        width: "md",
         datasources: datasources,
-        columns: this.getUserColumns(),
+        panes: panes,
+        layout: this.layout,
       };
     },
 
-    deserialize(object, finishedCallback) {
-      const freeboardStore = useFreeboardStore();
-      this.clearDashboard();
+    deserialize(object) {
+      this.version = object.version;
+      this._id = object._id;
+      this.title = object.title;
+      this.columns = object.columns;
+      this.image = object.image;
+      this.width = object.width;
+      this.published = object.published;
+      this.layout = object.layout;
 
-      const finishLoad = () => {
-        this.setUserColumns(object.columns);
-        this.version = object.version || 0;
-        this.headerImage = object.headerImage;
-
-        object.datasources.forEach((datasourceConfig) => {
-          const datasource = new Datasource();
-          datasource.deserialize(datasourceConfig);
-          this.addDatasource(datasource);
-        });
-
-        const sortedPanes = object.panes.sort((pane) => {
-          return freeboardStore.getPositionForScreenSize(pane).row;
-        });
-
-        sortedPanes.forEach((paneConfig) => {
-          let pane = new Pane();
-          pane.deserialize(paneConfig);
-          this.addPane(pane);
-        });
-
-        if (typeof finishedCallback === "function") {
-          finishedCallback();
-        }
-
-        // freeboardStore.processResize(true);
-      };
-
-      // This could have been self.plugins(object.plugins), but for some weird reason head.js was causing a function to be added to the list of plugins.
-      object.plugins?.forEach(function (plugin) {
-        this.addPluginSource(plugin);
+      object.datasources.forEach((datasourceConfig) => {
+        const datasource = new Datasource();
+        datasource.deserialize(datasourceConfig);
+        this.addDatasource(datasource);
       });
 
-      // Load any plugins referenced in this definition
-      if (object.plugins?.constructor === Array && object.plugins.length > 0) {
-        // TODO
-        head.js(object.plugins, function () {
-          finishLoad();
-        });
-      } else {
-        finishLoad();
-      }
+      object.panes.forEach((paneConfig) => {
+        let pane = new Pane();
+        pane.deserialize(paneConfig);
+        this.addPane(pane);
+      });
     },
     addPane(pane) {
       this.panes = [...this.panes, pane];

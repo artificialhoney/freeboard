@@ -2,6 +2,7 @@ import { defineStore, storeToRefs } from "pinia";
 import { Datasource, useDashboardStore, Widget } from "./dashboard";
 import { basicSetup, EditorView } from "codemirror";
 import { javascript } from "@codemirror/lang-javascript";
+import $ from "jquery";
 
 export const MIN_COLUMNS = 3;
 const PANE_MARGIN = 10;
@@ -37,6 +38,7 @@ let EXPECTED_TYPE = {
 
 export const useFreeboardStore = defineStore("freeboard", {
   state: () => ({
+    isSaved: false,
     allowEdit: true,
     isEditing: false,
     datasourceData: {},
@@ -1184,6 +1186,9 @@ export const useFreeboardStore = defineStore("freeboard", {
       } else {
         loadingIndicator.fadeOut(500).remove();
       }
+    },
+    setIsSaved(isSaved) {
+      this.isSaved = isSaved;
     },
     setAllowEdit(allowEdit) {
       this.allowEdit = allowEdit;

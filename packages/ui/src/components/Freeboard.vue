@@ -10,7 +10,9 @@ import Board from "./Board.vue";
 import { useFreeboardStore } from "../stores/freeboard";
 import { useRouter } from "vue-router";
 import { useQuery } from "@vue/apollo-composable";
-import { DASHBOARD_QUERY } from "../gql";
+import { DASHBOARD_READ_QUERY } from "../gql";
+import { useDashboardStore } from "../stores/dashboard";
+import { storeToRefs } from "pinia";
 
 const { id } = defineProps({
   id: String,
@@ -19,10 +21,11 @@ const { id } = defineProps({
 const idRef = ref(id);
 
 const freeboardStore = useFreeboardStore();
+const dashboardStore = useDashboardStore();
 const router = useRouter();
 
 const { result } = useQuery(
-  DASHBOARD_QUERY,
+  DASHBOARD_READ_QUERY,
   {
     id: idRef.value,
   },
@@ -32,8 +35,13 @@ const { result } = useQuery(
 );
 
 watch(result, (newResult, oldResult) => {
-  if (!newResult.value?.data?.dashboard && idRef.value) {
+  const dashboard = newResult.dashboard;
+  if (!dashboard && idRef.value) {
     router.push("/");
+  } else if (dashboard) {
+    idRef.value = dashboard._id;
+    dashboardStore.deserialize(dashboard);
+    freeboardStore.setIsSaved(true);
   }
 });
 

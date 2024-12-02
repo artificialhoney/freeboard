@@ -14,6 +14,10 @@ const DashboardSchema = new Schema(
       type: String,
       default: shortid.generate,
     },
+    version: {
+      type: String,
+      required: true,
+    },
     title: {
       type: String,
       required: true,

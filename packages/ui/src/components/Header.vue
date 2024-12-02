@@ -2,12 +2,33 @@
 import { storeToRefs } from "pinia";
 import { useFreeboardStore } from "../stores/freeboard";
 import { useDashboardStore } from "../stores/dashboard";
+import { useMutation } from "@vue/apollo-composable";
+import { DASHBOARD_CREATE_MUTATION, DASHBOARD_UPDATE_MUTATION } from "../gql";
+import { useRouter } from "vue-router";
 
 const freeboardStore = useFreeboardStore();
 const { allowEdit, isEditing } = storeToRefs(freeboardStore);
 
 const dashboardStore = useDashboardStore();
-const { datasources, maxWidth } = storeToRefs(dashboardStore);
+const { datasources, width } = storeToRefs(dashboardStore);
+
+const { mutate: createDashboard } = useMutation(DASHBOARD_CREATE_MUTATION);
+const { mutate: updateDashboard } = useMutation(DASHBOARD_UPDATE_MUTATION);
+
+const router = useRouter();
+
+const saveDashboard = async () => {
+  const dashboard = dashboardStore.serialize();
+  const id = dashboard._id;
+  delete dashboard._id;
+  const { isSaved } = storeToRefs(freeboardStore);
+  if (isSaved.value) {
+    updateDashboard({ id, dashboard });
+  } else {
+    const result = await createDashboard({ dashboard });
+    router.push(`/${result.data.createDashboard._id}`);
+  }
+};
 </script>
 
 <template>
@@ -25,15 +46,13 @@ const { datasources, maxWidth } = storeToRefs(dashboardStore);
                 <i id="full-screen-icon" class="icon-folder-open icon-white"></i
                 ><label id="full-screen">Load Freeboard</label>
               </li>
-              <li @click="freeboardStore.loadDashboardFromLocalFile">
-                <i id="full-screen-icon" class="icon-bookmark icon-white"></i
-                ><label id="full-screen">Save Freeboard</label>
+              <li @click="saveDashboard">
+                <i class="icon-bookmark icon-white"></i
+                ><label>Save Freeboard</label>
               </li>
-              <li>
+              <li @click="freeboardStore.saveDashboardClicked">
                 <i class="icon-download-alt icon-white"></i>
-                <label @click="freeboardStore.saveDashboardClicked"
-                  >Export Freeboard</label
-                >
+                <label>Export Freeboard</label>
                 <label
                   style="display: none"
                   @click="() => freeboardStore.saveDashboard(true)"
@@ -117,7 +136,7 @@ const { datasources, maxWidth } = storeToRefs(dashboardStore);
         </div>
       </div>
     </div>
-    <div id="column-tools" :class="`responsive-column-width-${maxWidth}`">
+    <div id="column-tools" :class="`responsive-column-width-${width}`">
       <ul class="board-toolbar left-columns">
         <li
           class="column-tool add"

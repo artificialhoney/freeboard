@@ -1,5 +1,6 @@
 export const transformDashboard = (u) => ({
   _id: u._id.toString(),
+  version: u.version,
   title: u.title,
   published: u.published,
   image: u.image,
@@ -7,7 +8,7 @@ export const transformDashboard = (u) => ({
   columns: u.columns,
   panes: u.panes,
   layout: u.layout,
-  maxWidth: u.maxWidth,
+  width: u.width,
   createdAt: u.createdAt,
   updatedAt: u.updatedAt,
 });
