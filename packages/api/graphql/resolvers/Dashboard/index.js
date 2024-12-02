@@ -7,7 +7,7 @@ export default {
     dashboard: async (parent, { _id }, context, info) => {
       const res = await Dashboard.findOne({ _id }).exec();
 
-      return transformDashboard(res);
+      return res ? transformDashboard(res) : null;
     },
     dashboards: async (parent, args, context, info) => {
       const res = await Dashboard.find({}).populate().exec();

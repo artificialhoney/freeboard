@@ -5,16 +5,17 @@ export default `
     _id: ID!
     title: String!
     published: Boolean!
-    headerImage: String
+    image: String
     datasources: [Object]
-    userColumns: Int
-    maxWidth: String
+    columns: Int
+    width: String
     panes: [Object]
+    layout: [Object]
   }
 
   type Query {
-    dashboard(_id: ID!): Dashboard!
-    dashboards: [Dashboard!]!
+    dashboard(_id: ID!): Dashboard
+    dashboards: [Dashboard]!
   }
 
   type Mutation {
@@ -32,23 +33,26 @@ export default `
     dashboard: Dashboard!
   }
 
-  input DatesInput {
-    published: String
-    updated: String
-  }
-
   input CreateDashboardInput {
     title: String!
-    body: String!
     published: Boolean!
-    date: DatesInput
+    image: String
+    datasources: [Object]
+    columns: Int
+    width: String
+    panes: [Object]
+    layout: [Object]
   }
 
   input UpdateDashboardInput {
     title: String
-    body: String
     published: Boolean
-    date: DatesInput
+    image: String
+    datasources: [Object]
+    columns: Int
+    width: String
+    panes: [Object]
+    layout: [Object]
   }
 
   enum MutationType {

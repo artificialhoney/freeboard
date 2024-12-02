@@ -22,7 +22,7 @@ const DashboardSchema = new Schema(
       type: Boolean,
       required: true,
     },
-    headerImage: {
+    image: {
       type: String,
       required: false,
     },
@@ -30,16 +30,20 @@ const DashboardSchema = new Schema(
       type: [Object],
       required: false,
     },
-    userColumns: {
+    columns: {
       type: Number,
       required: false,
     },
-    maxWidth: {
+    width: {
       type: String,
       required: false,
       default: "md",
     },
     panes: {
+      type: [Object],
+      required: false,
+    },
+    layout: {
       type: [Object],
       required: false,
     },

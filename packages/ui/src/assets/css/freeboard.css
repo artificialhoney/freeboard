@@ -2367,4 +2367,5 @@ textarea:-moz-placeholder {
 
 #app {
   display: flex;
+  flex-direction: column;
 }

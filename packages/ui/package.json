@@ -9,15 +9,20 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@apollo/client": "^3.11.10",
     "@codemirror/lang-javascript": "^6.2.2",
+    "@vue/apollo-composable": "^4.2.1",
     "codemirror": "^6.0.1",
+    "graphql": "^16.9.0",
+    "graphql-tag": "^2.12.6",
     "jquery": "^2.2.4",
-    "jquery-ui": "^1.14.1",
     "justgage": "^1.7.0",
     "pinia": "^2.2.8",
     "raphael": "^2.3.0",
+    "rpg-awesome": "^0.2.0",
     "vue": "^3.5.13",
-    "vue-grid-layout-v3": "^3.1.1-rc.4"
+    "vue-grid-layout-v3": "^3.1.1-rc.4",
+    "vue-router": "^4.5.0"
   },
   "devDependencies": {
     "@originjs/vite-plugin-commonjs": "^1.0.3",
