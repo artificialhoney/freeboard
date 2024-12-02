@@ -5,6 +5,7 @@ import { useDashboardStore } from "../stores/dashboard";
 import { useMutation } from "@vue/apollo-composable";
 import { DASHBOARD_CREATE_MUTATION, DASHBOARD_UPDATE_MUTATION } from "../gql";
 import { useRouter } from "vue-router";
+import { ref } from "vue";
 
 const freeboardStore = useFreeboardStore();
 const { allowEdit, isEditing } = storeToRefs(freeboardStore);
@@ -16,6 +17,8 @@ const { mutate: createDashboard } = useMutation(DASHBOARD_CREATE_MUTATION);
 const { mutate: updateDashboard } = useMutation(DASHBOARD_UPDATE_MUTATION);
 
 const router = useRouter();
+
+const submenuOpened = ref(false);
 
 const saveDashboard = async () => {
   const dashboard = dashboardStore.serialize();
@@ -50,16 +53,16 @@ const saveDashboard = async () => {
                 <i class="icon-bookmark icon-white"></i
                 ><label>Save Freeboard</label>
               </li>
-              <li @click="freeboardStore.saveDashboardClicked">
+              <li @click="() => (submenuOpened = !submenuOpened)">
                 <i class="icon-download-alt icon-white"></i>
                 <label>Export Freeboard</label>
                 <label
-                  style="display: none"
+                  v-if="submenuOpened"
                   @click="() => freeboardStore.saveDashboard(true)"
                   >[Pretty]</label
                 >
                 <label
-                  style="display: none"
+                  v-if="submenuOpened"
                   @click="() => freeboardStore.saveDashboard(false)"
                   >[Minified]</label
                 >

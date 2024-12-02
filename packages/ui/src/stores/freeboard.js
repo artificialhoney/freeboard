@@ -1976,18 +1976,6 @@ export const useFreeboardStore = defineStore("freeboard", {
         alert("Unable to load a file in this browser.");
       }
     },
-
-    saveDashboardClicked(event) {
-      let target = $(event.currentTarget);
-      let siblingsShown = target.data("siblings-shown") || false;
-      if (!siblingsShown) {
-        $(event.currentTarget).siblings("label").fadeIn("slow");
-      } else {
-        $(event.currentTarget).siblings("label").fadeOut("slow");
-      }
-      target.data("siblings-shown", !siblingsShown);
-    },
-
     saveDashboard(pretty) {
       const dashboardStore = useDashboardStore();
       let contentType = "application/octet-stream";
