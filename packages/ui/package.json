@@ -1,12 +1,13 @@
 {
   "name": "@freeboard/ui",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "docker:dev": "npm run build && npm run preview -- --host=0.0.0.0"
   },
   "dependencies": {
     "@apollo/client": "^3.11.10",

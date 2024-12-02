@@ -1,6 +1,6 @@
 import { mergeTypes } from "merge-graphql-schemas";
 
-import Dashboard from "./Dashboard/";
+import Dashboard from "./Dashboard.js";
 
 const typeDefs = [Dashboard];
 

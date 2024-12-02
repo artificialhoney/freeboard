@@ -1,6 +1,6 @@
-import Dashboard from "../../../server/models/Dashboard";
+import Dashboard from "../../server/models/Dashboard.js";
 
-import { transformDashboard } from "../merge";
+import { transformDashboard } from "./merge.js";
 
 export default {
   Query: {

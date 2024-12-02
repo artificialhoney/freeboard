@@ -4,7 +4,6 @@ import { ApolloClient, InMemoryCache } from "@apollo/client/core";
 import App from "./App.vue";
 
 import { createPinia } from "pinia";
-import Freeboard from "./components/Freeboard.vue";
 import router from "./router";
 
 const pinia = createPinia();

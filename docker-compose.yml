@@ -1,0 +1,27 @@
+include:
+  - ./docker-compose.dev.yml
+services:
+  frontend:
+    restart: unless-stopped
+    build:
+      context: packages/ui
+      dockerfile: Dockerfile
+    environment:
+      - FREEBOARD_BACKEND_URL=http://backend:4000
+      - FREEBOARD_NODE_MODULES=./node_modules
+    ports:
+      - 4173:4173
+    depends_on:
+      - backend
+  backend:
+    restart: unless-stopped
+    build:
+      context: packages/api
+      dockerfile: Dockerfile
+    environment:
+      - mongoURI=mongodb://root:unsecure@mongo:27017
+      - secretOrKey=DEHEiRMt32flRLcntMyH3mmeflLiAVuv
+    ports:
+      - 4000:4000
+    depends_on:
+      - mongo

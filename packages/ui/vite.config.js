@@ -8,7 +8,10 @@ export default defineConfig(({ mode }) => {
     plugins: [vue()],
     resolve: {
       alias: {
-        "~": path.resolve(__dirname, "./../../node_modules"),
+        "~": path.resolve(
+          __dirname,
+          env.FREEBOARD_NODE_MODULES || "./../../node_modules",
+        ),
       },
     },
     define: {
@@ -17,7 +20,7 @@ export default defineConfig(({ mode }) => {
     },
     server: {
       proxy: {
-        "/graphql": "http://localhost:4000",
+        "/graphql": env.FREEBOARD_BACKEND_URL || "http://localhost:4000",
       },
     },
   };
