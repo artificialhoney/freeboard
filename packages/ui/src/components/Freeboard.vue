@@ -8,46 +8,34 @@ import Header from "./Header.vue";
 import Board from "./Board.vue";
 
 import { useFreeboardStore } from "../stores/freeboard";
-import { onBeforeRouteUpdate } from "vue-router";
+import { useRouter } from "vue-router";
 import { useQuery } from "@vue/apollo-composable";
 import { DASHBOARD_QUERY } from "../gql";
 
-const freeboardStore = useFreeboardStore();
-
-onBeforeRouteUpdate(async (to, from) => {
-  // react to route changes...
-  console.log(to, from);
-  await refetch({ _id: to.params.id });
+const { id } = defineProps({
+  id: String,
 });
-/*
-const queryClient = useQueryClient()
 
-const { isPending, isError, data, error } = useQuery({
-  queryKey: ['dashboard'],
-  queryFn: getTodos,
-})
+const idRef = ref(id);
 
-// Mutation
-const mutation = useMutation({
-  mutationFn: postTodo,
-  onSuccess: () => {
-    // Invalidate and refetch
-    queryClient.invalidateQueries({ queryKey: ['todos'] })
+const freeboardStore = useFreeboardStore();
+const router = useRouter();
+
+const { result } = useQuery(
+  DASHBOARD_QUERY,
+  {
+    id: idRef.value,
   },
-})
+  {
+    enabled: !!idRef.value,
+  },
+);
 
-function onButtonClick() {
-  mutation.mutate({
-    id: Date.now(),
-    title: 'Do Laundry',
-  })
-}
-
-const routes = [
-  { path: '/', component: HomeView },
-  { path: '/about', component: AboutView },
-]
-*/
+watch(result, (newResult, oldResult) => {
+  if (!newResult.value?.data?.dashboard && idRef.value) {
+    router.push("/");
+  }
+});
 
 onMounted(() => {
   freeboardStore.createJSONDatasource();

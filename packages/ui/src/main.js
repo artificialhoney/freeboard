@@ -1,21 +1,11 @@
 import { createApp, provide, h } from "vue";
-import { createMemoryHistory, createRouter } from "vue-router";
 import { DefaultApolloClient } from "@vue/apollo-composable";
 import { ApolloClient, InMemoryCache } from "@apollo/client/core";
 import App from "./App.vue";
 
 import { createPinia } from "pinia";
 import Freeboard from "./components/Freeboard.vue";
-
-const routes = [
-  { path: "/:id", component: Freeboard },
-  { path: "/", component: Freeboard },
-];
-
-const router = createRouter({
-  history: createMemoryHistory(),
-  routes,
-});
+import router from "./router";
 
 const pinia = createPinia();
 
@@ -26,7 +16,7 @@ const apolloClient = new ApolloClient({
   uri: "/graphql",
 });
 
-createApp({
+const app = createApp({
   setup() {
     provide(DefaultApolloClient, apolloClient);
   },
