@@ -51,16 +51,9 @@ watch(result, (newResult, oldResult) => {
 
 onMounted(() => {
   freeboardStore.createJSONDatasource();
-  freeboardStore.createOpenWeatherMapDatasource();
   freeboardStore.createClockDatasource();
 
-  freeboardStore.createTextWidget();
-  freeboardStore.createGoogleMapWidget();
-  freeboardStore.createGaugeWidget();
   freeboardStore.createHTMLWidget();
-  freeboardStore.createPictureWidget();
-  freeboardStore.createPointerWidget();
-  freeboardStore.createSparklineWidget();
 
   freeboardStore.toggleAllowEdit();
   freeboardStore.toggleIsEditing();
