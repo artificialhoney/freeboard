@@ -108,7 +108,7 @@ const saveDashboard = async () => {
                   <td>{{ datasource.lastUpdated }}</td>
                   <td>
                     <ul class="board-toolbar">
-                      <li @click="datasource.updateNow">
+                      <li @click="() => datasource.updateNow()">
                         <i class="icon-refresh icon-white"></i>
                       </li>
                       <li

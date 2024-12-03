@@ -48,9 +48,7 @@ watch(result, (newResult, oldResult) => {
 onMounted(() => {
   freeboardStore.createJSONDatasource();
   freeboardStore.createOpenWeatherMapDatasource();
-  freeboardStore.createDweetioDatasource();
-  freeboardStore.createPlaybackDatasource();
-  freeboardStore.createMeshbluDatasource();
+  freeboardStore.createClockDatasource();
 
   freeboardStore.createTextWidget();
   freeboardStore.createGoogleMapWidget();

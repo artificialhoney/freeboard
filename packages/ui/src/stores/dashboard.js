@@ -33,29 +33,18 @@ export class Datasource {
     this.disposeDatasourceInstance();
 
     if (
-      newValue in datasourceData &&
-      typeof datasourceData[newValue].newInstance === "function"
+      newValue in datasourceData.value &&
+      typeof datasourceData.value[newValue].newInstance === "function"
     ) {
-      let datasourceType = datasourceData[newValue];
-
-      function finishLoad() {
-        datasourceType.newInstance(
-          this.settings.value,
-          function (datasourceInstance) {
-            this.datasourceInstance = datasourceInstance;
-            datasourceInstance.updateNow();
-          },
-          this.updateCallback,
-        );
-      }
-
-      // Do we need to load any external scripts?
-      if (datasourceType.external_scripts) {
-        // TODO
-        head.js(datasourceType.external_scripts.slice(0), finishLoad); // Need to clone the array because head.js adds some weird functions to it
-      } else {
-        finishLoad();
-      }
+      const datasourceType = datasourceData.value[newValue];
+      datasourceType.newInstance(
+        this.settings,
+        (datasourceInstance) => {
+          this.datasourceInstance = datasourceInstance;
+          datasourceInstance.updateNow();
+        },
+        (newData) => this.updateCallback,
+      );
     }
     this._type = newValue;
   }
@@ -76,7 +65,7 @@ export class Datasource {
 
   updateCallback(newData) {
     const freeboardStore = useFreeboardStore();
-    freeboardStore.processDatasourceUpdate(this, newData);
+    freeboardStore.processDatasourceUpdate(this.datasourceInstance, newData);
 
     this.latestData = newData;
 
