@@ -5,13 +5,14 @@ import { useDashboardStore } from "../stores/dashboard";
 import { useMutation } from "@vue/apollo-composable";
 import { DASHBOARD_CREATE_MUTATION, DASHBOARD_UPDATE_MUTATION } from "../gql";
 import { useRouter } from "vue-router";
-import { ref } from "vue";
+import { getCurrentInstance, ref } from "vue";
+import DatasourcesDialogBox from "./DatasourcesDialogBox.vue";
 
 const freeboardStore = useFreeboardStore();
 const { allowEdit, isEditing } = storeToRefs(freeboardStore);
 
 const dashboardStore = useDashboardStore();
-const { datasources, width } = storeToRefs(dashboardStore);
+const { width } = storeToRefs(dashboardStore);
 
 const { mutate: createDashboard } = useMutation(DASHBOARD_CREATE_MUTATION);
 const { mutate: updateDashboard } = useMutation(DASHBOARD_UPDATE_MUTATION);
@@ -31,6 +32,10 @@ const saveDashboard = async () => {
     const result = await createDashboard({ dashboard });
     router.push(`/${result.data.createDashboard._id}`);
   }
+};
+
+const openDatasourcesDialogBox = () => {
+  freeboardStore.createDialogBox(DatasourcesDialogBox);
 };
 </script>
 
@@ -69,7 +74,7 @@ const saveDashboard = async () => {
               </li>
             </ul>
             <ul class="board-toolbar vertical">
-              <li>
+              <li @click="() => openDatasourcesDialogBox()">
                 <i id="full-screen-icon" class="icon-folder-open icon-white"></i
                 ><label id="full-screen">Add Datasource</label>
               </li>
@@ -82,70 +87,6 @@ const saveDashboard = async () => {
               </li>
             </ul>
           </div>
-        </div>
-        <div id="datasources">
-          <h2 class="title">DATASOURCES</h2>
-
-          <div class="datasource-list-container">
-            <table
-              class="table table-condensed sub-table"
-              id="datasources-list"
-              v-if="datasources.length"
-            >
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Last Updated</th>
-                  <th>&nbsp;</th>
-                </tr>
-              </thead>
-              <tbody v-for="datasource in datasources">
-                <tr>
-                  <td>
-                    <span
-                      class="text-button datasource-name"
-                      @click="
-                        () =>
-                          freeboardStore.updatePluginEditor(
-                            'edit',
-                            'datasource',
-                            datasource,
-                          )
-                      "
-                      >{{ datasource.name }}</span
-                    >
-                  </td>
-                  <td>{{ datasource.lastUpdated }}</td>
-                  <td>
-                    <ul class="board-toolbar">
-                      <li @click="() => datasource.updateNow()">
-                        <i class="icon-refresh icon-white"></i>
-                      </li>
-                      <li
-                        @click="
-                          () =>
-                            freeboardStore.updatePluginEditor(
-                              'delete',
-                              'datasource',
-                              datasource,
-                            )
-                        "
-                      >
-                        <i class="icon-trash icon-white"></i>
-                      </li>
-                    </ul>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <span
-            class="text-button table-operation"
-            @click="
-              () => freeboardStore.updatePluginEditor('add', 'datasource')
-            "
-            >ADD</span
-          >
         </div>
       </div>
     </div>

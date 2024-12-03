@@ -3,6 +3,8 @@ import { Datasource, useDashboardStore, Widget } from "./dashboard";
 import { basicSetup, EditorView } from "codemirror";
 import { javascript } from "@codemirror/lang-javascript";
 import $ from "jquery";
+import renderComponent from "../render-component";
+import ConfirmDialogBox from "../components/ConfirmDialogBox.vue";
 
 export const MIN_COLUMNS = 3;
 const PANE_MARGIN = 10;
@@ -1075,12 +1077,9 @@ export const useFreeboardStore = defineStore("freeboard", {
         let phraseElement = $(
           "<p>Are you sure you want to delete this " + title + "?</p>",
         );
-        this.createDialogBox(
-          phraseElement,
-          "Confirm Delete",
-          "Yes",
-          "No",
-          () => {
+        this.createDialogBox(ConfirmDialogBox, {
+          title,
+          onOk: () => {
             if (type == "datasource") {
               dashboardStore.deleteDatasource(viewModel);
             } else if (type == "widget") {
@@ -1089,7 +1088,7 @@ export const useFreeboardStore = defineStore("freeboard", {
               dashboardStore.deletePane(viewModel);
             }
           },
-        );
+        });
       } else {
         let instanceType = undefined;
 
@@ -2974,59 +2973,20 @@ export const useFreeboardStore = defineStore("freeboard", {
 
       return returnTypes;
     },
-    createDialogBox(contentElement, title, okTitle, cancelTitle, okCallback) {
-      // Initialize our modal overlay
-      let overlay = $('<div id="modal_overlay" style="display:none;"></div>');
-
-      let modalDialog = $('<div class="modal"></div>');
-
-      function closeModal() {
-        overlay.fadeOut(200, function () {
-          $(this).remove();
-        });
-      }
-
-      // Create our header
-      modalDialog.append(
-        '<header><h2 class="title">' + title + "</h2></header>",
-      );
-
-      $("<section></section>").appendTo(modalDialog).append(contentElement);
-
-      // Create our footer
-      let footer = $("<footer></footer>").appendTo(modalDialog);
-
-      if (okTitle) {
-        $('<span id="dialog-ok" class="text-button">' + okTitle + "</span>")
-          .appendTo(footer)
-          .click(function () {
-            let hold = false;
-
-            if (typeof okCallback === "function") {
-              hold = okCallback();
+    createDialogBox(component, props = {}) {
+      const c = renderComponent({
+        el: document.body,
+        component,
+        props: {
+          ...props,
+          onClose: (event) => {
+            if (props.onClose) {
+              props.onClose(event);
             }
-
-            if (!hold) {
-              closeModal();
-            }
-          });
-      }
-
-      if (cancelTitle) {
-        $(
-          '<span id="dialog-cancel" class="text-button">' +
-            cancelTitle +
-            "</span>",
-        )
-          .appendTo(footer)
-          .click(function () {
-            closeModal();
-          });
-      }
-
-      overlay.append(modalDialog);
-      $("body").append(overlay);
-      overlay.fadeIn(200);
+            c.destroy();
+          },
+        },
+      });
     },
     template() {
       // By default, Underscore uses ERB-style template delimiters, change the
