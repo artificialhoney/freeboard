@@ -13,6 +13,7 @@ import { useQuery } from "@vue/apollo-composable";
 import { DASHBOARD_READ_QUERY } from "../gql";
 import { useDashboardStore } from "../stores/dashboard";
 import { storeToRefs } from "pinia";
+import Preloader from "./Preloader.vue";
 
 const { id } = defineProps({
   id: String,
@@ -22,6 +23,9 @@ const idRef = ref(id);
 
 const freeboardStore = useFreeboardStore();
 const dashboardStore = useDashboardStore();
+
+const { showLoadingIndicator } = storeToRefs(freeboardStore);
+
 const router = useRouter();
 
 const { result } = useQuery(
@@ -58,13 +62,18 @@ onMounted(() => {
   freeboardStore.createPointerWidget();
   freeboardStore.createSparklineWidget();
 
-  freeboardStore.setAllowEdit(true);
-  freeboardStore.setIsEditing(true);
-  freeboardStore.showLoadingIndicator(false);
+  freeboardStore.toggleAllowEdit();
+  freeboardStore.toggleIsEditing();
+  freeboardStore.toggleLoadingIndicator();
 });
 </script>
 
 <template>
-  <Header />
-  <Board />
+  <Transition>
+    <Preloader v-if="showLoadingIndicator" />
+    <div v-else>
+      <Header />
+      <Board />
+    </div>
+  </Transition>
 </template>

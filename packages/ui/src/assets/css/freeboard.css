@@ -2117,10 +2117,10 @@ h2.title {
   width: 200px;
   border-radius: 150px;
   border: 3px solid var(--loading-up-border);
-  border-top-color: var(--loading-up-top);
-  border-left-color: var(--loading-up-left);
-  border-right-color: var(--loading-up-right);
-  border-bottom-color: var(--loading-up-bottom);
+  border-top-color: var(--loading-up-border-top);
+  border-left-color: var(--loading-up-border-left);
+  border-right-color: var(--loading-up-border-right);
+  border-bottom-color: var(--loading-up-border-bottom);
 
   animation: rotation 3s linear infinite;
 }
@@ -2135,10 +2135,10 @@ h2.title {
   margin-left: -50px;
   border-radius: 150px;
   border: 3px solid var(--loading-down-border);
-  border-left-color: var(--loading-left-border);
-  border-top-color: var(--loading-top-border);
-  border-bottom-color: var(--loading-bottom-border);
-  border-right-color: var(--loading-right-border);
+  border-left-color: var(--loading-down-border-left);
+  border-top-color: var(--loading-down-border-top);
+  border-bottom-color: var(--loading-down-border-bottom);
+  border-right-color: var(--loading-dorn-border-right);
 
   animation: rotation 1s linear infinite;
 }

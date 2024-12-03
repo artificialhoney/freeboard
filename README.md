@@ -1,6 +1,6 @@
 # freeboard
 
-This Freeboard is a fork of [Jim Heisings super sexy dashboard app](https://github.com/Freeboard/freeboard) with super powers:
+This Freeboard is a fork of [Jim Heisings damn-sexy dashboard app](https://github.com/Freeboard/freeboard) with super-powers:
 
 - Persistant storage of dashboards in a **MongoDB**
 - **GraphQL** API backend
@@ -36,6 +36,7 @@ npm run dev
 
 - Secure environment variable store
 - Template engine for widget rendering
+- i18n: externalize strings and labels
 
 ## Copyright
 

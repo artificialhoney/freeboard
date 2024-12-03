@@ -25,10 +25,6 @@ export const SPARKLINE_COLORS = [
   "#0B1CFB",
 ];
 
-const loadingIndicator = $(
-  '<div class="wrapperloading"><div class="loading up" ></div><div class="loading down"></div></div>',
-);
-
 let EXPECTED_TYPE = {
   ANY: "any",
   ARRAY: "array",
@@ -41,7 +37,7 @@ let EXPECTED_TYPE = {
 export const useFreeboardStore = defineStore("freeboard", {
   state: () => ({
     isSaved: false,
-    allowEdit: true,
+    allowEdit: false,
     isEditing: false,
     datasourceData: {},
     showLoadingIndicator: true,
@@ -1179,13 +1175,6 @@ export const useFreeboardStore = defineStore("freeboard", {
         );
       }
     },
-    showLoadingIndicator(show) {
-      if (show) {
-        loadingIndicator.fadeOut(0).appendTo("body").fadeIn(500);
-      } else {
-        loadingIndicator.fadeOut(500).remove();
-      }
-    },
     setIsSaved(isSaved) {
       this.isSaved = isSaved;
     },
@@ -1267,6 +1256,9 @@ export const useFreeboardStore = defineStore("freeboard", {
       } else {
         $(element).find(".sub-section-tools").fadeOut(250);
       }
+    },
+    toggleLoadingIndicator() {
+      this.showLoadingIndicator = !this.showLoadingIndicator;
     },
     toggleAllowEdit() {
       this.allowEdit = !this.allowEdit;
