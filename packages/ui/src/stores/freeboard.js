@@ -1098,7 +1098,7 @@ export const useFreeboardStore = defineStore("freeboard", {
             settings = {};
           } else {
             instanceType = viewModel.type;
-            settings = viewModel.settings;
+            settings = { ...viewModel.settings };
             settings.name = viewModel.name;
           }
         } else if (type == "widget") {
@@ -1106,7 +1106,7 @@ export const useFreeboardStore = defineStore("freeboard", {
             settings = {};
           } else {
             instanceType = viewModel.type;
-            settings = viewModel.settings;
+            settings = { ...viewModel.settings };
             settings.name = viewModel.name;
           }
         } else if (type == "pane") {

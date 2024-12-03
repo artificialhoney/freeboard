@@ -67,6 +67,16 @@ const saveDashboard = async () => {
                   >[Minified]</label
                 >
               </li>
+            </ul>
+            <ul class="board-toolbar vertical">
+              <li>
+                <i id="full-screen-icon" class="icon-folder-open icon-white"></i
+                ><label id="full-screen">Add Datasource</label>
+              </li>
+              <li>
+                <i class="icon-bookmark icon-white"></i
+                ><label>Add Secret</label>
+              </li>
               <li id="add-pane" @click="() => dashboardStore.createPane()">
                 <i class="icon-plus icon-white"></i><label>Add Pane</label>
               </li>

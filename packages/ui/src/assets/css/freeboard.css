@@ -358,6 +358,7 @@ button,
 input,
 select,
 textarea {
+  all: unset;
   font-family: inherit; /* 1 */
   font-size: 100%; /* 2 */
   margin: 0; /* 3 */
@@ -714,9 +715,7 @@ input[type="color"]:focus,
 }
 
 select {
-  width: 220px;
   background-color: var(--select-background);
-  height: 27px;
 }
 
 h1,
@@ -901,6 +900,15 @@ header h1 {
 
 #board-tools {
   width: 100%;
+}
+
+#board-actions {
+  display: flex;
+  width: 100%;
+}
+
+.board-toolbar.vertical {
+  width: 50%;
 }
 
 #toggle-header {
@@ -1098,7 +1106,6 @@ ol {
   margin: 0px;
   overflow: hidden;
   z-index: auto;
-
   user-select: text;
 }
 
@@ -1958,9 +1965,7 @@ ul.datasource-input-suffix {
 }
 
 .styled-select select {
-  width: 414px;
-  height: 30px;
-
+  width: 400px;
   border: 1px solid var(--styled-select-border);
   background: url(/img/dropdown-arrow.png) no-repeat right
     var(--styled-select-background);
