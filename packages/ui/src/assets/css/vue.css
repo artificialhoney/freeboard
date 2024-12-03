@@ -7,3 +7,16 @@
 .v-leave-to {
   opacity: 0;
 }
+
+.slide-fade-enter-active {
+  transition: all 0.3s ease-out;
+}
+
+.slide-fade-leave-active {
+  transition: all 0.3s ease-in;
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  margin-top: -300px;
+}

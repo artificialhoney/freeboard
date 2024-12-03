@@ -489,17 +489,6 @@ export const useDashboardStore = defineStore("dashboard", {
     setUserColumns(numCols) {
       this.columns = Math.max(MIN_COLUMNS, numCols);
     },
-    addDatasource(datasource) {
-      this.datasources = [...this.datasources, datasource];
-    },
-    deleteDatasource(datasource) {
-      const { datasourceData } = useFreeboardStore();
-      delete datasourceData[datasource.name.value];
-      datasource.dispose();
-      this.datasources = this.datasources.filter(function (item) {
-        return item !== datasource;
-      });
-    },
     serialize() {
       let panes = [];
 
@@ -526,7 +515,6 @@ export const useDashboardStore = defineStore("dashboard", {
         layout: this.layout,
       };
     },
-
     deserialize(object) {
       this.version = object.version;
       this._id = object._id;
@@ -547,6 +535,17 @@ export const useDashboardStore = defineStore("dashboard", {
         let pane = new Pane();
         pane.deserialize(paneConfig);
         this.addPane(pane);
+      });
+    },
+    addDatasource(datasource) {
+      this.datasources = [...this.datasources, datasource];
+    },
+    deleteDatasource(datasource) {
+      const { datasourceData } = useFreeboardStore();
+      delete datasourceData[datasource.name.value];
+      datasource.dispose();
+      this.datasources = this.datasources.filter(function (item) {
+        return item !== datasource;
       });
     },
     addPane(pane) {

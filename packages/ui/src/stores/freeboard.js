@@ -1059,50 +1059,6 @@ export const useFreeboardStore = defineStore("freeboard", {
     setAllowEdit(allowEdit) {
       this.allowEdit = allowEdit;
     },
-    setIsEditing(isEditing, animate) {
-      if (!this.allowEdit && isEditing) {
-        return;
-      }
-
-      this.isEditing = isEditing;
-
-      if (animate === undefined) {
-        animate = true;
-      }
-
-      let animateLength = animate ? 250 : 0;
-      let barHeight = $("#admin-bar").outerHeight();
-
-      if (!isEditing) {
-        $("#toggle-header-icon")
-          .addClass("icon-wrench")
-          .removeClass("icon-chevron-up");
-        $(".vue-grid-layout section").css({ cursor: "default" });
-        $("#main-header").animate(
-          { [`margin-top`]: "-" + barHeight + "px" },
-          animateLength,
-        );
-        // $("#board-content").animate({ top: "20" }, animateLength);
-        // $("#main-header").data().shown = false;
-        $(".sub-section").unbind();
-      } else {
-        $("#toggle-header-icon")
-          .addClass("icon-chevron-up")
-          .removeClass("icon-wrench");
-        $(".vue-grid-layout section").css({ cursor: "pointer" });
-        $("#main-header").animate({ [`margin-top`]: "0px" }, animateLength);
-        /*
-        $("#board-content").animate(
-          { height: barHeight + 20 + "px" },
-          animateLength,
-        );
-        */
-        $("#main-header").data().shown = true;
-        this.attachWidgetEditIcons($(".sub-section"));
-      }
-
-      this.showPaneEditIcons(isEditing, animate);
-    },
     toggleLoadingIndicator() {
       this.showLoadingIndicator = !this.showLoadingIndicator;
     },

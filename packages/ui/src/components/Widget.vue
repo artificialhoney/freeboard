@@ -1,5 +1,4 @@
 <script setup lang="js">
-import { onMounted } from "vue";
 import { useFreeboardStore } from "../stores/freeboard";
 import WidgetDialogBox from "./WidgetDialogBox.vue";
 
@@ -23,10 +22,6 @@ const openWidgetDeleteDialogBox = (widget) => {
     },
   });
 };
-
-onMounted(() => {
-  freeboardStore.attachWidgetEditIcons($(widgetRef.value));
-});
 
 const { widget } = defineProps({
   widget: Object,
