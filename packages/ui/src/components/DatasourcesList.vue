@@ -2,16 +2,55 @@
 import { storeToRefs } from "pinia";
 import { useDashboardStore } from "../stores/dashboard";
 import { useFreeboardStore } from "../stores/freeboard";
+import DatasourceDialogBox from "./DatasourceDialogBox.vue";
+import ConfirmDialogBox from "./ConfirmDialogBox.vue";
 
 const freeboardStore = useFreeboardStore();
 const dashboardStore = useDashboardStore();
 const { datasources } = storeToRefs(dashboardStore);
+
+const openDatasourceEditDialogBox = (datasource) => {
+  freeboardStore.createDialogBox(DatasourceDialogBox, {
+    header: "Edit Datasource",
+    onOk: (newSettings) => {
+      datasource.name = newSettings.settings.name;
+      delete newSettings.settings.name;
+      datasource.settings = newSettings.settings;
+      datasource.type = newSettings.type;
+    },
+  });
+};
+
+const openDatasourceDeleteDialogBox = (datasource) => {
+  freeboardStore.createDialogBox(ConfirmDialogBox, {
+    title: "Datasource",
+    onOk: () => {
+      freeboardStore.deleteDatasource(datasource);
+    },
+  });
+};
+
+const openDatasourceAddDialogBox = () => {
+  freeboardStore.createDialogBox(DatasourceDialogBox, {
+    header: "Add Datasource",
+    onOk: (newSettings) => {
+      const newViewModel = new Datasource();
+
+      newViewModel.name = newSettings.settings.name;
+      delete newSettings.settings.name;
+
+      newViewModel.settings = newSettings.settings;
+      newViewModel.type = newSettings.type;
+
+      dashboardStore.addDatasource(newViewModel);
+    },
+  });
+};
 </script>
 
 <template>
   <div id="datasources">
     <!--<h2 class="title">DATASOURCES</h2>-->
-
     <div class="datasource-list-container">
       <table
         class="table table-condensed sub-table"
@@ -30,14 +69,7 @@ const { datasources } = storeToRefs(dashboardStore);
             <td>
               <span
                 class="text-button datasource-name"
-                @click="
-                  () =>
-                    freeboardStore.updatePluginEditor(
-                      'edit',
-                      'datasource',
-                      datasource,
-                    )
-                "
+                @click="() => openDatasourceEditDialogBox(datasource)"
                 >{{ datasource.name }}</span
               >
             </td>
@@ -47,16 +79,7 @@ const { datasources } = storeToRefs(dashboardStore);
                 <li @click="() => datasource.updateNow()">
                   <i class="icon-refresh icon-white"></i>
                 </li>
-                <li
-                  @click="
-                    () =>
-                      freeboardStore.updatePluginEditor(
-                        'delete',
-                        'datasource',
-                        datasource,
-                      )
-                  "
-                >
+                <li @click="() => openDatasourceDeleteDialogBox(datasource)">
                   <i class="icon-trash icon-white"></i>
                 </li>
               </ul>
@@ -67,7 +90,7 @@ const { datasources } = storeToRefs(dashboardStore);
     </div>
     <span
       class="text-button table-operation"
-      @click="() => freeboardStore.updatePluginEditor('add', 'datasource')"
+      @click="() => openDatasourceAddDialogBox()"
       >ADD</span
     >
   </div>

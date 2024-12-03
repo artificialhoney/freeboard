@@ -553,10 +553,12 @@ export const useDashboardStore = defineStore("dashboard", {
       this.panes = [...this.panes, pane];
     },
     deletePane(pane) {
-      const freeboardStore = useFreeboardStore();
       pane.dispose();
       this.panes = this.panes.filter(function (item) {
         return item !== pane;
+      });
+      this.layout = this.layout.filter(function (item) {
+        return item.pane !== pane;
       });
     },
     createPane() {
