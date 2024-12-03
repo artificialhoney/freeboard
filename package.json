@@ -3,7 +3,7 @@
   "title": "freeboard",
   "version": "1.2.0-dev",
   "scripts": {
-    "dev": " concurrently --kill-others \"docker compose -f docker-compose.dev.yml up\"  \"npm run dev --workspace=packages/ui\" \"npm run dev --workspace=packages/api\"",
+    "dev": " concurrently --kill-others \"docker compose -f docker-compose.dev.yml up\"  \"npm run dev --workspace=packages/ui\" \"npm run dev --workspace=packages/api\"  \"npm run dev --workspace=packages/proxy\"",
     "lint:fix": "eslint --fix"
   },
   "devDependencies": {
@@ -14,6 +14,7 @@
   },
   "workspaces": [
     "packages/ui",
-    "packages/api"
+    "packages/api",
+    "packages/proxy"
   ]
 }

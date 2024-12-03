@@ -1,4 +1,6 @@
 import * as path from "path";
+import * as http from "http";
+import * as tls from "tls";
 import { defineConfig, loadEnv } from "vite";
 import vue from "@vitejs/plugin-vue";
 
@@ -21,6 +23,13 @@ export default defineConfig(({ mode }) => {
     server: {
       proxy: {
         "/graphql": env.FREEBOARD_BACKEND_URL || "http://localhost:4000",
+        "/proxy": {
+          target: env.FREEBOARD_PROXY_URL || "http://localhost:8000",
+          rewrite: (path) => {
+            const url = path.replace("/proxy/", "");
+            return "?" + new URLSearchParams([["url", url]]).toString();
+          },
+        },
       },
     },
   };

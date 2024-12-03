@@ -1321,12 +1321,19 @@ export const useFreeboardStore = defineStore("freeboard", {
         updateRefresh(currentSettings.refresh * 1000);
 
         this.updateNow = function () {
-          if (errorStage > 1 || errorStage > 2) {
+          if (
+            (errorStage > 1 && !currentSettings.use_proxy) ||
+            errorStage > 2
+          ) {
             // We've tried everything, let's quit
             return; // TODO: Report an error
           }
 
           let requestURL = currentSettings.url;
+
+          if (errorStage == 2 && currentSettings.use_proxy) {
+            requestURL = "/proxy/" + encodeURI(currentSettings.url);
+          }
 
           let body = currentSettings.body;
 
@@ -1390,6 +1397,14 @@ export const useFreeboardStore = defineStore("freeboard", {
             name: "url",
             display_name: "URL",
             type: "text",
+          },
+          {
+            name: "use_proxy",
+            display_name: "Use Proxy",
+            description:
+              "A direct JSON connection will be tried first, if that fails, a JSONP connection will be tried. If that fails, you can use the Proxy.",
+            type: "boolean",
+            default_value: true,
           },
           {
             name: "refresh",

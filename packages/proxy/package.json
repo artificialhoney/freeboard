@@ -1,0 +1,15 @@
+{
+  "name": "@freeboard/proxy",
+  "version": "0.1.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "docker:dev": "npm run dev"
+  },
+  "private": true,
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "nodemon": "^3.1.7"
+  }
+}

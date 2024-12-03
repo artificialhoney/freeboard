@@ -8,11 +8,13 @@ services:
       dockerfile: Dockerfile
     environment:
       - FREEBOARD_BACKEND_URL=http://backend:4000
+      - FREEBOARD_PROXY_URL=http://proxy:4000
       - FREEBOARD_NODE_MODULES=./node_modules
     ports:
       - 4173:4173
     depends_on:
       - backend
+      - proxy
   backend:
     restart: unless-stopped
     build:
@@ -25,3 +27,10 @@ services:
       - 4000:4000
     depends_on:
       - mongo
+  proxy:
+    restart: unless-stopped
+    build:
+      context: packages/proxy
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
