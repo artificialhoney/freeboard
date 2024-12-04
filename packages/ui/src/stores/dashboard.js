@@ -43,7 +43,7 @@ export class Datasource {
           this.datasourceInstance = datasourceInstance;
           datasourceInstance.updateNow();
         },
-        (newData) => this.updateCallback,
+        (newData) => this.updateCallback(newData),
       );
     }
     this._type = newValue;
@@ -87,7 +87,7 @@ export class Datasource {
     this.type = object.type;
   }
 
-  thisgetDataRepresentation(dataPath) {
+  getDataRepresentation(dataPath) {
     const valueFunction = new Function("data", "return " + dataPath + ";");
     return valueFunction.call(undefined, this.latestData);
   }
@@ -159,21 +159,6 @@ export class Pane {
     }, 1000);
   }
 
-  getCalculatedHeight() {
-    let sumHeights = this.widgets.reduce(function (memo, widget) {
-      return memo + widget.height;
-    }, 0);
-
-    sumHeights *= 6;
-    sumHeights += 3;
-
-    sumHeights *= 10;
-
-    let rows = Math.ceil((sumHeights + 20) / 30);
-
-    return Math.max(4, rows);
-  }
-
   serialize() {
     let widgets = [];
 
@@ -215,7 +200,7 @@ export class Pane {
 }
 
 export class Widget {
-  shouldRender = false;
+  shouldRender = true;
   datasourceRefreshNotifications = {};
   calculatedSettingScripts = {};
   fillSize = 0;
@@ -228,20 +213,16 @@ export class Widget {
     const { widgetPlugins } = storeToRefs(freeboardStore);
     this.disposeWidgetInstance();
     if (
-      newValue in widgetPlugins.value &&
+      widgetPlugins.value[newValue] &&
       typeof widgetPlugins.value[newValue].newInstance === "function"
     ) {
-      let widgetType = widgetPlugins.value[newValue];
+      const widgetType = widgetPlugins.value[newValue];
 
-      const finishLoad = () => {
-        widgetType.newInstance(this.settings, (widgetInstance) => {
-          this.fillSize = widgetType.fillSize;
-          this.widgetInstance = widgetInstance;
-          this.shouldRender = true;
-        });
-      };
-
-      finishLoad();
+      widgetType.newInstance(this.settings, (widgetInstance) => {
+        this.fillSize = widgetType.fillSize;
+        this.widgetInstance = widgetInstance;
+        this.shouldRender = true;
+      });
     }
     this._type = newValue;
   }
@@ -294,7 +275,7 @@ export class Widget {
     return theFunction.call(undefined, datasourcePlugins);
   }
 
-  thisprocessSizeChange() {
+  processSizeChange() {
     if (
       this.widgetInstance !== undefined &&
       typeof this.widgetInstance.onSizeChanged === "function"
@@ -347,14 +328,14 @@ export class Widget {
     }
 
     // Check for any calculated settings
-    let settingsDefs = widgetPlugins.value[this.type].settings;
+    let settingsDefs = widgetPlugins.value[this.type].fields;
     let datasourceRegex = new RegExp(
       "datasources.([\\w_-]+)|datasources\\[['\"]([^'\"]+)",
       "g",
     );
-    let currentSettings = this.settings;
+    const currentSettings = this.settings;
 
-    settingsDefs.forEach(function (settingDef) {
+    settingsDefs.forEach((settingDef) => {
       if (settingDef.type == "calculated") {
         let script = currentSettings[settingDef.name];
 

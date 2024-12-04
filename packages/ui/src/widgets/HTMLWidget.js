@@ -43,9 +43,10 @@ export class HTMLWidget {
   }
 
   onCalculatedValueChanged(settingName, newValue) {
-    if (settingName == "html") {
-      this.htmlElement.html(newValue);
+    if (settingName !== "html") {
+      return;
     }
+    this.htmlElement.innerHTML = newValue;
   }
 
   onDispose() {}

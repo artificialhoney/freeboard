@@ -1,12 +1,19 @@
 <script setup lang="js">
+import { storeToRefs } from "pinia";
 import { useFreeboardStore } from "../stores/freeboard";
 import WidgetDialogBox from "./WidgetDialogBox.vue";
+import { onMounted, onUpdated, ref } from "vue";
 
 const freeboardStore = useFreeboardStore();
+const { isEditing } = storeToRefs(freeboardStore);
+
+const widgetRef = ref(null);
 
 const openWidgetEditDialogBox = (widget) => {
   freeboardStore.createComponent(WidgetDialogBox, {
     header: "Edit Widget",
+    settings: widget.settings,
+    type: widget.type,
     onOk: (newSettings) => {
       widget.settings = newSettings.settings;
       widget.type = newSettings.type;
@@ -26,16 +33,21 @@ const openWidgetDeleteDialogBox = (widget) => {
 const { widget } = defineProps({
   widget: Object,
 });
+
+onMounted(() => {
+  if (!widget.shouldRender) {
+    return;
+  }
+  widget.render(widgetRef.value);
+});
 </script>
 
 <template>
   <section>
     <div class="sub-section">
-      <div class="widget">
-        {{ widget.settings.title }}
-      </div>
+      <div ref="widgetRef" class="widget"></div>
       <Transition>
-        <div class="sub-section-tools">
+        <div class="sub-section-tools" v-if="isEditing">
           <ul class="board-toolbar">
             <li @click="() => widget.pane.moveWidgetUp(widget)">
               <i class="icon-chevron-up icon-white"></i>

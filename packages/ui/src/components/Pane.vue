@@ -46,7 +46,7 @@ const openWidgetAddDialogBox = (pane) => {
   });
 };
 
-const { pane } = defineProps({ pane: Pane });
+const { pane } = defineProps({ pane: Object });
 </script>
 
 <template>

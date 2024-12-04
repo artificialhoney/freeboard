@@ -15,15 +15,19 @@ const typeRef = ref(type);
 
 const fields = ref([]);
 
-watch(typeRef, (newValue) => {
-  if (!newValue) {
-    fields.value = [];
-    return;
-  }
-  const data = [...widgetPlugins.value[newValue].fields];
+watch(
+  typeRef,
+  (newValue) => {
+    if (!newValue) {
+      fields.value = [];
+      return;
+    }
+    const data = [...widgetPlugins.value[newValue].fields];
 
-  fields.value = data;
-});
+    fields.value = data;
+  },
+  { immediate: true },
+);
 
 const widgetPluginsOptions = computed(() => {
   return Object.keys(widgetPlugins.value).map((key) => ({
