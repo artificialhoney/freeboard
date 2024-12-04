@@ -25,8 +25,12 @@ defineExpose({
 <template>
   <div class="styled-select">
     <select @change="onChange($event.target.value)">
-      <option value="">Select a type...</option>
-      <option :value="option.value" v-for="option in options">
+      <option value="" :selected="modelValue === ''">Select a type...</option>
+      <option
+        :value="option.value"
+        v-for="option in options"
+        :selected="modelValue === option.value"
+      >
         {{ option.label }}
       </option>
     </select>

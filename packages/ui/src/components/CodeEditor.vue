@@ -1,29 +1,50 @@
 <script setup lang="js">
-const props = defineProps(["modelValue", "remove"]);
-const emit = defineEmits(["update:modelValue", "remove"]);
+import { basicSetup, EditorView } from "codemirror";
+import { javascript } from "@codemirror/lang-javascript";
+import { onMounted, ref } from "vue";
+
+const { value, onOk } = defineProps({
+  value: String,
+  onClose: Function,
+});
+
+const codemirror = ref(null);
+let codemirrorEditor;
+
+onMounted(() => {
+  codemirrorEditor = new EditorView({
+    doc: value,
+    theme: "ambiance",
+    extensions: [basicSetup, javascript()],
+    parent: codemirror.value,
+  });
+});
 </script>
 <template>
-  <textarea
-    class="calculated-value-input"
-    :value="props.modelValue"
-    @input="emit('update:modelValue', $event.target.value)"
-  ></textarea>
-  <ul class="board-toolbar datasource-input-suffix">
-    <li
-      class="remove-setting-row"
-      v-if="props.remove"
-      @click="() => emit('remove')"
-    >
-      <i class="icon-minus icon-white"></i>
-      <label></label>
-    </li>
-    <li>
-      <i class="icon-plus icon-white"></i>
-      <label>DATASOURCE</label>
-    </li>
-    <li>
-      <i class="icon-fullscreen icon-white"></i>
-      <label>.JS EDITOR</label>
-    </li>
-  </ul>
+  <div class="code-window">
+    <div class="code-window-header cm-s-ambiance">
+      This javascript will be re-evaluated any time a datasource referenced here
+      is updated, and the value you
+      <code><span class="cm-keyword">return</span></code> will be displayed in
+      the widget. You can assume this javascript is wrapped in a function of the
+      form
+      <code
+        ><span class="cm-keyword">function</span>(<span class="cm-def"
+          >datasources</span
+        >)</code
+      >
+      where datasources is a collection of javascript objects (keyed by their
+      name) corresponding to the most current data in a datasource.
+    </div>
+    <div ref="codemirror" class="code-mirror-wrapper"></div>
+    <div class="code-window-footer">
+      <button
+        id="dialog-cancel"
+        class="text-button"
+        @click="onClose(codemirrorEditor.state.doc.toString())"
+      >
+        Close
+      </button>
+    </div>
+  </div>
 </template>

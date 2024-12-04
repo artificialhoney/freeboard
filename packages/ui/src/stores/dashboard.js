@@ -28,15 +28,15 @@ export class Datasource {
 
   set type(newValue) {
     const freeboardStore = useFreeboardStore();
-    const { datasourceData } = storeToRefs(freeboardStore);
+    const { datasourcePlugins } = storeToRefs(freeboardStore);
 
     this.disposeDatasourceInstance();
 
     if (
-      newValue in datasourceData.value &&
-      typeof datasourceData.value[newValue].newInstance === "function"
+      newValue in datasourcePlugins.value &&
+      typeof datasourcePlugins.value[newValue].newInstance === "function"
     ) {
-      const datasourceType = datasourceData.value[newValue];
+      const datasourceType = datasourcePlugins.value[newValue];
       datasourceType.newInstance(
         this.settings,
         (datasourceInstance) => {
@@ -235,19 +235,13 @@ export class Widget {
 
       const finishLoad = () => {
         widgetType.newInstance(this.settings, (widgetInstance) => {
-          this.fillSize = widgetType.fill_size;
+          this.fillSize = widgetType.fillSize;
           this.widgetInstance = widgetInstance;
           this.shouldRender = true;
         });
       };
 
-      // TODO
-      // Do we need to load any external scripts?
-      if (widgetType.external_scripts) {
-        head.js(widgetType.external_scripts.slice(0), finishLoad); // Need to clone the array because head.js adds some weird functions to it
-      } else {
-        finishLoad();
-      }
+      finishLoad();
     }
     this._type = newValue;
   }
@@ -296,8 +290,8 @@ export class Widget {
 
   callValueFunction(theFunction) {
     const freeboardStore = useFreeboardStore();
-    const { datasourceData } = storeToRefs(freeboardStore);
-    return theFunction.call(undefined, datasourceData);
+    const { datasourcePlugins } = storeToRefs(freeboardStore);
+    return theFunction.call(undefined, datasourcePlugins);
   }
 
   thisprocessSizeChange() {
@@ -336,10 +330,7 @@ export class Widget {
             settingName,
             returnValue,
           );
-        } catch (e) {
-          // TODO
-          // console.log(e.toString());
-        }
+        } catch (e) {}
       }
     }
   }
@@ -541,8 +532,8 @@ export const useDashboardStore = defineStore("dashboard", {
       this.datasources = [...this.datasources, datasource];
     },
     deleteDatasource(datasource) {
-      const { datasourceData } = useFreeboardStore();
-      delete datasourceData[datasource.name.value];
+      const { datasourcePlugins } = useFreeboardStore();
+      delete datasourcePlugins[datasource.name.value];
       datasource.dispose();
       this.datasources = this.datasources.filter(function (item) {
         return item !== datasource;

@@ -8,47 +8,52 @@ import { storeToRefs } from "pinia";
 
 const freeboardStore = useFreeboardStore();
 
-const { datasourceData } = storeToRefs(freeboardStore);
+const { datasourcePlugins } = storeToRefs(freeboardStore);
 
-const form = ref(null);
-const type = ref(undefined);
-
-const fields = ref([]);
-
-watch(type, (newValue) => {
-  if (!newValue) {
-    fields.value = [];
-    return;
-  }
-  const data = [
-    {
-      name: "name",
-      label: "Name",
-      type: "text",
-      required: true,
-    },
-    ...datasourceData.value[newValue].fields,
-  ];
-
-  fields.value = data;
-});
-
-const datasourceDataOptions = computed(() => {
-  return Object.keys(datasourceData.value).map((key) => ({
-    value: key,
-    label: datasourceData.value[key].label,
-  }));
-});
-
-const { header, onClose, onOk, settings } = defineProps({
+const { header, onClose, onOk, settings, type } = defineProps({
   header: String,
   onClose: Function,
   onOk: Function,
   settings: Object,
+  type: String,
+});
+
+const form = ref(null);
+const typeRef = ref(type);
+
+const fields = ref([]);
+
+watch(
+  typeRef,
+  (newValue) => {
+    if (!newValue) {
+      fields.value = [];
+      return;
+    }
+    const data = [
+      {
+        name: "name",
+        label: "Name",
+        type: "text",
+        required: true,
+      },
+      ...datasourcePlugins.value[newValue].fields,
+    ];
+
+    fields.value = data;
+  },
+  { immediate: true },
+);
+
+const datasourcePluginsOptions = computed(() => {
+  return Object.keys(datasourcePlugins.value).map((key) => ({
+    value: key,
+    label: datasourcePlugins.value[key].label,
+  }));
 });
 
 const onDialogBoxOk = () => {
-  onOk({ ...form.value.getValue(), type: type.value });
+  onOk({ settings: form.value.getValue(), type: typeRef.value });
 };
 
 const hasErrors = computed(() => {
@@ -70,9 +75,12 @@ const hasErrors = computed(() => {
         <label class="control-label">Type</label>
       </div>
       <div class="form-value">
-        <SelectFormElement v-model="type" :options="datasourceDataOptions" />
+        <SelectFormElement
+          v-model="typeRef"
+          :options="datasourcePluginsOptions"
+        />
       </div>
     </div>
-    <Form ref="form" :settings="settings" :fields="fields" v-if="type" />
+    <Form ref="form" :settings="settings" :fields="fields" v-if="typeRef" />
   </DialogBox>
 </template>

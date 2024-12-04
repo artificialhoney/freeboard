@@ -8,7 +8,7 @@ export class JSONDatasource {
       type: "text",
     },
     {
-      name: "use_proxy",
+      name: "useProxy",
       label: "Use Proxy",
       description:
         "A direct JSON connection will be tried first, if that fails, a JSONP connection will be tried. If that fails, you can use the Proxy.",
@@ -75,6 +75,7 @@ export class JSONDatasource {
     newInstanceCallback(new JSONDatasource(settings, updateCallback));
   }
 
+  updateTimer;
   currentSettings;
   updateCallback;
   errorStage = 0; // 0 = try standard request
@@ -86,15 +87,15 @@ export class JSONDatasource {
     this.currentSettings = settings;
     this.updateCallback = updateCallback;
 
-    updateRefresh(this.currentSettings.refresh * 1000);
+    this.updateRefresh(this.currentSettings.refresh * 1000);
   }
 
   updateRefresh(refreshTime) {
-    if (updateTimer) {
-      clearInterval(updateTimer);
+    if (this.updateTimer) {
+      clearInterval(this.updateTimer);
     }
 
-    updateTimer = setInterval(() => {
+    this.updateTimer = setInterval(() => {
       this.updateNow();
     }, refreshTime);
   }
@@ -111,10 +112,10 @@ export class JSONDatasource {
     let requestURL = this.currentSettings.url;
 
     if (this.errorStage == 2 && this.currentSettings.useProxy) {
-      requestURL = "/proxy/" + encodeURI(currentSettings.url);
+      requestURL = "/proxy/" + encodeURI(this.currentSettings.url);
     }
 
-    let body = currentSettings.body;
+    let body = this.currentSettings.body;
 
     // Can the body be converted to JSON?
     if (body) {
@@ -142,7 +143,7 @@ export class JSONDatasource {
       },
       success: (data) => {
         this.lockErrorStage = true;
-        updateCallback({ value: data });
+        this.updateCallback({ value: data });
       },
       error: function (xhr, status, error) {
         if (!this.lockErrorStage) {
@@ -163,7 +164,7 @@ export class JSONDatasource {
     this.errorStage = 0;
 
     this.currentSettings = newSettings;
-    updateRefresh(this.currentSettings.refresh * 1000);
-    self.updateNow();
+    this.updateRefresh(this.currentSettings.refresh * 1000);
+    this.updateNow();
   }
 }

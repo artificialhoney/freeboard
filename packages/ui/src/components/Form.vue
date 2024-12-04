@@ -8,6 +8,8 @@ import {
 } from "../validators";
 import SwitchFormElement from "./SwitchFormElement.vue";
 import SelectFormElement from "./SelectFormElement.vue";
+import TextareaFormElement from "./TextareaFormElement.vue";
+import ArrayFormElement from "./ArrayFormElement.vue";
 
 const { fields, settings } = defineProps({
   fields: Array,
@@ -51,7 +53,7 @@ const storeComponentRef = (name, el) => {
 const hasErrors = () => {
   let value = false;
   Object.keys(components.value).forEach((key) => {
-    if (components.value[key].errors) {
+    if (components.value[key].errors.value) {
       value = true;
     }
   });
@@ -61,6 +63,8 @@ const hasErrors = () => {
 const inputFormElementRef = shallowRef(InputFormElement);
 const switchFormElementRef = shallowRef(SwitchFormElement);
 const selectFormElementRef = shallowRef(SelectFormElement);
+const textareaFormElementRef = shallowRef(TextareaFormElement);
+const arrayFormElementRef = shallowRef(ArrayFormElement);
 
 const fieldToFormElement = (field) => {
   const validators = [];
@@ -88,6 +92,10 @@ const fieldToFormElement = (field) => {
     type = switchFormElementRef.value;
   } else if (field.type === "option") {
     type = selectFormElementRef.value;
+  } else if (field.type === "calculated") {
+    type = textareaFormElementRef.value;
+  } else if (field.type === "array") {
+    type = arrayFormElementRef.value;
   }
   return { ...field, type, validators };
 };
@@ -109,7 +117,7 @@ defineExpose({
         :is="field.type"
         v-model="model[field.name]"
         :validators="field.validators"
-        :options="field.options"
+        :options="field.options || field.settings"
       ></component>
       <div
         class="validation-error"

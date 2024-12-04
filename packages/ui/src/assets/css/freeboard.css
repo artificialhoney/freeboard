@@ -1937,8 +1937,7 @@ a:focus.text-button {
   line-height: 1.5em;
 }
 
-.calculated-setting-row {
-  clear: both;
+.calculated-value {
   height: 30px;
   margin-bottom: 5px;
 }

@@ -10,8 +10,10 @@ const dashboardStore = useDashboardStore();
 const { datasources } = storeToRefs(dashboardStore);
 
 const openDatasourceEditDialogBox = (datasource) => {
-  freeboardStore.createDialogBox(DatasourceDialogBox, {
+  freeboardStore.createComponent(DatasourceDialogBox, {
     header: "Edit Datasource",
+    settings: { ...datasource.settings, name: datasource.name },
+    type: datasource.type,
     onOk: (newSettings) => {
       datasource.name = newSettings.settings.name;
       delete newSettings.settings.name;
@@ -22,7 +24,7 @@ const openDatasourceEditDialogBox = (datasource) => {
 };
 
 const openDatasourceDeleteDialogBox = (datasource) => {
-  freeboardStore.createDialogBox(ConfirmDialogBox, {
+  freeboardStore.createComponent(ConfirmDialogBox, {
     title: "Datasource",
     onOk: () => {
       freeboardStore.deleteDatasource(datasource);
@@ -31,7 +33,7 @@ const openDatasourceDeleteDialogBox = (datasource) => {
 };
 
 const openDatasourceAddDialogBox = () => {
-  freeboardStore.createDialogBox(DatasourceDialogBox, {
+  freeboardStore.createComponent(DatasourceDialogBox, {
     header: "Add Datasource",
     onOk: (newSettings) => {
       const newViewModel = new Datasource();

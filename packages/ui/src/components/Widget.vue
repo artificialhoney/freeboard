@@ -5,7 +5,7 @@ import WidgetDialogBox from "./WidgetDialogBox.vue";
 const freeboardStore = useFreeboardStore();
 
 const openWidgetEditDialogBox = (widget) => {
-  freeboardStore.createDialogBox(WidgetDialogBox, {
+  freeboardStore.createComponent(WidgetDialogBox, {
     header: "Edit Widget",
     onOk: (newSettings) => {
       widget.settings = newSettings.settings;
@@ -15,7 +15,7 @@ const openWidgetEditDialogBox = (widget) => {
 };
 
 const openWidgetDeleteDialogBox = (widget) => {
-  freeboardStore.createDialogBox(ConfirmDialogBox, {
+  freeboardStore.createComponent(ConfirmDialogBox, {
     title: "Widget",
     onOk: () => {
       freeboardStore.deleteWidget(widget.pane, widget);

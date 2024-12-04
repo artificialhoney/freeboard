@@ -35,7 +35,7 @@ const saveDashboard = async () => {
 };
 
 const openDatasourcesDialogBox = () => {
-  freeboardStore.createDialogBox(DatasourcesDialogBox);
+  freeboardStore.createComponent(DatasourcesDialogBox);
 };
 </script>
 

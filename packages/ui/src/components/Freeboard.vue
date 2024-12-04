@@ -1,12 +1,8 @@
 <script setup>
 import { onMounted, ref, watch } from "vue";
 
-import $ from "jquery";
-window.$ = window.jQuery = $;
-
 import Header from "./Header.vue";
 import Board from "./Board.vue";
-
 import { useFreeboardStore } from "../stores/freeboard";
 import { useRouter } from "vue-router";
 import { useQuery } from "@vue/apollo-composable";

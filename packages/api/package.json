@@ -16,7 +16,7 @@
     "form-data": "^4.0.1",
     "graphql-subscriptions": "^3.0.0",
     "graphql-yoga": "^5.10.3",
-    "merge-graphql-schemas": "^1.7.8",
+    "merge-graphql-schemas": "^1.7.0",
     "mongodb": "^6.11.0",
     "mongoose": "^8.8.3",
     "nodemon": "^3.1.7",
