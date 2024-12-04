@@ -5,7 +5,7 @@ This Freeboard is a fork of [Jim Heisings damn-sexy dashboard app](https://githu
 - Persistant storage of dashboards in a **MongoDB**
 - **GraphQL** API backend
 - Distributable through **docker compose**
-- Modern **Vue.js** v3 frontend (routing, stores)
+- Modern **Vue.js** v3 frontend
 - Extendable **HTTP-Proxy** to bypass CORS
 - **Monorepo** through `npm` workspaces
 - **Commit-Hooks** with `pre-commit`
@@ -15,6 +15,7 @@ This Freeboard is a fork of [Jim Heisings damn-sexy dashboard app](https://githu
 ```bash
 git clone git@github.com:artificialhoney/freeboard.git
 cd freeboard
+git checkout dev
 npm install
 ```
 
@@ -40,4 +41,10 @@ npm run dev
 
 ## Copyright
 
-Copyright © 2013 Jim Heising (https://github.com/jheising)<br/>Copyright © 2013 Bug Labs, Inc. (http://buglabs.net)<br/>Licensed under the **MIT** license.
+Copyright © 2013 Jim Heising (https://github.com/jheising)
+<br>
+Copyright © 2013 Bug Labs, Inc. (https://buglabs.net)
+<br>
+Copyright © 2024 Sebastian Krüger (https://sk.honeymachine.io)
+<br>
+Licensed under the [**MIT** license](/LICENSE).
