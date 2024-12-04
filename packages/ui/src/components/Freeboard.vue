@@ -16,6 +16,7 @@ import { storeToRefs } from "pinia";
 import Preloader from "./Preloader.vue";
 import { HTMLWidget } from "../widgets/HTMLWidget";
 import { ClockDatasource } from "../datasources/ClockDatasource";
+import { JSONDatasource } from "../datasources/JSONDatasource";
 
 const { id } = defineProps({
   id: String,
@@ -40,7 +41,7 @@ const { result } = useQuery(
   },
 );
 
-watch(result, (newResult, oldResult) => {
+watch(result, (newResult) => {
   const dashboard = newResult.dashboard;
   if (!dashboard && idRef.value) {
     router.push("/");
@@ -52,7 +53,7 @@ watch(result, (newResult, oldResult) => {
 });
 
 onMounted(() => {
-  // freeboardStore.createJSONDatasource();
+  freeboardStore.loadDatasourcePlugin(JSONDatasource);
   freeboardStore.loadDatasourcePlugin(ClockDatasource);
   freeboardStore.loadWidgetPlugin(HTMLWidget);
 

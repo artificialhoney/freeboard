@@ -1,5 +1,5 @@
 export class HTMLWidget {
-  static typeName = "HTML";
+  static typeName = "html";
   static label = "HTML";
   static fillSize = true;
   static fields = [

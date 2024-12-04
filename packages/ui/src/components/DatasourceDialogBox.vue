@@ -44,7 +44,6 @@ const { header, onClose, onOk, settings } = defineProps({
   header: String,
   onClose: Function,
   onOk: Function,
-  definitions: Object,
   settings: Object,
 });
 

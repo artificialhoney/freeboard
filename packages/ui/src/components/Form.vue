@@ -6,6 +6,8 @@ import {
   validateNumber,
   validateRequired,
 } from "../validators";
+import SwitchFormElement from "./SwitchFormElement.vue";
+import SelectFormElement from "./SelectFormElement.vue";
 
 const { fields, settings } = defineProps({
   fields: Array,
@@ -18,11 +20,20 @@ const components = ref({});
 watch(
   () => settings,
   (newValue) => {
-    model = {};
-    Object.keys(newValue).forEach((key) => {
-      model.value[key] = newValue[key];
-    });
+    const m = {};
+    if (!newValue) {
+      const f = fields.filter((f) => f.default != null);
+      f.forEach((f) => {
+        m[f.name] = f.default;
+      });
+    } else {
+      Object.keys(newValue).forEach((key) => {
+        m[key] = ref(newValue[key]);
+      });
+    }
+    model.value = m;
   },
+  { immediate: true },
 );
 
 const getValue = () => {
@@ -48,6 +59,8 @@ const hasErrors = () => {
 };
 
 const inputFormElementRef = shallowRef(InputFormElement);
+const switchFormElementRef = shallowRef(SwitchFormElement);
+const selectFormElementRef = shallowRef(SelectFormElement);
 
 const fieldToFormElement = (field) => {
   const validators = [];
@@ -71,6 +84,10 @@ const fieldToFormElement = (field) => {
       validators.push(validateInteger);
     }
     type = inputFormElementRef.value;
+  } else if (field.type === "boolean") {
+    type = switchFormElementRef.value;
+  } else if (field.type === "option") {
+    type = selectFormElementRef.value;
   }
   return { ...field, type, validators };
 };
@@ -92,12 +109,17 @@ defineExpose({
         :is="field.type"
         v-model="model[field.name]"
         :validators="field.validators"
+        :options="field.options"
       ></component>
       <div
         class="validation-error"
         v-for="error in components[field.name]?.errors"
       >
         {{ error }}
+      </div>
+      <div class="input-suffix" v-if="field.suffix">{{ field.suffix }}</div>
+      <div class="setting-description" v-if="field.description">
+        {{ field.description }}
       </div>
     </div>
   </div>
