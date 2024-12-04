@@ -1,11 +1,16 @@
 <script setup lang="js">
+import { ref } from "vue";
 import DialogBox from "./DialogBox.vue";
-import PaneForm from "./PaneForm.vue";
+import Form from "./Form.vue";
 
-const { header, onClose, onOk } = defineProps({
+const form = ref(null);
+
+const { header, onClose, onOk, definitions, settings } = defineProps({
   header: String,
   onClose: Function,
   onOk: Function,
+  definitions: Object,
+  settings: Object,
 });
 </script>
 
@@ -15,8 +20,8 @@ const { header, onClose, onOk } = defineProps({
     ok="Save"
     cancel="Cancel"
     @close="onClose"
-    @ok="onOk"
+    @ok="() => onOk(form.getValue())"
   >
-    <PaneForm />
+    <Form ref="form" :settings="settings" :definitions="definitions" />
   </DialogBox>
 </template>

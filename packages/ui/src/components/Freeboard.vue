@@ -14,6 +14,8 @@ import { DASHBOARD_READ_QUERY } from "../gql";
 import { useDashboardStore } from "../stores/dashboard";
 import { storeToRefs } from "pinia";
 import Preloader from "./Preloader.vue";
+import { HTMLWidget } from "../widgets/HTMLWidget";
+import { ClockDatasource } from "../datasources/ClockDatasource";
 
 const { id } = defineProps({
   id: String,
@@ -50,10 +52,9 @@ watch(result, (newResult, oldResult) => {
 });
 
 onMounted(() => {
-  freeboardStore.createJSONDatasource();
-  freeboardStore.createClockDatasource();
-
-  freeboardStore.createHTMLWidget();
+  // freeboardStore.createJSONDatasource();
+  freeboardStore.loadDatasourcePlugin(ClockDatasource);
+  freeboardStore.loadWidgetPlugin(HTMLWidget);
 
   freeboardStore.toggleAllowEdit();
   freeboardStore.toggleIsEditing();

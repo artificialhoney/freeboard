@@ -24,15 +24,16 @@ onMounted(() => {
   show.value = true;
 });
 
-const { header, ok, cancel } = defineProps({
+const { header, ok, cancel, okDisabled } = defineProps({
   header: String,
   ok: String,
   cancel: String,
+  okDisabled: Boolean,
 });
 </script>
 <template>
   <Transition>
-    <div v-if="show" id="modal_overlay">
+    <div v-if="show" class="modal-overlay">
       <div class="modal">
         <header>
           <h2 class="title">{{ header }}</h2>
@@ -41,16 +42,17 @@ const { header, ok, cancel } = defineProps({
           <slot />
         </section>
         <footer>
-          <span v-if="ok" id="dialog-ok" class="text-button" @click="onOk">{{
-            ok
-          }}</span>
-          <span
-            v-if="cancel"
-            id="dialog-cancel"
+          <button
+            :disabled="okDisabled"
+            v-if="ok"
             class="text-button"
-            @click="onCancel"
-            >{{ cancel }}</span
+            @click="onOk"
           >
+            {{ ok }}
+          </button>
+          <button v-if="cancel" class="text-button" @click="onCancel">
+            {{ cancel }}
+          </button>
         </footer>
       </div>
     </div>

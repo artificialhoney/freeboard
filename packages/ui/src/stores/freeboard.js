@@ -326,9 +326,6 @@ export const useFreeboardStore = defineStore("freeboard", {
         $("#setting-row-plugin-types").nextAll().remove();
       }
     },
-    _isNumerical(n) {
-      return !isNaN(parseFloat(n)) && isFinite(n);
-    },
     _appendCalculatedSettingRow(
       valueCell,
       newSettings,
@@ -473,10 +470,6 @@ export const useFreeboardStore = defineStore("freeboard", {
             }
           }
         });
-    },
-    getMaxDisplayableColumnCount() {
-      const available_width = $("#board-content").width();
-      return Math.floor(available_width / COLUMN_WIDTH);
     },
     displayJSEditor(value, callback) {
       let exampleText =
@@ -1069,27 +1062,18 @@ export const useFreeboardStore = defineStore("freeboard", {
       this.isEditing = !this.isEditing;
     },
     loadDatasourcePlugin(plugin) {
-      if (plugin.display_name === undefined) {
-        plugin.display_name = plugin.type_name;
+      if (plugin.label === undefined) {
+        plugin.label = plugin.typeName;
       }
 
-      // Add a required setting called name to the beginning
-      plugin.settings.unshift({
-        name: "name",
-        display_name: "Name",
-        type: "text",
-        required: true,
-      });
-
-      this.addPluginSource(plugin.source);
-      this.datasourceData[plugin.type_name] = plugin;
-      // TODO
-      // theFreeboardModel._datasourceTypes.valueHasMutated();
+      this.datasourceData[plugin.typeName] = plugin;
     },
-    addPluginSource(pluginSource) {
-      if (pluginSource && self.plugins.indexOf(pluginSource) == -1) {
-        this.plugins.push(pluginSource);
+    loadWidgetPlugin(plugin) {
+      if (plugin.label === undefined) {
+        plugin.label = plugin.typeName;
       }
+
+      this.widgetPlugins[plugin.typeName] = plugin;
     },
     createJSONDatasource() {
       let jsonDatasource = function (settings, updateCallback) {
@@ -1259,67 +1243,6 @@ export const useFreeboardStore = defineStore("freeboard", {
         },
       });
     },
-    createClockDatasource() {
-      let clockDatasource = function (settings, updateCallback) {
-        let self = this;
-        let currentSettings = settings;
-        let timer;
-
-        function stopTimer() {
-          if (timer) {
-            clearTimeout(timer);
-            timer = null;
-          }
-        }
-
-        function updateTimer() {
-          stopTimer();
-          timer = setInterval(self.updateNow, currentSettings.refresh * 1000);
-        }
-
-        this.updateNow = function () {
-          let date = new Date();
-
-          let data = {
-            numeric_value: date.getTime(),
-            full_string_value: date.toLocaleString(),
-            date_string_value: date.toLocaleDateString(),
-            time_string_value: date.toLocaleTimeString(),
-            date_object: date,
-          };
-
-          updateCallback(data);
-        };
-
-        this.onDispose = function () {
-          stopTimer();
-        };
-
-        this.onSettingsChanged = function (newSettings) {
-          currentSettings = newSettings;
-          updateTimer();
-        };
-
-        updateTimer();
-      };
-
-      this.loadDatasourcePlugin({
-        type_name: "clock",
-        display_name: "Clock",
-        settings: [
-          {
-            name: "refresh",
-            display_name: "Refresh Every",
-            type: "number",
-            suffix: "seconds",
-            default_value: 1,
-          },
-        ],
-        newInstance: function (settings, newInstanceCallback, updateCallback) {
-          newInstanceCallback(new clockDatasource(settings, updateCallback));
-        },
-      });
-    },
     loadDashboard(dashboardData, callback) {
       const dashboardStore = useDashboardStore();
       this.showLoadingIndicator = true;
@@ -1407,147 +1330,6 @@ export const useFreeboardStore = defineStore("freeboard", {
 
       let combinedSettings = Object.assign(settings, datasource.settings);
       datasource.settings(combinedSettings);
-    },
-    getStyleString(name) {
-      let returnString = "";
-
-      this.currentStyle[name]?.forEach(function (value, name) {
-        returnString = returnString + name + ":" + value + ";";
-      });
-
-      return returnString;
-    },
-
-    getStyleObject(name) {
-      return this.currentStyle[name];
-    },
-    addStyle(selector, rules) {
-      let styleString = selector + "{" + rules + "}";
-
-      let styleElement = $("style#fb-styles");
-
-      if (styleElement.length == 0) {
-        styleElement = $('<style id="fb-styles" type="text/css"></style>');
-        $("head").append(styleElement);
-      }
-
-      if (styleElement[0].styleSheet) {
-        styleElement[0].styleSheet.cssText += styleString;
-      } else {
-        styleElement.text(styleElement.text() + styleString);
-      }
-    },
-    loadWidgetPlugin(plugin) {
-      if (plugin.display_name === undefined) {
-        plugin.display_name = plugin.type_name;
-      }
-
-      this.addPluginSource(plugin.source);
-      this.widgetPlugins[plugin.type_name] = plugin;
-      // appStore._widgetTypes.valueHasMutated();
-    },
-    easeTransitionText(newValue, textElement, duration) {
-      let currentValue = $(textElement).text();
-
-      if (currentValue == newValue) return;
-
-      if ($.isNumeric(newValue) && $.isNumeric(currentValue)) {
-        let numParts = newValue.toString().split(".");
-        let endingPrecision = 0;
-
-        if (numParts.length > 1) {
-          endingPrecision = numParts[1].length;
-        }
-
-        numParts = currentValue.toString().split(".");
-        let startingPrecision = 0;
-
-        if (numParts.length > 1) {
-          startingPrecision = numParts[1].length;
-        }
-
-        $({
-          transitionValue: Number(currentValue),
-          precisionValue: startingPrecision,
-        }).animate(
-          {
-            transitionValue: Number(newValue),
-            precisionValue: endingPrecision,
-          },
-          {
-            duration: duration,
-            step: function () {
-              $(textElement).text(
-                this.transitionValue.toFixed(this.precisionValue),
-              );
-            },
-            done: function () {
-              $(textElement).text(newValue);
-            },
-          },
-        );
-      } else {
-        $(textElement).text(newValue);
-      }
-    },
-    createHTMLWidget() {
-      this.addStyle(
-        ".html-widget",
-        "white-space:normal;width:100%;height:100%",
-      );
-
-      let htmlWidget = function (settings) {
-        let self = this;
-        let htmlElement = $('<div class="html-widget"></div>');
-        let currentSettings = settings;
-
-        this.render = function (element) {
-          $(element).append(htmlElement);
-        };
-
-        this.onSettingsChanged = function (newSettings) {
-          currentSettings = newSettings;
-        };
-
-        this.onCalculatedValueChanged = function (settingName, newValue) {
-          if (settingName == "html") {
-            htmlElement.html(newValue);
-          }
-        };
-
-        this.onDispose = function () {};
-
-        this.getHeight = function () {
-          return Number(currentSettings.height);
-        };
-
-        this.onSettingsChanged(settings);
-      };
-
-      this.loadWidgetPlugin({
-        type_name: "html",
-        display_name: "HTML",
-        fill_size: true,
-        settings: [
-          {
-            name: "html",
-            display_name: "HTML",
-            type: "calculated",
-            description:
-              "Can be literal HTML, or javascript that outputs HTML.",
-          },
-          {
-            name: "height",
-            display_name: "Height Blocks",
-            type: "number",
-            default_value: 4,
-            description: "A height block is around 60 pixels",
-          },
-        ],
-        newInstance: function (settings, newInstanceCallback) {
-          newInstanceCallback(new htmlWidget(settings));
-        },
-      });
     },
     processDatasourceUpdate(datasourceModel, newData) {
       const datasourceName = datasourceModel.name;
