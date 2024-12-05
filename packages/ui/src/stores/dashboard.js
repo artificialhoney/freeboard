@@ -64,13 +64,23 @@ export class Datasource {
   }
 
   updateCallback(newData) {
-    const freeboardStore = useFreeboardStore();
-    freeboardStore.processDatasourceUpdate(this.datasourceInstance, newData);
-
     this.latestData = newData;
 
     let now = new Date();
     this.lastUpdated = now.toLocaleTimeString();
+  }
+
+  processDatasourceUpdate(datasourceName, newData) {
+    const freeboardStore = useFreeboardStore();
+    const { datasourcePlugins } = storeToRefs(freeboardStore);
+
+    datasourcePlugins[datasourceName] = newData;
+
+    this.panes.forEach((pane) => {
+      pane.widgets.forEach((widget) => {
+        widget.processDatasourceUpdate(datasourceName);
+      });
+    });
   }
 
   serialize() {
@@ -112,16 +122,6 @@ export class Pane {
   row = {};
   col = {};
   widgets = [];
-  _colWidth = 1;
-
-  set colWidth(newValue) {
-    this.processSizeChange();
-    this._colWidth = this.colWidth;
-  }
-
-  get colWidth() {
-    return this._colWidth;
-  }
 
   widgetCanMoveUp(widget) {
     return this.widgets.indexOf(widget) >= 1;
@@ -147,16 +147,6 @@ export class Pane {
       let array = this.widgets;
       this.widgets.splice(i, 2, array[i + 1], array[i]);
     }
-  }
-
-  processSizeChange() {
-    // Give the animation a moment to complete. Really hacky.
-    // TODO: Make less hacky. Also, doesn't work when screen resizes.
-    setTimeout(() => {
-      this.widgets.forEach(function (widget) {
-        widget.processSizeChange();
-      });
-    }, 1000);
   }
 
   serialize() {
@@ -263,7 +253,7 @@ export class Widget {
       this.datasourceRefreshNotifications[datasourceName];
 
     if (refreshSettingNames.constructor === Array) {
-      refreshSettingNames.forEach(function (settingName) {
+      refreshSettingNames.forEach((settingName) => {
         this.processCalculatedSetting(settingName);
       });
     }
@@ -273,15 +263,6 @@ export class Widget {
     const freeboardStore = useFreeboardStore();
     const { datasourcePlugins } = storeToRefs(freeboardStore);
     return theFunction.call(undefined, datasourcePlugins);
-  }
-
-  processSizeChange() {
-    if (
-      this.widgetInstance !== undefined &&
-      typeof this.widgetInstance.onSizeChanged === "function"
-    ) {
-      this.widgetInstance.onSizeChanged();
-    }
   }
 
   processCalculatedSetting(settingName) {
@@ -516,7 +497,7 @@ export const useDashboardStore = defineStore("dashboard", {
       const { datasourcePlugins } = useFreeboardStore();
       delete datasourcePlugins[datasource.name.value];
       datasource.dispose();
-      this.datasources = this.datasources.filter(function (item) {
+      this.datasources = this.datasources.filter((item) => {
         return item !== datasource;
       });
     },
@@ -525,10 +506,10 @@ export const useDashboardStore = defineStore("dashboard", {
     },
     deletePane(pane) {
       pane.dispose();
-      this.panes = this.panes.filter(function (item) {
+      this.panes = this.panes.filter((item) => {
         return item !== pane;
       });
-      this.layout = this.layout.filter(function (item) {
+      this.layout = this.layout.filter((item) => {
         return item.pane !== pane;
       });
     },
@@ -543,7 +524,7 @@ export const useDashboardStore = defineStore("dashboard", {
       this.panes = [...this.panes];
     },
     deleteWidget(pane, widget) {
-      pane.widgets = pane.widgets.filter(function (item) {
+      pane.widgets = pane.widgets.filter((item) => {
         return item !== widget;
       });
       this.panes = [...this.panes];

@@ -2,7 +2,7 @@
 import { storeToRefs } from "pinia";
 import { useFreeboardStore } from "../stores/freeboard";
 import WidgetDialogBox from "./WidgetDialogBox.vue";
-import { onMounted, onUpdated, ref } from "vue";
+import { onMounted, onUpdated, ref, watch } from "vue";
 
 const freeboardStore = useFreeboardStore();
 const { isEditing } = storeToRefs(freeboardStore);
@@ -15,8 +15,10 @@ const openWidgetEditDialogBox = (widget) => {
     settings: widget.settings,
     type: widget.type,
     onOk: (newSettings) => {
-      widget.settings = newSettings.settings;
       widget.type = newSettings.type;
+      widget.settings = newSettings.settings;
+
+      render();
     },
   });
 };
@@ -34,12 +36,14 @@ const { widget } = defineProps({
   widget: Object,
 });
 
-onMounted(() => {
-  if (!widget.shouldRender) {
+const render = () => {
+  if (!widget.shouldRender || !widgetRef.value) {
     return;
   }
   widget.render(widgetRef.value);
-});
+};
+
+onMounted(render);
 </script>
 
 <template>

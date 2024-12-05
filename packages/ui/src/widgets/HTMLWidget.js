@@ -49,7 +49,9 @@ export class HTMLWidget {
     this.htmlElement.innerHTML = newValue;
   }
 
-  onDispose() {}
+  onDispose() {
+    this.htmlElement.remove();
+  }
 
   getHeight() {
     return Number(this.currentSettings.height);

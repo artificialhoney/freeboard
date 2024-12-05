@@ -33,7 +33,7 @@ export class ClockDatasource {
   }
 
   updateTimer() {
-    stopTimer();
+    this.stopTimer();
     this.timer = setInterval(
       () => this.updateNow(),
       this.currentSettings.refresh * 1000,
@@ -47,11 +47,11 @@ export class ClockDatasource {
   }
 
   onDispose() {
-    stopTimer();
+    this.stopTimer();
   }
 
   onSettingsChanged(newSettings) {
     this.currentSettings = newSettings;
-    updateTimer();
+    this.updateTimer();
   }
 }
