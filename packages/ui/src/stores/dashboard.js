@@ -1,5 +1,8 @@
 import { defineStore, storeToRefs } from "pinia";
 import { useFreeboardStore } from "./freeboard";
+import nunjucks from "nunjucks";
+
+nunjucks.configure({ autoescape: true });
 
 export const MIN_COLUMNS = 3;
 export const VERSION = __APP_VERSION__;
@@ -338,15 +341,17 @@ export class Widget {
           try {
             valueFunction = new Function("datasources", script);
           } catch (e) {
+            /*
             let literalText = currentSettings[settingDef.name]
               .replace(/"/g, '\\"')
               .replace(/[\r\n]/g, " \\\n");
+            */
 
-            // If the value function cannot be created, then go ahead and treat it as literal text
-            valueFunction = new Function(
-              "datasources",
-              'return "' + literalText + '";',
-            );
+            valueFunction = function (datasources) {
+              return nunjucks.renderString(currentSettings[settingDef.name], {
+                datasources,
+              });
+            };
           }
 
           this.calculatedSettingScripts[settingDef.name] = valueFunction;

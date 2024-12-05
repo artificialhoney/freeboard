@@ -10,9 +10,9 @@ import { DASHBOARD_READ_QUERY } from "../gql";
 import { useDashboardStore } from "../stores/dashboard";
 import { storeToRefs } from "pinia";
 import Preloader from "./Preloader.vue";
-import { HTMLWidget } from "../widgets/HTMLWidget";
 import { ClockDatasource } from "../datasources/ClockDatasource";
 import { JSONDatasource } from "../datasources/JSONDatasource";
+import { TemplateWidget } from "../widgets/TemplateWidget";
 
 const { id } = defineProps({
   id: String,
@@ -51,7 +51,7 @@ watch(result, (newResult) => {
 onMounted(() => {
   freeboardStore.loadDatasourcePlugin(JSONDatasource);
   freeboardStore.loadDatasourcePlugin(ClockDatasource);
-  freeboardStore.loadWidgetPlugin(HTMLWidget);
+  freeboardStore.loadWidgetPlugin(TemplateWidget);
 
   freeboardStore.toggleAllowEdit();
   freeboardStore.toggleIsEditing();

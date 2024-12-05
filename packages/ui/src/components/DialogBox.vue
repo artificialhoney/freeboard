@@ -1,5 +1,5 @@
 <script setup lang="js">
-import { onMounted, ref, defineEmits, defineProps } from "vue";
+import { onMounted, ref } from "vue";
 
 const show = ref(false);
 
