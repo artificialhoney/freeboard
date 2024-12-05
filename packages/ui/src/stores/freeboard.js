@@ -1,4 +1,4 @@
-import { defineStore } from "pinia";
+import { defineStore, storeToRefs } from "pinia";
 import { useDashboardStore } from "./dashboard";
 import renderComponent from "../render-component";
 

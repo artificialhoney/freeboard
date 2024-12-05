@@ -65,20 +65,17 @@ export class Datasource {
 
   updateCallback(newData) {
     this.latestData = newData;
-
-    let now = new Date();
-    this.lastUpdated = now.toLocaleTimeString();
+    this.lastUpdated = new Date();
+    this.processDatasourceUpdate();
   }
 
-  processDatasourceUpdate(datasourceName, newData) {
-    const freeboardStore = useFreeboardStore();
-    const { datasourcePlugins } = storeToRefs(freeboardStore);
+  processDatasourceUpdate() {
+    const dashboardStore = useDashboardStore();
+    const { panes } = storeToRefs(dashboardStore);
 
-    datasourcePlugins[datasourceName] = newData;
-
-    this.panes.forEach((pane) => {
-      pane.widgets.forEach((widget) => {
-        widget.processDatasourceUpdate(datasourceName);
+    panes.value?.forEach((pane) => {
+      pane.widgets?.forEach((widget) => {
+        widget.processDatasourceUpdate();
       });
     });
   }
@@ -248,11 +245,15 @@ export class Widget {
     }
   }
 
-  processDatasourceUpdate(datasourceName) {
-    let refreshSettingNames =
-      this.datasourceRefreshNotifications[datasourceName];
-
-    if (refreshSettingNames.constructor === Array) {
+  processDatasourceUpdate() {
+    const key =
+      this.datasourceRefreshNotifications &&
+      Object.keys(this.datasourceRefreshNotifications)[0];
+    if (!key) {
+      return;
+    }
+    const refreshSettingNames = this.datasourceRefreshNotifications[key];
+    if (Array.isArray(refreshSettingNames)) {
       refreshSettingNames.forEach((settingName) => {
         this.processCalculatedSetting(settingName);
       });
@@ -260,9 +261,9 @@ export class Widget {
   }
 
   callValueFunction(theFunction) {
-    const freeboardStore = useFreeboardStore();
-    const { datasourcePlugins } = storeToRefs(freeboardStore);
-    return theFunction.call(undefined, datasourcePlugins);
+    const dashboardStore = useDashboardStore();
+    const { datasources } = storeToRefs(dashboardStore);
+    return theFunction.call(undefined, datasources.value);
   }
 
   processCalculatedSetting(settingName) {
@@ -281,7 +282,6 @@ export class Widget {
           returnValue = rawValue;
         }
       }
-
       if (
         this.widgetInstance !== undefined &&
         typeof this.widgetInstance.onCalculatedValueChanged === "function" &&
@@ -321,7 +321,7 @@ export class Widget {
         let script = currentSettings[settingDef.name];
 
         if (script !== undefined) {
-          if (script.constructor === Array) {
+          if (Array.isArray(script)) {
             script = "[" + script.join(",") + "]";
           }
 

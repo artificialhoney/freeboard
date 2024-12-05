@@ -42,7 +42,7 @@ export class ClockDatasource {
 
   updateNow() {
     this.updateCallback({
-      value: new Date(),
+      data: new Date(),
     });
   }
 

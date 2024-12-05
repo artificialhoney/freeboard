@@ -143,9 +143,9 @@ export class JSONDatasource {
       },
       success: (data) => {
         this.lockErrorStage = true;
-        this.updateCallback({ value: data });
+        this.updateCallback({ data: data });
       },
-      error: function (xhr, status, error) {
+      error: () => {
         if (!this.lockErrorStage) {
           this.errorStage++;
           this.updateNow();

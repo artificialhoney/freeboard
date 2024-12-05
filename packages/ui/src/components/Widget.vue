@@ -15,8 +15,8 @@ const openWidgetEditDialogBox = (widget) => {
     settings: widget.settings,
     type: widget.type,
     onOk: (newSettings) => {
-      widget.type = newSettings.type;
       widget.settings = newSettings.settings;
+      widget.type = newSettings.type;
 
       render();
     },

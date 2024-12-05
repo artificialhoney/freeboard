@@ -9,13 +9,6 @@ export class HTMLWidget {
       type: "calculated",
       description: "Can be literal HTML, or javascript that outputs HTML.",
     },
-    {
-      name: "height",
-      label: "Height Blocks",
-      type: "number",
-      default: 4,
-      description: "A height block is around 60 pixels",
-    },
   ];
 
   static newInstance(settings, newInstanceCallback) {
