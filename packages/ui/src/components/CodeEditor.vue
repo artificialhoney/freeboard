@@ -39,8 +39,7 @@ onMounted(() => {
     <div ref="codemirror" class="code-mirror-wrapper"></div>
     <div class="code-window-footer">
       <button
-        id="dialog-cancel"
-        class="text-button"
+        class="dialog-cancel text-button"
         @click="onClose(codemirrorEditor.state.doc.toString())"
       >
         Close

@@ -40,23 +40,20 @@ const openDatasourcesDialogBox = () => {
 </script>
 
 <template>
-  <header id="main-header" v-if="allowEdit">
+  <header class="main-header" v-if="allowEdit">
     <Transition name="slide-fade">
-      <div id="admin-bar" v-if="isEditing">
-        <div id="admin-menu">
-          <div id="board-tools">
-            <h1 id="board-logo" class="title">
+      <div class="admin-bar" v-if="isEditing">
+        <div class="admin-menu">
+          <div class="board-tools">
+            <h1 class="board-logo title">
               <i class="ra ra-feather-wing ra-2x"></i>
               Freeboard
             </h1>
-            <div id="board-actions">
+            <div class="board-actions">
               <ul class="board-toolbar vertical">
                 <li @click="freeboardStore.loadDashboardFromLocalFile">
-                  <i
-                    id="full-screen-icon"
-                    class="icon-folder-open icon-white"
-                  ></i
-                  ><label id="full-screen">Load Freeboard</label>
+                  <i class="icon-folder-open icon-white"></i
+                  ><label>Load Freeboard</label>
                 </li>
                 <li @click="saveDashboard">
                   <i class="icon-bookmark icon-white"></i
@@ -79,17 +76,14 @@ const openDatasourcesDialogBox = () => {
               </ul>
               <ul class="board-toolbar vertical">
                 <li @click="() => openDatasourcesDialogBox()">
-                  <i
-                    id="full-screen-icon"
-                    class="icon-folder-open icon-white"
-                  ></i
-                  ><label id="full-screen">Add Datasource</label>
+                  <i class="icon-folder-open icon-white"></i
+                  ><label>Add Datasource</label>
                 </li>
                 <li>
                   <i class="icon-bookmark icon-white"></i
                   ><label>Add Secret</label>
                 </li>
-                <li id="add-pane" @click="() => dashboardStore.createPane()">
+                <li class="add-pane" @click="() => dashboardStore.createPane()">
                   <i class="icon-plus icon-white"></i><label>Add Pane</label>
                 </li>
               </ul>
@@ -101,7 +95,7 @@ const openDatasourcesDialogBox = () => {
     <Transition>
       <div
         v-if="isEditing"
-        id="column-tools"
+        class="column-tools"
         :class="`responsive-column-width-${width}`"
       >
         <ul class="board-toolbar left-columns">
@@ -139,10 +133,9 @@ const openDatasourcesDialogBox = () => {
       </div>
     </Transition>
 
-    <div id="toggle-header" @click="() => freeboardStore.toggleIsEditing()">
+    <div class="toggle-header" @click="() => freeboardStore.toggleIsEditing()">
       <i
-        id="toggle-header-icon"
-        class="icon-white"
+        class="toggle-header-icon icon-white"
         :class="isEditing ? 'icon-chevron-up' : 'icon-wrench'"
       ></i>
     </div>

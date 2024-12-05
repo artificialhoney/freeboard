@@ -51,7 +51,7 @@ const openDatasourceAddDialogBox = () => {
 </script>
 
 <template>
-  <div id="datasources">
+  <div class="datasources">
     <!--<h2 class="title">DATASOURCES</h2>-->
     <div class="datasource-list-container">
       <table

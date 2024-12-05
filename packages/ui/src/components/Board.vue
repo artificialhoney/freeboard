@@ -30,8 +30,8 @@ watch(panes, () => {
 </script>
 
 <template>
-  <div id="board-content">
-    <img id="dash-logo" v-if="headerImage" :src="headerImage" />
+  <div class="board-content">
+    <img class="dash-logo" v-if="headerImage" :src="headerImage" />
     <GridLayout
       :class="`responsive-column-width-${width}`"
       v-model:layout="layout"

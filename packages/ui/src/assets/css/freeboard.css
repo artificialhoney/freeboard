@@ -81,6 +81,7 @@
   --onoffswitch-switch-border: #3d3d3d;
   --onoffswitch-checked-background: #ff9900;
   --code-window-background: #2a2a2a;
+  --uneditable-input-color: #d3d4d4;
 }
 
 article,
@@ -590,10 +591,6 @@ body {
   min-width: 16px;
 }
 
-#plugin-description {
-  margin-bottom: 25px;
-}
-
 .align-right {
   text-align: right;
 }
@@ -627,7 +624,7 @@ input[type="color"],
   padding: 4px 6px;
   font-size: 14px;
   line-height: 20px;
-  color: #d3d4d4;
+  color: var(--uneditable-input-color);
   vertical-align: middle;
 
   border-radius: -px;
@@ -880,29 +877,29 @@ header h1 {
   text-overflow: ellipsis;
 }
 
-#board-content {
+.board-content {
   overflow: visible;
   padding-top: 10px;
 }
 
-#main-header {
+.main-header {
   width: 100%;
   position: relative;
   z-index: 50;
 }
 
-#admin-bar {
+.admin-bar {
   width: 100%;
   background-color: var(--admin-bar-background);
 
   box-shadow: 0 0 5px var(--admin-bar-shadow);
 }
 
-#board-tools {
+.board-tools {
   width: 100%;
 }
 
-#board-actions {
+.board-actions {
   display: flex;
   width: 100%;
 }
@@ -911,7 +908,7 @@ header h1 {
   width: 50%;
 }
 
-#toggle-header {
+.toggle-header {
   margin: 0 auto;
   left: 0;
   right: 0;
@@ -921,7 +918,7 @@ header h1 {
   cursor: pointer;
 }
 
-#toggle-header-icon {
+.toggle-header-icon {
   margin-top: 4px;
   margin-bottom: 7px;
 }
@@ -972,17 +969,12 @@ header h1 {
   color: var(--table-td-color);
 }
 
-#datasources {
+.datasources {
   height: 100%;
   width: 100%;
 }
 
-#cam {
-  height: 100%;
-  background-size: cover;
-}
-
-#admin-menu {
+.admin-menu {
   display: flex;
   max-width: 960px;
   margin-left: auto;
@@ -1027,12 +1019,6 @@ header h1 {
   border-bottom: none;
 }
 
-#pump-icon {
-  padding: 10px;
-  padding-bottom: 12px;
-  display: none;
-}
-
 .section-title {
   min-height: 7px;
 }
@@ -1052,7 +1038,7 @@ ol {
   list-style: none;
 }
 
-#column-tools {
+.column-tools {
   position: relative;
   margin: 0 auto;
   left: 0;
@@ -1060,12 +1046,12 @@ ol {
   top: 5px;
 }
 
-#column-tools .left-columns {
+.column-tools .left-columns {
   position: absolute;
   left: 0;
 }
 
-#column-tools .right-columns {
+.column-tools .right-columns {
   position: absolute;
   right: 0;
 }
@@ -1808,12 +1794,12 @@ td.form-table-value > input[type="checkbox"] {
   cursor: pointer;
 }
 
-#main-logo {
+.main-logo {
   display: block;
   margin-bottom: 20px;
 }
 
-#dash-logo {
+.dash-logo {
   display: block;
   margin-left: 10px;
   margin-bottom: 10px;
@@ -2007,12 +1993,8 @@ h2.title {
   padding-top: 1px;
 }
 
-#pane-holding-pen {
-  display: none;
-}
-
 @media screen and (max-width: 960px) {
-  #add-pane {
+  .add-pane {
     padding-top: 10px;
   }
 
@@ -2361,7 +2343,7 @@ textarea:-moz-placeholder {
 }
 
 @media screen and (max-width: 640px) {
-  #admin-menu {
+  .admin-menu {
     flex-direction: column;
   }
 }
