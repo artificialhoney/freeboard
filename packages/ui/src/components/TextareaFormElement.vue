@@ -26,7 +26,10 @@ const onChange = (value) => {
 const openCodeEditor = () => {
   freeboardStore.createComponent(CodeEditor, {
     value: textarea.value.value,
-    onClose: onChange,
+    onClose: (value) => {
+      textarea.value.value = value;
+      onChange(value);
+    },
   });
 };
 

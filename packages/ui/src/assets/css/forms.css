@@ -297,3 +297,14 @@ td.form-table-value > input[type="checkbox"] {
   background: url(/img/dropdown-arrow.png) no-repeat right
     var(--styled-select-background);
 }
+
+.calculated-value {
+  display: flex;
+}
+
+textarea.calculated-value-input {
+  max-width: 400px;
+  white-space: nowrap;
+  overflow: auto;
+  z-index: 3000;
+}
