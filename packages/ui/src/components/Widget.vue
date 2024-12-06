@@ -48,9 +48,9 @@ onMounted(render);
 </script>
 
 <template>
-  <section>
+  <section class="widget">
     <div class="sub-section">
-      <div ref="widgetRef" class="widget"></div>
+      <div ref="widgetRef" class="widget-output"></div>
       <Transition>
         <div class="sub-section-tools" v-if="isEditing">
           <ul class="board-toolbar">

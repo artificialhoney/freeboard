@@ -26,7 +26,7 @@ const openDatasourceDeleteDialogBox = (datasource) => {
   freeboardStore.createComponent(ConfirmDialogBox, {
     title: "Datasource",
     onOk: () => {
-      dashboardStore.deleteDatasource(datasource);
+      dashboard.value.deleteDatasource(datasource);
     },
   });
 };
@@ -43,7 +43,7 @@ const openDatasourceAddDialogBox = () => {
       newViewModel.settings = newSettings.settings;
       newViewModel.type = newSettings.type;
 
-      dashboardStore.addDatasource(newViewModel);
+      dashboard.value.addDatasource(newViewModel);
     },
   });
 };

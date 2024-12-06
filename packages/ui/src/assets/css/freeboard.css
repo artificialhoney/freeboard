@@ -390,17 +390,6 @@ body {
   margin-left: 180px;
 }
 
-.input-suffix {
-  display: inline-block;
-  height: 22px;
-  padding: 4px 10px;
-  line-height: 23px;
-  vertical-align: middle;
-  text-transform: uppercase;
-  font-size: 11px;
-  min-width: 16px;
-}
-
 .align-right {
   text-align: right;
 }

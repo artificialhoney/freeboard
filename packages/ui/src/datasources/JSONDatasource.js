@@ -124,8 +124,7 @@ export class JSONDatasource {
       } catch (e) {}
     }
 
-    fetch({
-      url: requestURL,
+    fetch(requestURL, {
       dataType: this.errorStage == 1 ? "JSONP" : "JSON",
       type: this.currentSettings.method || "GET",
       data: body,

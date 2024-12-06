@@ -107,25 +107,27 @@ const emit = defineEmits(["change"]);
         <label class="control-label">{{ field.label }}</label>
       </div>
       <div class="form-value">
-        <component
-          :ref="(el) => storeComponentRef(field.name, el)"
-          :is="field.type"
-          v-model="model[field.name]"
-          :validators="field.validators"
-          :options="field.options || field.settings"
-          @update:modelValue="emit('change', getValue())"
-        ></component>
+        <div class="input-container">
+          <component
+            :ref="(el) => storeComponentRef(field.name, el)"
+            :is="field.type"
+            v-model="model[field.name]"
+            :validators="field.validators"
+            :options="field.options || field.settings"
+            @update:modelValue="emit('change', getValue())"
+          ></component>
+        </div>
         <div
           class="validation-error"
           v-for="error in components[field.name]?.errors"
         >
           {{ error }}
         </div>
-        <div class="input-suffix" v-if="field.suffix">{{ field.suffix }}</div>
         <div class="setting-description" v-if="field.description">
           {{ field.description }}
         </div>
       </div>
+      <div class="input-suffix" v-if="field.suffix">{{ field.suffix }}</div>
     </div>
   </form>
 </template>
