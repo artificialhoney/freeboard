@@ -78,22 +78,18 @@ export const useFreeboardStore = defineStore("freeboard", {
         alert("Unable to load a file in this browser.");
       }
     },
-    saveDashboard(pretty) {
-      let contentType = "application/octet-stream";
-      let a = document.createElement("a");
-      let blob;
-      if (pretty) {
-        blob = new Blob([JSON.stringify(this.dashboard.serialize(), null, 2)], {
+    exportDashboard() {
+      const contentType = "application/octet-stream";
+      const a = document.createElement("a");
+      const blob = new Blob(
+        [JSON.stringify(this.dashboard.serialize(), null, 2)],
+        {
           type: contentType,
-        });
-      } else {
-        blob = new Blob([JSON.stringify(this.dashboard.serialize())], {
-          type: contentType,
-        });
-      }
+        },
+      );
       document.body.appendChild(a);
       a.href = window.URL.createObjectURL(blob);
-      a.download = "dashboard.json";
+      a.download = `${this.dashboard.title}.json`;
       a.target = "_self";
       a.click();
     },

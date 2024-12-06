@@ -16,8 +16,6 @@ const { mutate: updateDashboard } = useMutation(DASHBOARD_UPDATE_MUTATION);
 
 const router = useRouter();
 
-const submenuOpened = ref(false);
-
 const saveDashboard = async () => {
   const d = dashboard.value.serialize();
   const id = d._id;
@@ -53,19 +51,9 @@ const saveDashboard = async () => {
                     <i class="icon-bookmark icon-white"></i
                     ><label>Save Freeboard</label>
                   </li>
-                  <li @click="() => (submenuOpened = !submenuOpened)">
+                  <li @click="() => freeboardStore.exportDashboard()">
                     <i class="icon-download-alt icon-white"></i>
                     <label>Export Freeboard</label>
-                    <label
-                      v-if="submenuOpened"
-                      @click="() => freeboardStore.saveDashboard(true)"
-                      >[Pretty]</label
-                    >
-                    <label
-                      v-if="submenuOpened"
-                      @click="() => freeboardStore.saveDashboard(false)"
-                      >[Minified]</label
-                    >
                   </li>
                 </ul>
               </div>
