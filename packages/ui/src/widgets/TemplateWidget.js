@@ -7,8 +7,7 @@ export class TemplateWidget {
       name: "template",
       label: "Template",
       type: "calculated",
-      description:
-        "Can be a nunjucks template, or javascript that outputs HTML.",
+      description: "Can be a HTML template, or javascript that outputs HTML.",
     },
   ];
 

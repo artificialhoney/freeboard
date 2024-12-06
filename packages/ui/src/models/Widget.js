@@ -1,6 +1,5 @@
 import { storeToRefs } from "pinia";
 import { useFreeboardStore } from "../stores/freeboard";
-import nunjucks from "nunjucks";
 
 export class Widget {
   shouldRender = true;
@@ -155,17 +154,14 @@ export class Widget {
           try {
             valueFunction = new Function("datasources", script);
           } catch (e) {
-            /*
-            let literalText = currentSettings[settingDef.name]
+            const literalText = currentSettings[settingDef.name]
               .replace(/"/g, '\\"')
               .replace(/[\r\n]/g, " \\\n");
-            */
 
-            valueFunction = function (datasources) {
-              return nunjucks.renderString(currentSettings[settingDef.name], {
-                datasources,
-              });
-            };
+            valueFunction = new Function(
+              "datasources",
+              `return '${literalText}';`,
+            );
           }
 
           this.calculatedSettingScripts[settingDef.name] = valueFunction;
