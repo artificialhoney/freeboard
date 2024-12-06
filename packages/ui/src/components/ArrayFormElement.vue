@@ -10,7 +10,7 @@ const value = ref([]);
 
 watch(
   () => props.modelValue,
-  (v) => (value.value = v),
+  (v) => (value.value = v && [...v]),
 );
 
 const onChange = (v) => {
@@ -22,7 +22,7 @@ const onChange = (v) => {
     }
   });
   errors.value = e;
-  emit("update:modelValue", v);
+  emit("update:modelValue", [...v]);
 };
 
 const onSettingChange = (index, v) => {

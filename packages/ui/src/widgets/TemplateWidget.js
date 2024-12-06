@@ -45,6 +45,7 @@ export class TemplateWidget {
   }
 
   templateElement;
+  resourceElements = [];
   currentSettings;
 
   constructor(settings) {
@@ -60,6 +61,26 @@ export class TemplateWidget {
 
   onSettingsChanged(newSettings) {
     this.currentSettings = newSettings;
+
+    this.resourceElements?.forEach((element) => element.remove());
+    this.resourceElements = newSettings.resources?.map((element) => {
+      if (element.type === "stylesheet") {
+        const link = document.createElement("link");
+        link.type = "text/css";
+        link.rel = "stylesheet";
+        link.href = element.url;
+        return link;
+      } else {
+        const script = document.createElement("script");
+        script.type = "application/javascript";
+        script.src = element.url;
+        return script;
+      }
+    });
+
+    this.resourceElements?.forEach((element) =>
+      document.head.appendChild(element),
+    );
   }
 
   onCalculatedValueChanged(settingName, newValue) {

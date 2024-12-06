@@ -127,32 +127,22 @@ export class JSONDatasource {
     }
 
     fetch(requestURL, {
-      dataType: this.errorStage == 1 ? "JSONP" : "JSON",
-      type: this.currentSettings.method || "GET",
-      data: body,
-      beforeSend: (xhr) => {
-        try {
-          this.currentSettings.headers.forEach((header) => {
-            const name = header.name;
-            const value = header.value;
-
-            if (name && value) {
-              xhr.setRequestHeader(name, value);
-            }
-          });
-        } catch (e) {}
-      },
-      success: (data) => {
+      // dataType: this.errorStage == 1 ? "JSONP" : "JSON",
+      method: this.currentSettings.method || "GET",
+      body: body,
+      headers: this.currentSettings.headers?.map((h) => [h.name, h.value]),
+    })
+      .then((response) => response.json())
+      .then((data) => {
         this.lockErrorStage = true;
-        this.updateCallback({ data: data });
-      },
-      error: () => {
+        this.updateCallback({ data });
+      })
+      .catch(() => {
         if (!this.lockErrorStage) {
           this.errorStage++;
           this.updateNow();
         }
-      },
-    });
+      });
   }
 
   onDispose() {
