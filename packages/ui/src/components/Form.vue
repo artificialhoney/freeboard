@@ -22,7 +22,7 @@ const components = ref({});
 const applySettings = () => {
   const m = {};
   fields.forEach((f) => {
-    m[f.name] = settings[f.name] || f.default;
+    m[f.name] = (settings && settings[f.name]) || f.default;
   });
   model.value = m;
 };

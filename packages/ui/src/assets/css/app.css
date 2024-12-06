@@ -3,6 +3,5 @@
 @import "~/rpg-awesome/css/rpg-awesome.min.css";
 
 #app {
-  display: flex;
-  flex-direction: column;
+  height: 100%;
 }

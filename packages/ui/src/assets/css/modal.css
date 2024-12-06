@@ -1,0 +1,83 @@
+.modal-overlay {
+  position: absolute;
+  z-index: 100;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  background: var(--modal-overlay-background);
+  overflow-y: auto;
+}
+
+.modal {
+  position: absolute;
+  background-color: var(--modal-background);
+  top: 120px;
+  width: 900px;
+  margin: auto;
+  right: 0px;
+  left: 0px;
+  margin-bottom: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.modal.small {
+  max-width: 500px;
+  width: 100%;
+}
+
+.modal header {
+  background-color: var(--modal-header-background);
+  height: 40px;
+  margin: 0;
+  padding: 0 10px 0 10px;
+  color: var(--modal-header-color);
+  text-transform: uppercase;
+}
+
+.modal footer {
+  background-color: var(--modal-footer-background);
+  height: 40px;
+  margin: 0;
+  color: var(--modal-footer-color);
+  text-transform: uppercase;
+  clear: both;
+}
+
+.modal footer {
+  text-align: right;
+}
+
+.modal footer .text-button {
+  line-height: 40px;
+  padding-left: 15px;
+  padding-right: 15px;
+  display: inline-block;
+}
+
+.modal section {
+  padding: 25px;
+  padding-bottom: 55px;
+  height: 100%;
+}
+
+@media screen and (max-width: 960px) {
+  .modal {
+    width: 100%;
+    top: 0px;
+    left: 0px;
+  }
+
+  .modal section {
+    padding-bottom: 10px;
+    padding-top: 10px;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .modal {
+    height: 100%;
+  }
+}

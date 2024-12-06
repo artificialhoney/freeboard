@@ -1,5 +1,8 @@
 @import "./forms.css";
 @import "./icons.css";
+@import "./grid.css";
+@import "./modal.css";
+@import "./preloader.css";
 
 /**
  * Correct `block` display not defined in IE 8/9.
@@ -356,56 +359,6 @@ body {
   overflow-y: auto;
 }
 
-.modal {
-  position: absolute;
-  background-color: var(--modal-background);
-  top: 120px;
-  width: 900px;
-  margin: auto;
-  right: 0px;
-  left: 0px;
-  margin-bottom: 25px;
-}
-
-.modal.small {
-  max-width: 500px;
-  width: 100%;
-}
-
-.modal header {
-  background-color: var(--modal-header-background);
-  height: 40px;
-  margin: 0;
-  padding: 0 10px 0 10px;
-  color: var(--modal-header-color);
-  text-transform: uppercase;
-}
-
-.modal footer {
-  background-color: var(--modal-footer-background);
-  height: 40px;
-  margin: 0;
-  color: var(--modal-footer-color);
-  text-transform: uppercase;
-  clear: both;
-}
-
-.modal footer {
-  text-align: right;
-}
-
-.modal footer .text-button {
-  line-height: 40px;
-  padding-left: 15px;
-  padding-right: 15px;
-  display: inline-block;
-}
-
-.modal section {
-  padding: 25px;
-  padding-bottom: 55px;
-}
-
 .control-group:last-child {
   margin-bottom: 0px;
 }
@@ -553,17 +506,6 @@ a:focus {
   outline-offset: -2px;
 }
 
-.modal-overlay {
-  position: absolute;
-  z-index: 100;
-  top: 0px;
-  left: 0px;
-  height: 100%;
-  width: 100%;
-  background: var(--modal-overlay-background);
-  overflow-y: auto;
-}
-
 a:hover,
 a:active {
   outline: 0;
@@ -652,12 +594,6 @@ header h1 {
 
 .widget.fillsize {
   padding: 0;
-}
-
-.pane-tools {
-  top: 0px;
-  right: 0px;
-  position: absolute;
 }
 
 .sub-section-tools {
@@ -794,47 +730,7 @@ ol {
   float: left;
 }
 
-.grid {
-  max-width: 960px;
-  margin: 0 auto;
-  left: 0;
-  right: 0;
-  top: 0;
-}
-
-.grid section {
-  background: var(--pane-background);
-  line-height: normal;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 0;
-  margin: 0 auto;
-  overflow: hidden;
-  z-index: auto;
-  user-select: text;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.grid .preview-holder {
-  border: none !important;
-  border-radius: 0 !important;
-  background: var(--pane-preview-holder-background) !important;
-}
-
-.grid header {
-  background-color: var(--pane-header-background);
-  height: 30px;
-  margin: 0;
-  padding: 0 10px 0 10px;
-  color: var(--pane-header-color);
-  text-transform: uppercase;
-}
-
 .datasource-list-container {
-  max-height: 110px;
   overflow-x: hidden;
   overflow-y: auto;
   border-bottom: solid 1px var(--datasource-list-container);
@@ -1067,27 +963,8 @@ h2.title {
     border-width: 2px;
   }
 
-  .modal header {
-    height: 30px;
-  }
-
-  .modal {
-    width: 100%;
-    top: 0px;
-    left: 0px;
-  }
-
-  .datasource-list-container {
-    max-height: 77px;
-  }
-
   .control-label {
     width: auto;
-  }
-
-  .modal section {
-    padding-bottom: 10px;
-    padding-top: 10px;
   }
 
   ul.datasource-input-suffix {
@@ -1098,115 +975,6 @@ h2.title {
   ul.datasource-input-suffix li {
     margin-left: 0;
   }
-}
-
-.wrapperloading {
-  position: absolute;
-  height: 200px;
-  width: 200px;
-  top: 50%;
-  margin-top: -100px;
-  left: 50%;
-  margin-left: -100px;
-  z-index: 2000;
-}
-
-.wrapperloading .loading.up {
-  position: absolute;
-  height: 200px;
-  width: 200px;
-  border-radius: 150px;
-  border: 3px solid var(--loading-up-border);
-  border-top-color: var(--loading-up-border-top);
-  border-left-color: var(--loading-up-border-left);
-  border-right-color: var(--loading-up-border-right);
-  border-bottom-color: var(--loading-up-border-bottom);
-
-  animation: rotation 3s linear infinite;
-}
-
-.wrapperloading .loading.down {
-  position: absolute;
-  height: 100px;
-  width: 100px;
-  top: 50%;
-  margin-top: -50px;
-  left: 50%;
-  margin-left: -50px;
-  border-radius: 150px;
-  border: 3px solid var(--loading-down-border);
-  border-left-color: var(--loading-down-border-left);
-  border-top-color: var(--loading-down-border-top);
-  border-bottom-color: var(--loading-down-border-bottom);
-  border-right-color: var(--loading-dorn-border-right);
-
-  animation: rotation 1s linear infinite;
-}
-
-@-webkit-keyframes rotation {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  50% {
-    transform: rotate(180deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-@-moz-keyframes rotation {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  50% {
-    transform: rotate(180deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-@-o-keyframes rotation {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  50% {
-    transform: rotate(180deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes rotation {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  50% {
-    transform: rotate(180deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-input::-webkit-input-placeholder,
-textarea::-webkit-input-placeholder {
-  color: var(--input-placeholder-color);
-}
-
-input:-moz-placeholder,
-textarea:-moz-placeholder {
-  color: var(--input-placeholder-color);
 }
 
 ::-webkit-scrollbar {
@@ -1381,4 +1149,10 @@ textarea:-moz-placeholder {
   .dashboard-control {
     flex-direction: column;
   }
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }

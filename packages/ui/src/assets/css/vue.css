@@ -24,3 +24,12 @@
 .vue-grid-item {
   box-sizing: border-box;
 }
+
+@media screen and (max-width: 640px) {
+  .vue-grid-item {
+    width: 100% !important;
+    transform: none !important;
+    position: relative !important;
+    padding: 0px 20px;
+  }
+}

@@ -62,10 +62,10 @@ onMounted(() => {
 
 <template>
   <Transition>
-    <Preloader v-if="showLoadingIndicator" />
-    <div v-else>
-      <Header />
-      <Board />
+    <div class="app-container">
+      <Preloader v-if="showLoadingIndicator" />
+      <Header v-if="!showLoadingIndicator" />
+      <Board v-if="!showLoadingIndicator" />
     </div>
   </Transition>
 </template>

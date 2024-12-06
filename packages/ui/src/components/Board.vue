@@ -21,7 +21,7 @@ const { dashboard, isEditing } = storeToRefs(freeboardStore);
       :is-resizable="isEditing"
       :vertical-compact="true"
       :is-bounded="true"
-      :margin="[10, 10]"
+      :margin="[20, 20]"
       :use-css-transforms="true"
     >
       <GridItem
