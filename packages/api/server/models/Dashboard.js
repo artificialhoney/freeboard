@@ -47,10 +47,6 @@ const DashboardSchema = new Schema(
       type: [Object],
       required: false,
     },
-    layout: {
-      type: [Object],
-      required: false,
-    },
   },
   {
     timestamps: true,

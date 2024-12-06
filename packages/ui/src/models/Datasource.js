@@ -1,6 +1,5 @@
 import { storeToRefs } from "pinia";
 import { useFreeboardStore } from "../stores/freeboard";
-import { useDashboardStore } from "../stores/dashboard";
 
 export class Datasource {
   name = null;
@@ -62,20 +61,12 @@ export class Datasource {
   }
 
   updateCallback(newData) {
+    const freeboardStore = useFreeboardStore();
+    const { dashboard } = storeToRefs(freeboardStore);
+
     this.latestData = newData;
     this.lastUpdated = new Date();
-    this.processDatasourceUpdate();
-  }
-
-  processDatasourceUpdate() {
-    const dashboardStore = useDashboardStore();
-    const { panes } = storeToRefs(dashboardStore);
-
-    panes.value?.forEach((pane) => {
-      pane.widgets?.forEach((widget) => {
-        widget.processDatasourceUpdate();
-      });
-    });
+    dashboard.value.processDatasourceUpdate();
   }
 
   serialize() {

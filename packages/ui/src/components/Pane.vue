@@ -1,5 +1,4 @@
 <script setup lang="js">
-import { useDashboardStore } from "../stores/dashboard";
 import { useFreeboardStore } from "../stores/freeboard";
 import { storeToRefs } from "pinia";
 import ConfirmDialogBox from "./ConfirmDialogBox.vue";
@@ -9,8 +8,7 @@ import Widget from "./Widget.vue";
 import { Widget as _Widget } from "../models/Widget";
 
 const freeboardStore = useFreeboardStore();
-const dashboardStore = useDashboardStore();
-const { isEditing } = storeToRefs(freeboardStore);
+const { isEditing, dashboard } = storeToRefs(freeboardStore);
 
 const openPaneEditDialogBox = (pane) => {
   freeboardStore.createComponent(PaneDialogBox, {
@@ -25,7 +23,7 @@ const openPaneEditDialogBox = (pane) => {
 const openPaneDeleteDialogBox = (pane) => {
   freeboardStore.createComponent(ConfirmDialogBox, {
     title: "Pane",
-    onOk: () => dashboardStore.deletePane(pane),
+    onOk: () => dashboard.value.deletePane(pane),
   });
 };
 
@@ -38,7 +36,7 @@ const openWidgetAddDialogBox = (pane) => {
       newViewModel.settings = newSettings.settings;
       newViewModel.type = newSettings.type;
 
-      dashboardStore.addWidget(pane, newViewModel);
+      dashboard.value.addWidget(pane, newViewModel);
     },
   });
 };
@@ -47,7 +45,7 @@ const { pane } = defineProps({ pane: Object });
 </script>
 
 <template>
-  <div :style="{ cursor: isEditing ? 'pointer' : 'default' }">
+  <div :style="{ cursor: isEditing ? 'pointer' : 'default' }" class="pane">
     <header>
       <h1>{{ pane.title }}</h1>
       <Transition>

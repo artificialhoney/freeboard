@@ -1,14 +1,12 @@
 <script setup lang="js">
 import { storeToRefs } from "pinia";
-import { useDashboardStore } from "../stores/dashboard";
 import { useFreeboardStore } from "../stores/freeboard";
 import DatasourceDialogBox from "./DatasourceDialogBox.vue";
 import ConfirmDialogBox from "./ConfirmDialogBox.vue";
 import { Datasource } from "../models/Datasource";
 
 const freeboardStore = useFreeboardStore();
-const dashboardStore = useDashboardStore();
-const { datasources } = storeToRefs(dashboardStore);
+const { dashboard } = storeToRefs(freeboardStore);
 
 const openDatasourceEditDialogBox = (datasource) => {
   freeboardStore.createComponent(DatasourceDialogBox, {
@@ -53,12 +51,11 @@ const openDatasourceAddDialogBox = () => {
 
 <template>
   <div class="datasources">
-    <!--<h2 class="title">DATASOURCES</h2>-->
     <div class="datasource-list-container">
       <table
         class="table table-condensed sub-table"
         id="datasources-list"
-        v-if="datasources.length"
+        v-if="dashboard.datasources.length"
       >
         <thead>
           <tr>
@@ -67,7 +64,7 @@ const openDatasourceAddDialogBox = () => {
             <th>&nbsp;</th>
           </tr>
         </thead>
-        <tbody v-for="datasource in datasources">
+        <tbody v-for="datasource in dashboard.datasources">
           <tr>
             <td>
               <span

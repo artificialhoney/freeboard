@@ -1,7 +1,6 @@
 <script setup lang="js">
 import { storeToRefs } from "pinia";
 import { useFreeboardStore } from "../stores/freeboard";
-import { useDashboardStore } from "../stores/dashboard";
 import { useMutation } from "@vue/apollo-composable";
 import { DASHBOARD_CREATE_MUTATION, DASHBOARD_UPDATE_MUTATION } from "../gql";
 import { useRouter } from "vue-router";
@@ -9,10 +8,7 @@ import { ref } from "vue";
 import DatasourcesDialogBox from "./DatasourcesDialogBox.vue";
 
 const freeboardStore = useFreeboardStore();
-const { allowEdit, isEditing } = storeToRefs(freeboardStore);
-
-const dashboardStore = useDashboardStore();
-const { width } = storeToRefs(dashboardStore);
+const { allowEdit, isEditing, dashboard } = storeToRefs(freeboardStore);
 
 const { mutate: createDashboard } = useMutation(DASHBOARD_CREATE_MUTATION);
 const { mutate: updateDashboard } = useMutation(DASHBOARD_UPDATE_MUTATION);
@@ -22,14 +18,14 @@ const router = useRouter();
 const submenuOpened = ref(false);
 
 const saveDashboard = async () => {
-  const dashboard = dashboardStore.serialize();
-  const id = dashboard._id;
-  delete dashboard._id;
+  const d = dashboard.value.serialize();
+  const id = d._id;
+  delete d._id;
   const { isSaved } = storeToRefs(freeboardStore);
   if (isSaved.value) {
-    updateDashboard({ id, dashboard });
+    updateDashboard({ id, dashboard: d });
   } else {
-    const result = await createDashboard({ dashboard });
+    const result = await createDashboard({ dashboard: d });
     router.push(`/${result.data.createDashboard._id}`);
   }
 };
@@ -79,11 +75,7 @@ const openDatasourcesDialogBox = () => {
                   <i class="icon-folder-open icon-white"></i
                   ><label>Add Datasource</label>
                 </li>
-                <li>
-                  <i class="icon-bookmark icon-white"></i
-                  ><label>Add Secret</label>
-                </li>
-                <li class="add-pane" @click="() => dashboardStore.createPane()">
+                <li class="add-pane" @click="() => dashboard.createPane()">
                   <i class="icon-plus icon-white"></i><label>Add Pane</label>
                 </li>
               </ul>
@@ -96,19 +88,19 @@ const openDatasourcesDialogBox = () => {
       <div
         v-if="isEditing"
         class="column-tools"
-        :class="`responsive-column-width-${width}`"
+        :class="`responsive-column-width-${dashboard.width}`"
       >
         <ul class="board-toolbar left-columns">
           <li
             class="column-tool add"
-            @click="() => dashboardStore.increaseMaxWidth()"
+            @click="() => dashboard.increaseMaxWidth()"
           >
             <span class="column-icon right"></span
             ><i class="icon-arrow-left icon-white"></i>
           </li>
           <li
             class="column-tool sub"
-            @click="() => dashboardStore.decreaseMaxWidth()"
+            @click="() => dashboard.decreaseMaxWidth()"
           >
             <span class="column-icon left"></span
             ><i class="icon-arrow-right icon-white"></i>
@@ -117,14 +109,14 @@ const openDatasourcesDialogBox = () => {
         <ul class="board-toolbar right-columns">
           <li
             class="column-tool sub"
-            @click="() => dashboardStore.decreaseMaxWidth()"
+            @click="() => dashboard.decreaseMaxWidth()"
           >
             <span class="column-icon right"></span
             ><i class="icon-arrow-left icon-white"></i>
           </li>
           <li
             class="column-tool add"
-            @click="() => dashboardStore.increaseMaxWidth()"
+            @click="() => dashboard.increaseMaxWidth()"
           >
             <span class="column-icon left"></span
             ><i class="icon-arrow-right icon-white"></i>

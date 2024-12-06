@@ -2,10 +2,8 @@ import { Widget } from "../models/Widget";
 
 export class Pane {
   title = null;
-  width = 1;
-  row = {};
-  col = {};
   widgets = [];
+  layout = {};
 
   widgetCanMoveUp(widget) {
     return this.widgets.indexOf(widget) >= 1;
@@ -36,27 +34,20 @@ export class Pane {
   serialize() {
     let widgets = [];
 
-    this.widgets.forEach(function (widget) {
+    this.widgets.forEach((widget) => {
       widgets.push(widget.serialize());
     });
 
     return {
       title: this.title,
-      width: this.width,
-      row: this.row,
-      col: this.col,
-      colWidth: Number(this.colWidth),
+      layout: this.layout,
       widgets: this.widgets,
     };
   }
 
   deserialize(object) {
     this.title = object.title;
-    this.width = object.width;
-
-    this.row = object.row;
-    this.col = object.col;
-    this.colWidth = object.colWidth || 1;
+    this.layout = object.layout;
 
     object.widgets.forEach((widgetConfig) => {
       const dashboardStore = useDashboardStore();

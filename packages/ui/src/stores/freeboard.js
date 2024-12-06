@@ -1,6 +1,6 @@
 import { defineStore, storeToRefs } from "pinia";
-import { useDashboardStore } from "./dashboard";
 import renderComponent from "../render-component";
+import { Dashboard } from "../models/Dashboard";
 
 export const useFreeboardStore = defineStore("freeboard", {
   state: () => ({
@@ -10,6 +10,7 @@ export const useFreeboardStore = defineStore("freeboard", {
     showLoadingIndicator: true,
     datasourcePlugins: {},
     widgetPlugins: {},
+    dashboard: new Dashboard(),
   }),
   actions: {
     setIsSaved(isSaved) {
@@ -39,9 +40,9 @@ export const useFreeboardStore = defineStore("freeboard", {
       this.widgetPlugins[plugin.typeName] = plugin;
     },
     loadDashboard(dashboardData, callback) {
-      const dashboardStore = useDashboardStore();
       this.showLoadingIndicator = true;
-      dashboardStore.deserialize(dashboardData, () => {
+      this.dashboard = new Dashboard();
+      this.dashboard.deserialize(dashboardData, () => {
         this.showLoadingIndicator = false;
 
         if (typeof callback === "function") {
@@ -78,16 +79,15 @@ export const useFreeboardStore = defineStore("freeboard", {
       }
     },
     saveDashboard(pretty) {
-      const dashboardStore = useDashboardStore();
       let contentType = "application/octet-stream";
       let a = document.createElement("a");
       let blob;
       if (pretty) {
-        blob = new Blob([JSON.stringify(dashboardStore.serialize(), null, 2)], {
+        blob = new Blob([JSON.stringify(this.dashboard.serialize(), null, 2)], {
           type: contentType,
         });
       } else {
-        blob = new Blob([JSON.stringify(dashboardStore.serialize())], {
+        blob = new Blob([JSON.stringify(this.dashboard.serialize())], {
           type: contentType,
         });
       }
@@ -100,17 +100,17 @@ export const useFreeboardStore = defineStore("freeboard", {
     getDatasourceTypes() {
       let returnTypes = [];
 
-      this.datasourcePlugins.forEach(function (datasourcePluginType) {
-        let typeName = datasourcePluginType.type_name;
+      this.datasourcePlugins.forEach((datasourcePluginType) => {
+        let typeName = datasourcePluginType.typeName;
         let displayName = typeName;
 
-        if (datasourcePluginType.display_name !== undefined) {
-          displayName = datasourcePluginType.display_name;
+        if (datasourcePluginType.label !== undefined) {
+          displayName = datasourcePluginType.label;
         }
 
         returnTypes.push({
           name: typeName,
-          display_name: displayName,
+          label: displayName,
         });
       });
 
@@ -120,17 +120,17 @@ export const useFreeboardStore = defineStore("freeboard", {
     getWidgetTypes() {
       let returnTypes = [];
 
-      this.widgetPlugins.forEach(function (widgetPluginType) {
-        let typeName = widgetPluginType.type_name;
+      this.widgetPlugins.forEach((widgetPluginType) => {
+        let typeName = widgetPluginType.typeName;
         let displayName = typeName;
 
-        if (widgetPluginType.display_name !== undefined) {
-          displayName = widgetPluginType.display_name;
+        if (widgetPluginType.label !== undefined) {
+          displayName = widgetPluginType.label;
         }
 
         returnTypes.push({
           name: typeName,
-          display_name: displayName,
+          label: displayName,
         });
       });
 

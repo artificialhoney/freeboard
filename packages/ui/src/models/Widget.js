@@ -1,3 +1,6 @@
+import { storeToRefs } from "pinia";
+import { useFreeboardStore } from "../stores/freeboard";
+
 export class Widget {
   shouldRender = true;
   datasourceRefreshNotifications = {};
@@ -73,9 +76,9 @@ export class Widget {
   }
 
   callValueFunction(theFunction) {
-    const dashboardStore = useDashboardStore();
-    const { datasources } = storeToRefs(dashboardStore);
-    return theFunction.call(undefined, datasources.value);
+    const freeboardStore = useFreeboardStore();
+    const { dashboard } = storeToRefs(freeboardStore);
+    return theFunction.call(undefined, dashboard.value);
   }
 
   processCalculatedSetting(settingName) {

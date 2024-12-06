@@ -7,7 +7,6 @@ export const transformDashboard = (u) => ({
   datasources: u.datasources,
   columns: u.columns,
   panes: u.panes,
-  layout: u.layout,
   width: u.width,
   createdAt: u.createdAt,
   updatedAt: u.updatedAt,

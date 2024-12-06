@@ -34,10 +34,10 @@
   --a-focus-outline: #333;
   --a-color: #b88f51;
   --a-focus-color: #005580;
-  --gridster-header-background: #272727;
-  --gridster-header-color: #8b8b8b;
-  --gridster-gs-w-background: #2a2a2a;
-  --gridster-preview-holder-background: rgba(255, 255, 255, 0.2);
+  --pane-header-background: #272727;
+  --pane-header-color: #8b8b8b;
+  --pane-background: #2a2a2a;
+  --pane-preview-holder-background: rgba(255, 255, 255, 0.2);
   --admin-bar-background: #313131;
   --admin-bar-shadow: #000;
   --toggle-header-background: #313131;
@@ -843,19 +843,6 @@ a:focus {
   text-decoration: underline;
 }
 
-.vue-grid-layout header {
-  background-color: var(--gridster-header-background);
-  height: 30px;
-  margin: 0;
-  padding: 0 10px 0 10px;
-  color: var(--gridster-header-color);
-  text-transform: uppercase;
-}
-
-.vue-grid-layout .vuew-grid-item {
-  box-sizing: border-box;
-}
-
 header h1 {
   font-size: 12px;
   white-space: nowrap;
@@ -921,6 +908,12 @@ header h1 {
 .toggle-header-icon {
   margin-top: 4px;
   margin-bottom: 7px;
+}
+
+.pane {
+  background: var(--pane-background);
+  height: 100%;
+  overflow: hidden;
 }
 
 .widget {
@@ -1084,7 +1077,7 @@ ol {
 }
 
 .vue-grid-layout section {
-  background: var(--gridster-gs-w-background);
+  background: var(--pane-background);
   padding: 0px;
   margin: 0px;
   overflow: hidden;
@@ -1095,7 +1088,20 @@ ol {
 .vue-grid-layout .preview-holder {
   border: none !important;
   border-radius: 0 !important;
-  background: var(--gridster-preview-holder-background) !important;
+  background: var(--pane-preview-holder-background) !important;
+}
+
+.vue-grid-layout header {
+  background-color: var(--pane-header-background);
+  height: 30px;
+  margin: 0;
+  padding: 0 10px 0 10px;
+  color: var(--pane-header-color);
+  text-transform: uppercase;
+}
+
+.vue-grid-layout .vue-grid-item {
+  box-sizing: border-box;
 }
 
 [class^="icon-"],
