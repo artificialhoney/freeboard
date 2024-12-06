@@ -14,6 +14,7 @@ import ArrayFormElement from "./ArrayFormElement.vue";
 const { fields, settings } = defineProps({
   fields: Array,
   settings: Object,
+  hideLabels: Boolean,
 });
 
 const model = ref({});
@@ -103,7 +104,7 @@ const emit = defineEmits(["change"]);
 <template>
   <form class="form" action="">
     <div class="form-row" v-for="field in fields.map(fieldToFormElement)">
-      <div class="form-label">
+      <div class="form-label" v-if="!hideLabels">
         <label class="control-label">{{ field.label }}</label>
       </div>
       <div class="form-value">
@@ -114,6 +115,7 @@ const emit = defineEmits(["change"]);
             v-model="model[field.name]"
             :validators="field.validators"
             :options="field.options || field.settings"
+            :placeholder="field.placeholder"
             @update:modelValue="emit('change', getValue())"
           ></component>
         </div>

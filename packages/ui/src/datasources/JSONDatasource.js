@@ -26,6 +26,8 @@ export class JSONDatasource {
       name: "method",
       label: "Method",
       type: "option",
+      default: "GET",
+      required: true,
       options: [
         {
           label: "GET",

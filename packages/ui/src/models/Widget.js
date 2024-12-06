@@ -10,6 +10,11 @@ export class Widget {
   _type = null;
   _settings = null;
 
+  constructor(settings, type) {
+    this.settings = settings;
+    this.type = type;
+  }
+
   set type(newValue) {
     const freeboardStore = useFreeboardStore();
     const { widgetPlugins } = storeToRefs(freeboardStore);

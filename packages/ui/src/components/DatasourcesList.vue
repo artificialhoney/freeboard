@@ -64,8 +64,8 @@ const openDatasourceAddDialogBox = () => {
             <th>&nbsp;</th>
           </tr>
         </thead>
-        <tbody v-for="datasource in dashboard.datasources">
-          <tr>
+        <tbody>
+          <tr v-for="datasource in dashboard.datasources">
             <td>
               <span
                 class="text-button datasource-name"

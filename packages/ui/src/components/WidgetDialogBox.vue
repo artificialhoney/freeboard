@@ -67,7 +67,11 @@ const hasErrors = computed(() => {
         <label class="control-label">Type</label>
       </div>
       <div class="form-value">
-        <SelectFormElement v-model="typeRef" :options="widgetPluginsOptions" />
+        <SelectFormElement
+          v-model="typeRef"
+          :options="widgetPluginsOptions"
+          placeholder="Select a widget type..."
+        />
       </div>
     </div>
     <Form ref="form" :settings="settings" :fields="fields" v-if="typeRef" />

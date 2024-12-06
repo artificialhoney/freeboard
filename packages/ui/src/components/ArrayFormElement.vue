@@ -1,26 +1,32 @@
 <script setup lang="js">
-import { ref } from "vue";
+import { onMounted, ref, watch } from "vue";
+import Form from "./Form.vue";
 
 const props = defineProps(["modelValue", "validators", "options"]);
 const emit = defineEmits(["update:modelValue"]);
 
 const errors = ref([]);
-const value = ref(props.modelValue || []);
+const value = ref([]);
 
-const onChange = (value) => {
+watch(
+  () => props.modelValue,
+  (v) => (value.value = v),
+);
+
+const onChange = (v) => {
   const e = [];
   props.validators?.forEach((validator) => {
-    const result = validator(value);
+    const result = validator(v);
     if (result.error) {
       e.push(result.error);
     }
   });
   errors.value = e;
-  emit("update:modelValue", value);
+  emit("update:modelValue", v);
 };
 
-const onSettingChange = (val, setting, v) => {
-  val[setting.name] = v;
+const onSettingChange = (index, v) => {
+  value.value[index] = v;
   onChange(value.value);
 };
 
@@ -52,12 +58,12 @@ defineExpose({
       </thead>
       <tbody>
         <tr v-for="(val, index) in value">
-          <td v-for="setting in options">
-            <input
-              class="table-row-value"
-              type="text"
-              :value="val[setting.name]"
-              @change="onSettingChange(val, setting, $event.target.value)"
+          <td>
+            <Form
+              :settings="val"
+              :fields="options"
+              :hideLabels="true"
+              @change="(v) => onSettingChange(index, v)"
             />
           </td>
           <td class="table-row-operation">
@@ -73,12 +79,12 @@ defineExpose({
         </tr>
       </tbody>
     </table>
+    <button
+      class="table-operation text-button"
+      @click="onSettingAdd()"
+      type="button"
+    >
+      ADD
+    </button>
   </div>
-  <button
-    class="table-operation text-button"
-    @click="onSettingAdd()"
-    type="button"
-  >
-    ADD
-  </button>
 </template>

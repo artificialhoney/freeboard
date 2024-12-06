@@ -5,7 +5,7 @@ const props = defineProps([
   "modelValue",
   "validators",
   "options",
-  "hidePlaceholder",
+  "placeholder",
 ]);
 const emit = defineEmits(["update:modelValue"]);
 
@@ -30,8 +30,8 @@ defineExpose({
 <template>
   <div class="styled-select">
     <select @change="onChange($event.target.value)">
-      <option value="" :selected="modelValue === ''" v-if="!hidePlaceholder">
-        Select a type...
+      <option value="" :selected="modelValue === ''" v-if="placeholder">
+        {{ placeholder }}
       </option>
       <option
         :value="option.value"

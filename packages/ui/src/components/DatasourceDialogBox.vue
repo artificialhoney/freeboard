@@ -78,6 +78,7 @@ const hasErrors = computed(() => {
         <SelectFormElement
           v-model="typeRef"
           :options="datasourcePluginsOptions"
+          placeholder="Select a datasource type..."
         />
       </div>
     </div>

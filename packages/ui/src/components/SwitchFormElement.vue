@@ -31,7 +31,7 @@ defineExpose({
       type="checkbox"
       name="onoffswitch"
       class="onoffswitch-checkbox"
-      :checked="modelValue"
+      :value="modelValue"
       @change="onChange($event.target.checked)"
     />
     <label class="onoffswitch-label" :for="id">

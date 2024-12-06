@@ -9,6 +9,35 @@ export class TemplateWidget {
       type: "calculated",
       description: "Can be a HTML template, or javascript that outputs HTML.",
     },
+    {
+      name: "resources",
+      label: "Resources",
+      type: "array",
+      settings: [
+        {
+          name: "type",
+          label: "Type",
+          type: "option",
+          required: true,
+          default: "script",
+          options: [
+            {
+              label: "script",
+              value: "script",
+            },
+            {
+              label: "stylesheet",
+              value: "stylesheet",
+            },
+          ],
+        },
+        {
+          name: "url",
+          label: "URL",
+          type: "text",
+        },
+      ],
+    },
   ];
 
   static newInstance(settings, newInstanceCallback) {

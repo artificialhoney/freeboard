@@ -157,7 +157,6 @@ input[type="color"],
   line-height: 20px;
   color: var(--uneditable-input-color);
   vertical-align: middle;
-  border-radius: -px;
   width: 100%;
 }
 
@@ -258,11 +257,12 @@ select {
 
 .form-value {
   width: 60%;
+  display: flex;
+  flex-direction: column;
 }
 
 .form-value .input-container {
   display: flex;
-  flex-direction: column;
 }
 
 input.table-row-value {
@@ -272,6 +272,19 @@ input.table-row-value {
 
 .sub-table {
   margin-bottom: 3px;
+}
+
+.sub-table .form {
+  display: flex;
+  gap: 10px;
+}
+
+.sub-table .form .form-value {
+  width: 100%;
+}
+
+.sub-table .input-container {
+  flex-direction: column;
 }
 
 .sub-table td {
@@ -296,6 +309,11 @@ td.form-table-value > input[type="checkbox"] {
   cursor: pointer;
 }
 
+.styled-select {
+  display: flex;
+  width: 100%;
+}
+
 .styled-select select {
   width: 100%;
   border: 1px solid var(--styled-select-border);
@@ -317,7 +335,7 @@ textarea.calculated-value-input {
 .input-suffix {
   display: inline-block;
   height: 22px;
-  padding: 4px 30px;
+  padding: 4px 15px;
   line-height: 23px;
   vertical-align: middle;
   text-transform: uppercase;
