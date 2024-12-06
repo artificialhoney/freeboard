@@ -5,7 +5,7 @@ import { useDashboardStore } from "../stores/dashboard";
 import { useMutation } from "@vue/apollo-composable";
 import { DASHBOARD_CREATE_MUTATION, DASHBOARD_UPDATE_MUTATION } from "../gql";
 import { useRouter } from "vue-router";
-import { getCurrentInstance, ref } from "vue";
+import { ref } from "vue";
 import DatasourcesDialogBox from "./DatasourcesDialogBox.vue";
 
 const freeboardStore = useFreeboardStore();

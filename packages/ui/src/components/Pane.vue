@@ -1,15 +1,12 @@
 <script setup lang="js">
-import {
-  Pane,
-  useDashboardStore,
-  Widget as _Widget,
-} from "../stores/dashboard";
+import { useDashboardStore } from "../stores/dashboard";
 import { useFreeboardStore } from "../stores/freeboard";
 import { storeToRefs } from "pinia";
 import ConfirmDialogBox from "./ConfirmDialogBox.vue";
 import PaneDialogBox from "./PaneDialogBox.vue";
 import WidgetDialogBox from "./WidgetDialogBox.vue";
 import Widget from "./Widget.vue";
+import { Widget as _Widget } from "../models/Widget";
 
 const freeboardStore = useFreeboardStore();
 const dashboardStore = useDashboardStore();

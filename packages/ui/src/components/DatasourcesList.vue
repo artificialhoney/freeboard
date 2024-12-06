@@ -1,9 +1,10 @@
 <script setup lang="js">
 import { storeToRefs } from "pinia";
-import { Datasource, useDashboardStore } from "../stores/dashboard";
+import { useDashboardStore } from "../stores/dashboard";
 import { useFreeboardStore } from "../stores/freeboard";
 import DatasourceDialogBox from "./DatasourceDialogBox.vue";
 import ConfirmDialogBox from "./ConfirmDialogBox.vue";
+import { Datasource } from "../models/Datasource";
 
 const freeboardStore = useFreeboardStore();
 const dashboardStore = useDashboardStore();
