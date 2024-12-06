@@ -1,7 +1,12 @@
 <script setup lang="js">
 import { ref } from "vue";
 
-const props = defineProps(["modelValue", "validators", "options"]);
+const props = defineProps([
+  "modelValue",
+  "validators",
+  "options",
+  "hidePlaceholder",
+]);
 const emit = defineEmits(["update:modelValue"]);
 
 const errors = ref([]);
@@ -25,7 +30,9 @@ defineExpose({
 <template>
   <div class="styled-select">
     <select @change="onChange($event.target.value)">
-      <option value="" :selected="modelValue === ''">Select a type...</option>
+      <option value="" :selected="modelValue === ''" v-if="!hidePlaceholder">
+        Select a type...
+      </option>
       <option
         :value="option.value"
         v-for="option in options"

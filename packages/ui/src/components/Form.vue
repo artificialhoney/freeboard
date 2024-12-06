@@ -1,5 +1,5 @@
 <script setup lang="js">
-import { ref, shallowRef, watch } from "vue";
+import { onMounted, onUpdated, ref, shallowRef, watch } from "vue";
 import InputFormElement from "./InputFormElement.vue";
 import {
   validateInteger,
@@ -19,24 +19,16 @@ const { fields, settings } = defineProps({
 const model = ref({});
 const components = ref({});
 
-watch(
-  () => settings,
-  (newValue) => {
-    const m = {};
-    if (!newValue) {
-      const f = fields.filter((f) => f.default != null);
-      f.forEach((f) => {
-        m[f.name] = f.default;
-      });
-    } else {
-      Object.keys(newValue).forEach((key) => {
-        m[key] = ref(newValue[key]);
-      });
-    }
-    model.value = m;
-  },
-  { immediate: true },
-);
+const applySettings = () => {
+  const m = {};
+  fields.forEach((f) => {
+    m[f.name] = settings[f.name] || f.default;
+  });
+  model.value = m;
+};
+
+watch(() => settings, applySettings);
+onMounted(applySettings);
 
 const getValue = () => {
   const value = {};
@@ -103,12 +95,13 @@ const fieldToFormElement = (field) => {
 defineExpose({
   getValue,
   hasErrors,
-  model,
 });
+
+const emit = defineEmits(["change"]);
 </script>
 
 <template>
-  <form class="form">
+  <form class="form" action="">
     <div class="form-row" v-for="field in fields.map(fieldToFormElement)">
       <div class="form-label">
         <label class="control-label">{{ field.label }}</label>
@@ -120,6 +113,7 @@ defineExpose({
           v-model="model[field.name]"
           :validators="field.validators"
           :options="field.options || field.settings"
+          @update:modelValue="emit('change', getValue())"
         ></component>
         <div
           class="validation-error"

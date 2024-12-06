@@ -27,22 +27,27 @@ const fields = ref([
   },
 ]);
 
-const settings = ref({
-  title: dashboard.value.title,
-  columns: dashboard.value.columns,
-});
+const settings = ref({});
 
 const form = ref(null);
 
-onMounted(() => {
-  watch(form.value.model, (model) => {
-    dashboard.value.columns = parseInt(model.columns);
-    dashboard.value.title = model.title;
-  });
-});
+const applySettings = () => {
+  settings.value = {
+    columns: dashboard.value.columns,
+    title: dashboard.value.title,
+  };
+};
+
+watch(dashboard, applySettings);
+onMounted(applySettings);
 
 const openDatasourcesDialogBox = () => {
   freeboardStore.createComponent(DatasourcesDialogBox);
+};
+
+const onChange = (s) => {
+  dashboard.value.columns = parseInt(s.columns);
+  dashboard.value.title = s.title;
 };
 </script>
 
@@ -50,12 +55,17 @@ const openDatasourcesDialogBox = () => {
   <div class="dashboard-control">
     <ul class="board-toolbar vertical">
       <li @click="() => openDatasourcesDialogBox()">
-        <i class="icon-folder-open icon-white"></i><label>Add Datasource</label>
+        <i class="icon-folder-open icon-white"></i><label>Datasources</label>
       </li>
       <li class="add-pane" @click="() => dashboard.createPane()">
         <i class="icon-plus icon-white"></i><label>Add Pane</label>
       </li>
     </ul>
-    <Form ref="form" :settings="settings" :fields="fields" />
+    <Form
+      ref="form"
+      :settings="dashboard"
+      :fields="fields"
+      @change="onChange"
+    />
   </div>
 </template>
