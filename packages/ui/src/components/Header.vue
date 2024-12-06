@@ -6,6 +6,7 @@ import { DASHBOARD_CREATE_MUTATION, DASHBOARD_UPDATE_MUTATION } from "../gql";
 import { useRouter } from "vue-router";
 import { ref } from "vue";
 import DatasourcesDialogBox from "./DatasourcesDialogBox.vue";
+import DashboardControl from "./DashboardControl.vue";
 
 const freeboardStore = useFreeboardStore();
 const { allowEdit, isEditing, dashboard } = storeToRefs(freeboardStore);
@@ -29,10 +30,6 @@ const saveDashboard = async () => {
     router.push(`/${result.data.createDashboard._id}`);
   }
 };
-
-const openDatasourcesDialogBox = () => {
-  freeboardStore.createComponent(DatasourcesDialogBox);
-};
 </script>
 
 <template>
@@ -40,45 +37,40 @@ const openDatasourcesDialogBox = () => {
     <Transition name="slide-fade">
       <div class="admin-bar" v-if="isEditing">
         <div class="admin-menu">
+          <h1 class="board-logo title">
+            <i class="ra ra-feather-wing ra-2x"></i>
+            Freeboard
+          </h1>
           <div class="board-tools">
-            <h1 class="board-logo title">
-              <i class="ra ra-feather-wing ra-2x"></i>
-              Freeboard
-            </h1>
             <div class="board-actions">
-              <ul class="board-toolbar vertical">
-                <li @click="freeboardStore.loadDashboardFromLocalFile">
-                  <i class="icon-folder-open icon-white"></i
-                  ><label>Load Freeboard</label>
-                </li>
-                <li @click="saveDashboard">
-                  <i class="icon-bookmark icon-white"></i
-                  ><label>Save Freeboard</label>
-                </li>
-                <li @click="() => (submenuOpened = !submenuOpened)">
-                  <i class="icon-download-alt icon-white"></i>
-                  <label>Export Freeboard</label>
-                  <label
-                    v-if="submenuOpened"
-                    @click="() => freeboardStore.saveDashboard(true)"
-                    >[Pretty]</label
-                  >
-                  <label
-                    v-if="submenuOpened"
-                    @click="() => freeboardStore.saveDashboard(false)"
-                    >[Minified]</label
-                  >
-                </li>
-              </ul>
-              <ul class="board-toolbar vertical">
-                <li @click="() => openDatasourcesDialogBox()">
-                  <i class="icon-folder-open icon-white"></i
-                  ><label>Add Datasource</label>
-                </li>
-                <li class="add-pane" @click="() => dashboard.createPane()">
-                  <i class="icon-plus icon-white"></i><label>Add Pane</label>
-                </li>
-              </ul>
+              <div class="freeboard-control">
+                <ul class="board-toolbar vertical">
+                  <li @click="freeboardStore.loadDashboardFromLocalFile">
+                    <i class="icon-folder-open icon-white"></i
+                    ><label>Load Freeboard</label>
+                  </li>
+                  <li @click="saveDashboard">
+                    <i class="icon-bookmark icon-white"></i
+                    ><label>Save Freeboard</label>
+                  </li>
+                  <li @click="() => (submenuOpened = !submenuOpened)">
+                    <i class="icon-download-alt icon-white"></i>
+                    <label>Export Freeboard</label>
+                    <label
+                      v-if="submenuOpened"
+                      @click="() => freeboardStore.saveDashboard(true)"
+                      >[Pretty]</label
+                    >
+                    <label
+                      v-if="submenuOpened"
+                      @click="() => freeboardStore.saveDashboard(false)"
+                      >[Minified]</label
+                    >
+                  </li>
+                </ul>
+              </div>
+
+              <DashboardControl />
             </div>
           </div>
         </div>

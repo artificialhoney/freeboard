@@ -103,32 +103,35 @@ const fieldToFormElement = (field) => {
 defineExpose({
   getValue,
   hasErrors,
+  model,
 });
 </script>
 
 <template>
-  <div class="form-row" v-for="field in fields.map(fieldToFormElement)">
-    <div class="form-label">
-      <label class="control-label">{{ field.label }}</label>
-    </div>
-    <div class="form-value">
-      <component
-        :ref="(el) => storeComponentRef(field.name, el)"
-        :is="field.type"
-        v-model="model[field.name]"
-        :validators="field.validators"
-        :options="field.options || field.settings"
-      ></component>
-      <div
-        class="validation-error"
-        v-for="error in components[field.name]?.errors"
-      >
-        {{ error }}
+  <form class="form">
+    <div class="form-row" v-for="field in fields.map(fieldToFormElement)">
+      <div class="form-label">
+        <label class="control-label">{{ field.label }}</label>
       </div>
-      <div class="input-suffix" v-if="field.suffix">{{ field.suffix }}</div>
-      <div class="setting-description" v-if="field.description">
-        {{ field.description }}
+      <div class="form-value">
+        <component
+          :ref="(el) => storeComponentRef(field.name, el)"
+          :is="field.type"
+          v-model="model[field.name]"
+          :validators="field.validators"
+          :options="field.options || field.settings"
+        ></component>
+        <div
+          class="validation-error"
+          v-for="error in components[field.name]?.errors"
+        >
+          {{ error }}
+        </div>
+        <div class="input-suffix" v-if="field.suffix">{{ field.suffix }}</div>
+        <div class="setting-description" v-if="field.description">
+          {{ field.description }}
+        </div>
       </div>
     </div>
-  </div>
+  </form>
 </template>

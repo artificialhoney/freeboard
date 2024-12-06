@@ -13,7 +13,7 @@ const { dashboard, isEditing } = storeToRefs(freeboardStore);
   <div class="board-content">
     <img class="dash-logo" v-if="dashboard.image" :src="dashboard.image" />
     <GridLayout
-      :class="`responsive-column-width-${dashboard.width}`"
+      :class="`grid responsive-column-width-${dashboard.width}`"
       v-model:layout="dashboard.layout"
       :col-num="dashboard.columns"
       :row-height="30"

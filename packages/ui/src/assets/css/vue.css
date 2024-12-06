@@ -20,3 +20,7 @@
 .slide-fade-leave-to {
   margin-top: -250px;
 }
+
+.vue-grid-item {
+  box-sizing: border-box;
+}

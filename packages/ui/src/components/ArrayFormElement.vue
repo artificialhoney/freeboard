@@ -74,7 +74,11 @@ defineExpose({
       </tbody>
     </table>
   </div>
-  <button class="table-operation text-button" @click="onSettingAdd()">
+  <button
+    class="table-operation text-button"
+    @click="onSettingAdd()"
+    type="button"
+  >
     ADD
   </button>
 </template>

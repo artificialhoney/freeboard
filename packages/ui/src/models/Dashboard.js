@@ -2,6 +2,7 @@ import { Datasource } from "./Datasource";
 import { Pane } from "./Pane";
 
 export const MIN_COLUMNS = 3;
+export const MAX_COLUMNS = 12;
 
 export class Dashboard {
   _id = null;
@@ -46,13 +47,13 @@ export class Dashboard {
   }
 
   serialize() {
-    let panes = [];
+    const panes = [];
 
     this.panes.forEach((pane) => {
       panes.push(pane.serialize());
     });
 
-    let datasources = [];
+    const datasources = [];
 
     this.datasources.forEach((datasource) => {
       datasources.push(datasource.serialize());
@@ -65,7 +66,7 @@ export class Dashboard {
       published: this.published,
       image: this.image,
       columns: this.columns,
-      width: "md",
+      width: this.width,
       datasources: datasources,
       panes: panes,
     };
