@@ -39,6 +39,46 @@
   justify-content: space-between;
 }
 
+.pane {
+  background: var(--pane-background);
+  height: 100%;
+  overflow: hidden;
+}
+
+.widget {
+  padding: 5px 10px 5px 10px;
+  height: 100%;
+  width: 100%;
+
+  box-sizing: border-box;
+}
+
+.widget.fillsize {
+  padding: 0;
+}
+
+.sub-section-tools {
+  top: 0px;
+  right: 0px;
+  position: absolute;
+}
+
+.sub-section h2 {
+  font-size: 14px;
+  font-weight: normal;
+  padding: 0px;
+  margin: 0px;
+  line-height: normal;
+}
+
+.sub-section {
+  padding: 0;
+  border-bottom: solid 1px var(--sub-section-border);
+  position: relative;
+  overflow: hidden;
+  min-height: 30px;
+}
+
 @media screen and (max-width: 640px) {
   .grid {
     height: 100% !important;

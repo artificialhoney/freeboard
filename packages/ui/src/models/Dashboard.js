@@ -159,7 +159,7 @@ export class Dashboard {
   }
 
   processDatasourceUpdate() {
-    this.panes.value?.forEach((pane) => {
+    this.panes?.forEach((pane) => {
       pane.widgets?.forEach((widget) => {
         widget.processDatasourceUpdate();
       });

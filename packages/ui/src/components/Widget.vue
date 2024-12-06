@@ -3,9 +3,10 @@ import { storeToRefs } from "pinia";
 import { useFreeboardStore } from "../stores/freeboard";
 import WidgetDialogBox from "./WidgetDialogBox.vue";
 import { onMounted, onUpdated, ref, watch } from "vue";
+import ConfirmDialogBox from "./ConfirmDialogBox.vue";
 
 const freeboardStore = useFreeboardStore();
-const { isEditing } = storeToRefs(freeboardStore);
+const { isEditing, dashboard } = storeToRefs(freeboardStore);
 
 const widgetRef = ref(null);
 
@@ -27,7 +28,7 @@ const openWidgetDeleteDialogBox = (widget) => {
   freeboardStore.createComponent(ConfirmDialogBox, {
     title: "Widget",
     onOk: () => {
-      freeboardStore.deleteWidget(widget.pane, widget);
+      dashboard.value.deleteWidget(widget.pane, widget);
     },
   });
 };

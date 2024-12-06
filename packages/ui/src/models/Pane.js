@@ -1,4 +1,6 @@
+import { storeToRefs } from "pinia";
 import { Widget } from "../models/Widget";
+import { useFreeboardStore } from "../stores/freeboard";
 
 export class Pane {
   title = null;
@@ -41,19 +43,20 @@ export class Pane {
     return {
       title: this.title,
       layout: this.layout,
-      widgets: this.widgets,
+      widgets: widgets,
     };
   }
 
   deserialize(object) {
+    const freeboardStore = useFreeboardStore();
+    const { dashboard } = storeToRefs(freeboardStore);
     this.title = object.title;
     this.layout = object.layout;
 
     object.widgets.forEach((widgetConfig) => {
-      const dashboardStore = useDashboardStore();
-      let widget = new Widget();
+      const widget = new Widget(widgetConfig.settings);
       widget.deserialize(widgetConfig);
-      dashboardStore.addWidget(this, widget);
+      dashboard.value.addWidget(this, widget);
     });
   }
 

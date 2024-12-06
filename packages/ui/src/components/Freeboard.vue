@@ -26,7 +26,7 @@ const { showLoadingIndicator } = storeToRefs(freeboardStore);
 
 const router = useRouter();
 
-const { result } = useQuery(
+const { result, loading } = useQuery(
   DASHBOARD_READ_QUERY,
   {
     id: idRef.value,
@@ -36,15 +36,18 @@ const { result } = useQuery(
   },
 );
 
+watch(loading, (loading) => {
+  showLoadingIndicator.value = loading;
+});
+
 watch(result, (newResult) => {
+  showLoadingIndicator.value = false;
   const dashboard = newResult.dashboard;
   if (!dashboard && idRef.value) {
     router.push("/");
   } else if (dashboard) {
     idRef.value = dashboard._id;
-    const d = new Dashboard();
-    d.deserialize(dashboard);
-    freeboardStore.dashboard = d;
+    freeboardStore.loadDashboard(dashboard);
     freeboardStore.setIsSaved(true);
   }
 });
@@ -56,7 +59,7 @@ onMounted(() => {
 
   freeboardStore.toggleAllowEdit();
   freeboardStore.toggleIsEditing();
-  freeboardStore.toggleLoadingIndicator();
+  showLoadingIndicator.value = false;
 });
 </script>
 

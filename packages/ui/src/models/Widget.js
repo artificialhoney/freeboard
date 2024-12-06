@@ -1,5 +1,6 @@
 import { storeToRefs } from "pinia";
 import { useFreeboardStore } from "../stores/freeboard";
+import nunjucks from "nunjucks";
 
 export class Widget {
   shouldRender = true;
@@ -78,7 +79,7 @@ export class Widget {
   callValueFunction(theFunction) {
     const freeboardStore = useFreeboardStore();
     const { dashboard } = storeToRefs(freeboardStore);
-    return theFunction.call(undefined, dashboard.value);
+    return theFunction.call(undefined, dashboard.value.datasources);
   }
 
   processCalculatedSetting(settingName) {
@@ -90,6 +91,7 @@ export class Widget {
           this.calculatedSettingScripts[settingName],
         );
       } catch (e) {
+        console.error(e);
         let rawValue = this.settings[settingName];
 
         // If there is a reference error and the value just contains letters and numbers, then
@@ -206,9 +208,8 @@ export class Widget {
 
   serialize() {
     return {
-      title: self.title,
-      type: self.type,
-      settings: self.settings,
+      type: this.type,
+      settings: this.settings,
     };
   }
 

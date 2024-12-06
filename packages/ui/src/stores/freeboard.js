@@ -39,16 +39,11 @@ export const useFreeboardStore = defineStore("freeboard", {
 
       this.widgetPlugins[plugin.typeName] = plugin;
     },
-    loadDashboard(dashboardData, callback) {
+    loadDashboard(dashboardData) {
       this.showLoadingIndicator = true;
       this.dashboard = new Dashboard();
-      this.dashboard.deserialize(dashboardData, () => {
-        this.showLoadingIndicator = false;
-
-        if (typeof callback === "function") {
-          callback();
-        }
-      });
+      this.dashboard.deserialize(dashboardData);
+      this.showLoadingIndicator = false;
     },
     loadDashboardFromLocalFile() {
       // Check for the various File API support.

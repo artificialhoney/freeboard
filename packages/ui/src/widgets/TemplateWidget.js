@@ -20,6 +20,7 @@ export class TemplateWidget {
   currentSettings;
 
   constructor(settings) {
+    this.currentSettings = settings;
     this.templateElement = document.createElement("div");
     this.templateElement.className = "template-widget";
     this.onSettingsChanged(settings);

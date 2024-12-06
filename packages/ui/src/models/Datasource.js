@@ -78,9 +78,9 @@ export class Datasource {
   }
 
   deserialize(object) {
+    this.type = object.type;
     this.settings = object.settings;
     this.name = object.name;
-    this.type = object.type;
   }
 
   getDataRepresentation(dataPath) {
