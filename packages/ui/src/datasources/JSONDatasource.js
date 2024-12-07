@@ -1,79 +1,79 @@
+import { storeToRefs } from "pinia";
+import { useFreeboardStore } from "../stores/freeboard";
+
 export class JSONDatasource {
   static typeName = "json";
   static label = "JSON";
-  static fields = [
-    {
-      name: "url",
-      label: "URL",
-      type: "text",
-      required: true,
-    },
-    {
-      name: "useProxy",
-      label: "Use Proxy",
-      description:
-        "A direct JSON connection will be tried first, if that fails, a JSONP connection will be tried. If that fails, you can use the Proxy.",
-      type: "boolean",
-      default: true,
-    },
-    {
-      name: "refresh",
-      label: "Refresh Every",
-      type: "number",
-      suffix: "seconds",
-      default: 5,
-      required: true,
-    },
-    {
-      name: "method",
-      label: "Method",
-      type: "option",
-      default: "GET",
-      required: true,
-      options: [
-        {
-          label: "GET",
-          value: "GET",
-        },
-        {
-          label: "POST",
-          value: "POST",
-        },
-        {
-          label: "PUT",
-          value: "PUT",
-        },
-        {
-          label: "DELETE",
-          value: "DELETE",
-        },
-      ],
-    },
-    {
-      name: "body",
-      label: "Body",
-      type: "text",
-      description:
-        "The body of the request. Normally only used if method is POST",
-    },
-    {
-      name: "headers",
-      label: "Headers",
-      type: "array",
-      settings: [
-        {
-          name: "name",
-          label: "Name",
-          type: "text",
-        },
-        {
-          name: "value",
-          label: "Value",
-          type: "text",
-        },
-      ],
-    },
-  ];
+  static fields = (dashboard) => {
+    return [
+      {
+        name: "url",
+        label: "URL",
+        type: "text",
+        required: true,
+      },
+      {
+        name: "useProxy",
+        label: "Use Proxy",
+        description:
+          "A direct JSON connection will be tried first, if that fails, a JSONP connection will be tried. If that fails, you can use the Proxy.",
+        type: "boolean",
+        default: true,
+      },
+      {
+        name: "refresh",
+        label: "Refresh Every",
+        type: "number",
+        suffix: "seconds",
+        default: 5,
+        required: true,
+      },
+      {
+        name: "method",
+        label: "Method",
+        type: "option",
+        default: "GET",
+        required: true,
+        options: [
+          {
+            label: "GET",
+            value: "GET",
+          },
+          {
+            label: "POST",
+            value: "POST",
+          },
+          {
+            label: "PUT",
+            value: "PUT",
+          },
+          {
+            label: "DELETE",
+            value: "DELETE",
+          },
+        ],
+      },
+      {
+        name: "body",
+        label: "Body",
+        type: "text",
+        description:
+          "The body of the request. Normally only used if method is POST",
+      },
+      {
+        name: "authProvider",
+        label: "Auth",
+        type: "option",
+        placeholder: "Select an auth provider",
+        options: dashboard.authProviders.map((a) => {
+          return {
+            value: a.name,
+            label: a.name,
+          };
+        }),
+      },
+    ];
+  };
 
   static newInstance(settings, newInstanceCallback, updateCallback) {
     newInstanceCallback(new JSONDatasource(settings, updateCallback));
@@ -104,7 +104,7 @@ export class JSONDatasource {
     }, refreshTime);
   }
 
-  updateNow() {
+  async updateNow() {
     if (this.errorStage > 2) {
       // We've tried everything, let's quit
       return; // TODO: Report an error
@@ -129,11 +129,17 @@ export class JSONDatasource {
       } catch (e) {}
     }
 
+    const freeboardStore = useFreeboardStore();
+    const { dashboard } = storeToRefs(freeboardStore);
+
     fetch(requestURL, {
-      // dataType: this.errorStage == 1 ? "JSONP" : "JSON",
       method: this.currentSettings.method || "GET",
       body: body,
-      headers: this.currentSettings.headers?.map((h) => [h.name, h.value]),
+      ...(this.currentSettings.authProvider
+        ? await dashboard.value
+            .getAuthProviderByName(this.currentSettings.authProvider)
+            .createRequest()
+        : []),
     })
       .then((response) => response.json())
       .then((data) => {

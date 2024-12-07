@@ -8,6 +8,7 @@ export const transformDashboard = (u) => ({
   columns: u.columns,
   panes: u.panes,
   width: u.width,
+  authProviders: u.authProviders,
   createdAt: u.createdAt,
   updatedAt: u.updatedAt,
 });

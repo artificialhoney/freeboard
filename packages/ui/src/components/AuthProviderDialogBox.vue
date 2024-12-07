@@ -8,7 +8,15 @@ import { storeToRefs } from "pinia";
 
 const freeboardStore = useFreeboardStore();
 
-const { widgetPlugins } = storeToRefs(freeboardStore);
+const { authPlugins } = storeToRefs(freeboardStore);
+
+const { header, onClose, onOk, settings, type } = defineProps({
+  header: String,
+  onClose: Function,
+  onOk: Function,
+  settings: Object,
+  type: String,
+});
 
 const form = ref(null);
 const typeRef = ref(type);
@@ -22,45 +30,46 @@ watch(
       fields.value = [];
       return;
     }
-    const data = [...freeboardStore.getWidgetPluginFields(newValue)];
+    const data = [
+      {
+        name: "name",
+        label: "Name",
+        type: "text",
+        required: true,
+      },
+      ...freeboardStore.getAuthPluginFields(newValue),
+    ];
 
     fields.value = data;
   },
   { immediate: true },
 );
 
-const widgetPluginsOptions = computed(() => {
-  return Object.keys(widgetPlugins.value).map((key) => ({
+const authPluginsOptions = computed(() => {
+  return Object.keys(authPlugins.value).map((key) => ({
     value: key,
-    label: widgetPlugins.value[key].label,
+    label: authPlugins.value[key].label,
   }));
 });
 
-const { header, onClose, onOk, settings, type } = defineProps({
-  header: String,
-  onClose: Function,
-  onOk: Function,
-  settings: Object,
-  type: String,
-});
-
 const onDialogBoxOk = () => {
+  console.log(onOk);
   onOk({ settings: form.value.getValue(), type: typeRef.value });
 };
 
 const hasErrors = computed(() => {
-  return form.value?.hasErrors();
+  return !!form.value?.hasErrors();
 });
 </script>
 
 <template>
   <DialogBox
     :header="header"
-    :okDisabled="hasErrors"
     ok="Save"
+    :okDisabled="hasErrors"
     cancel="Cancel"
     @close="onClose"
-    @ok="() => onDialogBoxOk()"
+    @ok="onDialogBoxOk"
   >
     <div class="form-row">
       <div class="form-label">
@@ -69,8 +78,8 @@ const hasErrors = computed(() => {
       <div class="form-value">
         <SelectFormElement
           v-model="typeRef"
-          :options="widgetPluginsOptions"
-          placeholder="Select a widget type..."
+          :options="authPluginsOptions"
+          placeholder="Select an auth type..."
         />
       </div>
     </div>

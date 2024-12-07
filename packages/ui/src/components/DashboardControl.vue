@@ -5,6 +5,7 @@ import Form from "./Form.vue";
 import { MAX_COLUMNS, MIN_COLUMNS } from "../models/Dashboard";
 import { computed, onMounted, ref, watch } from "vue";
 import DatasourcesDialogBox from "./DatasourcesDialogBox.vue";
+import AuthProvidersDialogBox from "./AuthProvidersDialogBox.vue";
 
 const freeboardStore = useFreeboardStore();
 const { dashboard } = storeToRefs(freeboardStore);
@@ -45,6 +46,10 @@ const openDatasourcesDialogBox = () => {
   freeboardStore.createComponent(DatasourcesDialogBox);
 };
 
+const openAuthProvidersDialogBox = () => {
+  freeboardStore.createComponent(AuthProvidersDialogBox);
+};
+
 const onChange = (s) => {
   dashboard.value.columns = parseInt(s.columns);
   dashboard.value.title = s.title;
@@ -56,6 +61,9 @@ const onChange = (s) => {
     <ul class="board-toolbar vertical">
       <li @click="() => openDatasourcesDialogBox()">
         <i class="icon-folder-open icon-white"></i><label>Datasources</label>
+      </li>
+      <li @click="() => openAuthProvidersDialogBox()">
+        <i class="icon-eye-open icon-white"></i><label>Auth</label>
       </li>
       <li class="add-pane" @click="() => dashboard.createPane()">
         <i class="icon-plus icon-white"></i><label>Add Pane</label>

@@ -47,6 +47,10 @@ const DashboardSchema = new Schema(
       type: [Object],
       required: false,
     },
+    authProviders: {
+      type: [Object],
+      required: false,
+    },
   },
   {
     timestamps: true,

@@ -11,6 +11,7 @@ export default `
     columns: Int
     width: String
     panes: [Object]
+    authProviders: [Object]
   }
 
   type Query {
@@ -42,6 +43,7 @@ export default `
     columns: Int
     width: String
     panes: [Object]
+    authProviders: [Object]
   }
 
   input UpdateDashboardInput {
@@ -53,6 +55,7 @@ export default `
     columns: Int
     width: String
     panes: [Object]
+    authProviders: [Object]
   }
 
   enum MutationType {

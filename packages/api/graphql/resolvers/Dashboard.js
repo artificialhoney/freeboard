@@ -27,6 +27,7 @@ export default {
         datasources: dashboard.datasources,
         panes: dashboard.panes,
         layout: dashboard.layout,
+        authProviders: dashboard.authProviders,
       });
       try {
         return newDashboard.save().then(transformDashboard);

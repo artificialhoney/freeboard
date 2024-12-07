@@ -1,7 +1,7 @@
 <script setup lang="js">
 import { ref } from "vue";
 
-const props = defineProps(["modelValue", "validators"]);
+const props = defineProps(["modelValue", "validators", "secret"]);
 const emit = defineEmits(["update:modelValue"]);
 
 const errors = ref([]);
@@ -31,7 +31,7 @@ defineExpose({
 <template>
   <input
     ref="input"
-    type="text"
+    :type="props.secret ? 'password' : 'text'"
     :value="props.modelValue"
     @input="onInput($event.target.value)"
     @focusout="validate($event.target.value)"

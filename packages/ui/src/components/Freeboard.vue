@@ -13,6 +13,8 @@ import { ClockDatasource } from "../datasources/ClockDatasource";
 import { JSONDatasource } from "../datasources/JSONDatasource";
 import { TemplateWidget } from "../widgets/TemplateWidget";
 import { Dashboard } from "../models/Dashboard";
+import { HeaderAuthProvider } from "../auth/HeaderAuthProvider";
+import { OAuth2Provider } from "../auth/OAuth2Provider";
 
 const { id } = defineProps({
   id: String,
@@ -52,6 +54,8 @@ watch(result, (newResult) => {
   }
 });
 
+freeboardStore.loadAuthPlugin(HeaderAuthProvider);
+freeboardStore.loadAuthPlugin(OAuth2Provider);
 freeboardStore.loadDatasourcePlugin(JSONDatasource);
 freeboardStore.loadDatasourcePlugin(ClockDatasource);
 freeboardStore.loadWidgetPlugin(TemplateWidget);

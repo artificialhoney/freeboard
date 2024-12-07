@@ -1,3 +1,4 @@
+import { AuthProvider } from "./AuthProvider";
 import { Datasource } from "./Datasource";
 import { Pane } from "./Pane";
 
@@ -13,6 +14,7 @@ export class Dashboard {
   width = "md";
   datasources = [];
   panes = [];
+  authProviders = [];
 
   get layout() {
     return this.panes.map((pane) => pane.layout);
@@ -59,6 +61,12 @@ export class Dashboard {
       datasources.push(datasource.serialize());
     });
 
+    const authProviders = [];
+
+    this.authProviders.forEach((authProvider) => {
+      authProviders.push(authProvider.serialize());
+    });
+
     return {
       version: __APP_VERSION__,
       _id: this._id,
@@ -69,6 +77,7 @@ export class Dashboard {
       width: this.width,
       datasources: datasources,
       panes: panes,
+      authProviders: authProviders,
     };
   }
 
@@ -81,16 +90,32 @@ export class Dashboard {
     this.width = object.width;
     this.published = object.published;
 
-    object.datasources.forEach((datasourceConfig) => {
+    object.authProviders?.forEach((providerConfig) => {
+      const authProvider = new AuthProvider();
+      authProvider.deserialize(providerConfig);
+      this.addAuthProvider(authProvider);
+    });
+
+    object.datasources?.forEach((datasourceConfig) => {
       const datasource = new Datasource();
       datasource.deserialize(datasourceConfig);
       this.addDatasource(datasource);
     });
 
-    object.panes.forEach((paneConfig) => {
+    object.panes?.forEach((paneConfig) => {
       const pane = new Pane();
       pane.deserialize(paneConfig);
       this.addPane(pane);
+    });
+  }
+
+  addAuthProvider(authProvider) {
+    this.authProviders = [...this.authProviders, authProvider];
+  }
+
+  deleteAuthProvider(authProvider) {
+    this.authProviders = this.authProviders.filter((item) => {
+      return item !== authProvider;
     });
   }
 
@@ -99,8 +124,6 @@ export class Dashboard {
   }
 
   deleteDatasource(datasource) {
-    const { datasourcePlugins } = useFreeboardStore();
-    delete datasourcePlugins[datasource.name.value];
     datasource.dispose();
     this.datasources = this.datasources.filter((item) => {
       return item !== datasource;
@@ -164,5 +187,10 @@ export class Dashboard {
         widget.processDatasourceUpdate();
       });
     });
+  }
+
+  getAuthProviderByName(name) {
+    console.log(this.authProviders);
+    return this.authProviders.find((a) => a.name === name).authProviderInstance;
   }
 }

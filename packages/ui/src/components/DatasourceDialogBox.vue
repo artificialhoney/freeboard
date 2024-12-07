@@ -37,7 +37,7 @@ watch(
         type: "text",
         required: true,
       },
-      ...datasourcePlugins.value[newValue].fields,
+      ...freeboardStore.getDatasourcePluginFields(newValue),
     ];
 
     fields.value = data;

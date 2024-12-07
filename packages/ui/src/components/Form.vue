@@ -86,11 +86,22 @@ const fieldToFormElement = (field) => {
   } else if (field.type === "option") {
     type = selectFormElementRef.value;
   } else if (field.type === "calculated") {
+    if (field.required) {
+      validators.push(validateRequired);
+    }
     type = textareaFormElementRef.value;
   } else if (field.type === "array") {
+    if (field.required) {
+      validators.push(validateRequired);
+    }
     type = arrayFormElementRef.value;
+  } else if (field.type === "password") {
+    if (field.required) {
+      validators.push(validateRequired);
+    }
+    type = inputFormElementRef.value;
   }
-  return { ...field, type, validators };
+  return { ...field, component: type, validators };
 };
 
 defineExpose({
@@ -111,11 +122,12 @@ const emit = defineEmits(["change"]);
         <div class="input-container">
           <component
             :ref="(el) => storeComponentRef(field.name, el)"
-            :is="field.type"
+            :is="field.component"
             v-model="model[field.name]"
             :validators="field.validators"
             :options="field.options || field.settings"
             :placeholder="field.placeholder"
+            :secret="field.type === 'password'"
             @update:modelValue="emit('change', getValue())"
           ></component>
         </div>

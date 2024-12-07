@@ -10,6 +10,7 @@ export const useFreeboardStore = defineStore("freeboard", {
     showLoadingIndicator: true,
     datasourcePlugins: {},
     widgetPlugins: {},
+    authPlugins: {},
     dashboard: new Dashboard(),
   }),
   actions: {
@@ -24,6 +25,13 @@ export const useFreeboardStore = defineStore("freeboard", {
     },
     toggleIsEditing() {
       this.isEditing = !this.isEditing;
+    },
+    loadAuthPlugin(plugin) {
+      if (plugin.label === undefined) {
+        plugin.label = plugin.typeName;
+      }
+
+      this.authPlugins[plugin.typeName] = plugin;
     },
     loadDatasourcePlugin(plugin) {
       if (plugin.label === undefined) {
@@ -88,45 +96,6 @@ export const useFreeboardStore = defineStore("freeboard", {
       a.target = "_self";
       a.click();
     },
-    getDatasourceTypes() {
-      let returnTypes = [];
-
-      this.datasourcePlugins.forEach((datasourcePluginType) => {
-        let typeName = datasourcePluginType.typeName;
-        let displayName = typeName;
-
-        if (datasourcePluginType.label !== undefined) {
-          displayName = datasourcePluginType.label;
-        }
-
-        returnTypes.push({
-          name: typeName,
-          label: displayName,
-        });
-      });
-
-      return returnTypes;
-    },
-
-    getWidgetTypes() {
-      let returnTypes = [];
-
-      this.widgetPlugins.forEach((widgetPluginType) => {
-        let typeName = widgetPluginType.typeName;
-        let displayName = typeName;
-
-        if (widgetPluginType.label !== undefined) {
-          displayName = widgetPluginType.label;
-        }
-
-        returnTypes.push({
-          name: typeName,
-          label: displayName,
-        });
-      });
-
-      return returnTypes;
-    },
     createComponent(component, props = {}) {
       const el = document.body.appendChild(document.createElement("div"));
       const c = renderComponent({
@@ -143,6 +112,30 @@ export const useFreeboardStore = defineStore("freeboard", {
           },
         },
       });
+    },
+    getAuthPluginFields(typeName) {
+      const authProvider = this.authPlugins[typeName];
+      if (typeof authProvider.fields === "function") {
+        return authProvider.fields(this.dashboard);
+      } else {
+        return authProvider.fields;
+      }
+    },
+    getDatasourcePluginFields(typeName) {
+      const datasource = this.datasourcePlugins[typeName];
+      if (typeof datasource.fields === "function") {
+        return datasource.fields(this.dashboard);
+      } else {
+        return datasource.fields;
+      }
+    },
+    getWidgetPluginFields(typeName) {
+      const widget = this.widgetPlugins[typeName];
+      if (typeof widget.fields === "function") {
+        return widget.fields(this.dashboard);
+      } else {
+        return widget.fields;
+      }
     },
   },
 });
