@@ -105,17 +105,14 @@ export class JSONDatasource {
   }
 
   updateNow() {
-    if (
-      (this.errorStage > 1 && !this.currentSettings.useProxy) ||
-      this.errorStage > 2
-    ) {
+    if (this.errorStage > 2) {
       // We've tried everything, let's quit
       return; // TODO: Report an error
     }
 
     let requestURL = this.currentSettings.url;
 
-    if (this.errorStage == 2 && this.currentSettings.useProxy) {
+    if (this.currentSettings.useProxy) {
       requestURL = "/proxy/" + encodeURI(this.currentSettings.url);
     }
 
