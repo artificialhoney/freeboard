@@ -52,15 +52,13 @@ watch(result, (newResult) => {
   }
 });
 
-onMounted(() => {
-  freeboardStore.loadDatasourcePlugin(JSONDatasource);
-  freeboardStore.loadDatasourcePlugin(ClockDatasource);
-  freeboardStore.loadWidgetPlugin(TemplateWidget);
+freeboardStore.loadDatasourcePlugin(JSONDatasource);
+freeboardStore.loadDatasourcePlugin(ClockDatasource);
+freeboardStore.loadWidgetPlugin(TemplateWidget);
 
-  freeboardStore.toggleAllowEdit();
-  freeboardStore.toggleIsEditing();
-  showLoadingIndicator.value = false;
-});
+freeboardStore.toggleAllowEdit();
+freeboardStore.toggleIsEditing();
+showLoadingIndicator.value = false;
 </script>
 
 <template>

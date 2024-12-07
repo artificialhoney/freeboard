@@ -112,6 +112,10 @@ export class JSONDatasource {
 
     let requestURL = this.currentSettings.url;
 
+    if (!requestURL) {
+      return;
+    }
+
     if (this.currentSettings.useProxy) {
       requestURL = "/proxy/" + encodeURI(this.currentSettings.url);
     }
