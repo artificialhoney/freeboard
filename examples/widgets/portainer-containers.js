@@ -1,62 +1,55 @@
-const template = (data) => {
-  const containers = data.map(
-    (c) => `
-<li class="container-info">
-    <span class="container-image">${c.Image}</span>
-    <span class="container-state${c.State === "running" ? " running" : ""}">${
-      c.State
-    }</span>
-</li>
-`,
-  );
-  return `
+const style = `
   <style>
 .portainer {
   width: 100%;
   color: #fff;
 }
 
-.portainer .portainer-environment {
-  text-align: center;
-  margin-top: 3rem;
-}
-
-.portainer .container-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  width: 100%;
-}
-
-.portainer .container-list li {
+.portainer .portainer-info {
   display: flex;
   justify-content: space-between;
-  font-size: 14px;
-  line-height: 22px;
+  align-items: center;
 }
 
-.portainer .container-image {
+.portainer .portainer-title {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 1.8rem;
+  font-weight: 600;
 }
 
-.portainer .container-state {
-  color: #222;
+.portainer .portainer-state {
+  background-color: #222;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  border: 2px solid #3d3d3d;
 }
 
-.portainer .container-state.running {
-  color: #FFC773;
-  text-shadow: 0px 0px 5px #FF9900;
+.portainer .portainer-state.running {
+  background-color: #FFC773;
+  box-shadow: 0px 0px 15px #FF9900;
+  border-color: #FDF1DF;
 }
 </style>
+`;
+
+const template = (title, data) => {
+  const running = data.every((c) => c.State === "running");
+  return `
 <div class="portainer">
-  <ul class="container-list">
-    ${containers.join("")}
-  </ul>
+  <div class="portainer-info">
+      <h2 class="portainer-title">${title}</h2>
+      <span class="portainer-state${running ? " running" : ""}"></span>
+  </div>
 </div>
   `;
 };
-datasources[2].latestData?.data
-  ? template(datasources[2].latestData?.data)
+datasources[2].latestData?.data && datasources[3].latestData?.data
+  ? [
+      style,
+      template("Drone", datasources[2].latestData?.data),
+      template("Hive", datasources[3].latestData?.data),
+    ].join("")
   : "LOADING";
