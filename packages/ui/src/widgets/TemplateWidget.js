@@ -63,7 +63,7 @@ export class TemplateWidget {
     this.currentSettings = newSettings;
 
     this.resourceElements?.forEach((element) => element.remove());
-    this.resourceElements = newSettings.resources?.map((element) => {
+    this.resourceElements = newSettings?.resources?.map((element) => {
       if (element.type === "stylesheet") {
         const link = document.createElement("link");
         link.type = "text/css";

@@ -6,6 +6,7 @@ export class JSONDatasource {
       name: "url",
       label: "URL",
       type: "text",
+      required: true,
     },
     {
       name: "useProxy",
@@ -21,6 +22,7 @@ export class JSONDatasource {
       type: "number",
       suffix: "seconds",
       default: 5,
+      required: true,
     },
     {
       name: "method",
