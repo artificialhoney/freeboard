@@ -68,7 +68,7 @@ export class Dashboard {
     });
 
     return {
-      version: __APP_VERSION__,
+      version: __FREEBOARD_VERSION__,
       _id: this._id,
       title: this.title,
       published: this.published,

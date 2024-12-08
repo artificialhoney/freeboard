@@ -17,20 +17,13 @@ export default defineConfig(({ mode }) => {
       },
     },
     define: {
-      __APP_ENV__: JSON.stringify(env.APP_ENV),
-      __APP_VERSION__: JSON.stringify(process.env.npm_package_version),
-    },
-    server: {
-      proxy: {
-        "/graphql": env.FREEBOARD_BACKEND_URL || "http://localhost:4001",
-        "/proxy": {
-          target: env.FREEBOARD_PROXY_URL || "http://localhost:8001",
-          rewrite: (path) => {
-            const url = path.replace("/proxy/", "");
-            return "?" + new URLSearchParams([["url", url]]).toString();
-          },
-        },
-      },
+      __FREEBOARD_VERSION__: JSON.stringify(process.env.npm_package_version),
+      __FREEBOARD_BACKEND_URL__: JSON.stringify(
+        process.env.FREEBOARD_BACKEND_URL || "http://localhost:4001",
+      ),
+      __FREEBOARD_PROXY_URL__: JSON.stringify(
+        process.env.FREEBOARD_PROXY_URL || "http://localhost:8001",
+      ),
     },
   };
 });
