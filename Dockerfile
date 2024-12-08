@@ -5,7 +5,7 @@ WORKDIR /app
 # Copy the working directory in the container
 COPY package*.json ./
 # Install the project dependencies
-RUN npm install && npm install @rollup/rollup-linux-arm64-musl @esbuild/linux-arm64
+RUN npm install --workspaces && npm install @rollup/rollup-linux-arm64-musl @esbuild/linux-arm64
 # Copy the rest of the project files to the container
 COPY . .
 COPY packages/ui .
