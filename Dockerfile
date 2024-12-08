@@ -6,6 +6,7 @@ WORKDIR /app
 COPY . .
 RUN npm install --workspaces && npm install @rollup/rollup-linux-arm64-musl @esbuild/linux-arm64
 # Build the Vue.js application to the production mode to dist folder
+COPY packages/ui .
 RUN npm run build
 # Use the lightweight Nginx image from the previous stage for the nginx container
 FROM nginx:stable-alpine AS production-stage
