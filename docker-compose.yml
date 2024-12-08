@@ -7,8 +7,8 @@ services:
       context: packages/ui
       dockerfile: Dockerfile
     environment:
-      - FREEBOARD_BACKEND_URL=http://backend:4000
-      - FREEBOARD_PROXY_URL=http://proxy:4000
+      - FREEBOARD_BACKEND_URL=http://backend:4001
+      - FREEBOARD_PROXY_URL=http://proxy:4001
       - FREEBOARD_NODE_MODULES=./node_modules
     ports:
       - 4173:4173
@@ -24,7 +24,7 @@ services:
       - mongoURI=mongodb://root:unsecure@mongo:27017
       - secretOrKey=DEHEiRMt32flRLcntMyH3mmeflLiAVuv
     ports:
-      - 4000:4000
+      - 4001:4001
     depends_on:
       - mongo
   proxy:
@@ -33,4 +33,4 @@ services:
       context: packages/proxy
       dockerfile: Dockerfile
     ports:
-      - 8000:8000
+      - 8001:8001

@@ -22,9 +22,9 @@ export default defineConfig(({ mode }) => {
     },
     server: {
       proxy: {
-        "/graphql": env.FREEBOARD_BACKEND_URL || "http://localhost:4000",
+        "/graphql": env.FREEBOARD_BACKEND_URL || "http://localhost:4001",
         "/proxy": {
-          target: env.FREEBOARD_PROXY_URL || "http://localhost:8000",
+          target: env.FREEBOARD_PROXY_URL || "http://localhost:8001",
           rewrite: (path) => {
             const url = path.replace("/proxy/", "");
             return "?" + new URLSearchParams([["url", url]]).toString();

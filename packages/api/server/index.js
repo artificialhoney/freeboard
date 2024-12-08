@@ -32,6 +32,6 @@ const server = createServer(
   }),
 );
 
-server.listen(port || 4000, () => {
-  console.info(`Server is running on http://localhost:${port || 4000}/graphql`);
+server.listen(port || 4001, () => {
+  console.info(`Server is running on http://localhost:${port || 4001}/graphql`);
 });
