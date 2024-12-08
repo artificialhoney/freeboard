@@ -12,4 +12,4 @@ services:
     environment:
       - FREEBOARD_NODE_MODULES=./node_modules
     ports:
-      - 8080:80
+      - 8087:80
