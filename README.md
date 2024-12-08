@@ -12,6 +12,8 @@ This Freeboard is a fork of [Jim Heisings damn-sexy dashboard app](https://githu
 - **nunjucks** templating in widgets
 - **CSS-Variables** for all colors
 
+<img src="freeboard.png">
+
 ## Installation
 
 ```bash
