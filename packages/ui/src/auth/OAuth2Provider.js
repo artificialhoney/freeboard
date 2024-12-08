@@ -14,14 +14,14 @@ export class OAuth2Provider {
       required: true,
     },
     {
-      name: "username",
-      label: "Username",
+      name: "client_id",
+      label: "Client id",
       type: "text",
       required: true,
     },
     {
-      name: "password",
-      label: "Password",
+      name: "client_secret",
+      label: "Client secret",
       type: "password",
       required: true,
     },
@@ -29,6 +29,16 @@ export class OAuth2Provider {
       name: "scope",
       label: "Scope",
       type: "text",
+    },
+    {
+      name: "username",
+      label: "Username",
+      type: "text",
+    },
+    {
+      name: "password",
+      label: "Password",
+      type: "password",
     },
   ];
 
@@ -53,35 +63,44 @@ export class OAuth2Provider {
       this.tokenProperties &&
       this.tokenProperties[EXPIRES_AT_PROPERTY_NAME] > new Date()
     ) {
-      return this.tokenProperties.token.access_token;
+      return this.tokenProperties.access_token;
     } else if (
       this.tokenProperties &&
       this.tokenProperties[EXPIRES_AT_PROPERTY_NAME] >= new Date()
     ) {
       return fetch(proxy(this.currentSettings.url), {
-        body: {
-          refresh_token: this.tokenProperties.token.refresh_token,
+        body: new URLSearchParams({
+          refresh_token: this.tokenProperties.refresh_token,
+        }),
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
         },
         method: "POST",
       })
         .then((response) => ({
           ...response.json(),
-          refresh_token: this.tokenProperties.token.refresh_token,
+          refresh_token: this.tokenProperties.refresh_token,
         }))
         .then((d) => (this.tokenProperties = this.parseToken(d)))
-        .then((p) => p.token.access_token);
+        .then((p) => p.access_token);
     } else {
       return fetch(proxy(this.currentSettings.url), {
-        body: {
-          username: this.currentSettings.username,
-          password: this.currentSettings.password,
-          scope: this.currentSettings.scope,
+        body: new URLSearchParams({
+          grant_type: "password",
+          client_id: this.currentSettings.client_id,
+          client_secret: this.currentSettings.client_secret,
+          username: this.currentSettings.username || undefined,
+          password: this.currentSettings.password || undefined,
+          // scope: this.currentSettings.scope || undefined,
+        }),
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
         },
         method: "POST",
       })
         .then((response) => response.json())
         .then((d) => (this.tokenProperties = this.parseToken(d)))
-        .then((p) => p.token.access_token);
+        .then((p) => p.access_token);
     }
   }
 
@@ -89,11 +108,11 @@ export class OAuth2Provider {
     const tokenProperties = {};
 
     if (EXPIRES_AT_PROPERTY_NAME in token) {
-      tokenProperties[EXPIRES_AT_PROPERTY_NAME] = parseExpirationDate(
+      tokenProperties[EXPIRES_AT_PROPERTY_NAME] = this.parseExpirationDate(
         token[EXPIRES_AT_PROPERTY_NAME],
       );
     } else if (EXPIRES_IN_PROPERTY_NAME in token) {
-      tokenProperties[EXPIRES_AT_PROPERTY_NAME] = getExpirationDate(
+      tokenProperties[EXPIRES_AT_PROPERTY_NAME] = this.getExpirationDate(
         token[EXPIRES_IN_PROPERTY_NAME],
       );
     } else {

@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 8000;
 
 const app = express();
 
-app.use(bodyParser.text());
+app.use(bodyParser.text({ type: "*/*" }));
 
 app.all("/", (clientReq, clientRes) => {
   const url = new URL(
