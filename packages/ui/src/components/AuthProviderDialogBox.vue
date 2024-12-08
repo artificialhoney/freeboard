@@ -53,7 +53,6 @@ const authPluginsOptions = computed(() => {
 });
 
 const onDialogBoxOk = () => {
-  console.log(onOk);
   onOk({ settings: form.value.getValue(), type: typeRef.value });
 };
 

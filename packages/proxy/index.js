@@ -1,33 +1,55 @@
 import * as http from "http";
+import * as https from "https";
+import express from "express";
+import bodyParser from "body-parser";
 
-const onRequest = (clientReq, clientRes) => {
+const PORT = process.env.PORT || 8000;
+
+const app = express();
+
+app.use(bodyParser.text());
+
+app.all("/", (clientReq, clientRes) => {
   const url = new URL(
     new URL(
       clientReq.url || "",
-      `http://${clientReq.headers.host}`,
+      `https://${clientReq.headers.host}`,
     ).searchParams.get("url"),
   );
-  console.log("serve: " + url);
+
+  const isHttps = url.protocol.indexOf("https") === 0;
 
   const options = {
     host: url.host,
-    hostname: url.hostname,
-    port: url.port,
+    port: isHttps ? 443 : url.port,
     protocol: url.protocol,
     path: url.href,
     method: clientReq.method,
     headers: clientReq.headers,
   };
 
-  const proxy = http.request(url, options, (res) => {
+  if (isHttps) {
+    options.agent = new https.Agent({
+      rejectUnauthorized: false,
+      servername: url.hostname,
+    });
+  }
+
+  const proxy = (isHttps ? https : http).request(options, (res) => {
     clientRes.writeHead(res.statusCode, res.headers);
     res.pipe(clientRes, {
       end: true,
     });
   });
 
-  clientReq.pipe(proxy, {
-    end: true,
-  });
-};
-http.createServer(onRequest).listen(process.env.PORT || 8000);
+  proxy.on("error", (e) => console.error(e));
+
+  if (["POST"].includes(options.method)) {
+    proxy.write(clientReq.body);
+  }
+  proxy.end();
+});
+
+app.listen(PORT, () => {
+  console.log(`Proxy listening on port ${PORT}`);
+});

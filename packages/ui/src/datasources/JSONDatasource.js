@@ -1,5 +1,6 @@
 import { storeToRefs } from "pinia";
 import { useFreeboardStore } from "../stores/freeboard";
+import proxy from "../proxy";
 
 export class JSONDatasource {
   static typeName = "json";
@@ -117,7 +118,7 @@ export class JSONDatasource {
     }
 
     if (this.currentSettings.useProxy) {
-      requestURL = "/proxy/" + encodeURI(this.currentSettings.url);
+      requestURL = proxy(this.currentSettings.url);
     }
 
     let body = this.currentSettings.body;

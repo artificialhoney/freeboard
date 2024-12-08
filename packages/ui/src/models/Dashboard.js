@@ -190,7 +190,6 @@ export class Dashboard {
   }
 
   getAuthProviderByName(name) {
-    console.log(this.authProviders);
     return this.authProviders.find((a) => a.name === name).authProviderInstance;
   }
 }

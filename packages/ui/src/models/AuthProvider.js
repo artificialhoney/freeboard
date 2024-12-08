@@ -47,6 +47,9 @@ export class AuthProvider {
   }
 
   updateAuthProviderInstance() {
+    if (!this.type || !this.settings) {
+      return;
+    }
     const freeboardStore = useFreeboardStore();
     const { authPlugins } = storeToRefs(freeboardStore);
     if (!this.authProviderInstance) {

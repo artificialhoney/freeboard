@@ -1,3 +1,5 @@
+import proxy from "../proxy";
+
 const EXPIRES_AT_PROPERTY_NAME = "expires_at";
 const EXPIRES_IN_PROPERTY_NAME = "expires_in";
 
@@ -52,8 +54,11 @@ export class OAuth2Provider {
       this.tokenProperties[EXPIRES_AT_PROPERTY_NAME] > new Date()
     ) {
       return this.tokenProperties.token.access_token;
-    } else if (this.tokenProperties[EXPIRES_AT_PROPERTY_NAME] >= new Date()) {
-      return fetch(this.currentSettings.url, {
+    } else if (
+      this.tokenProperties &&
+      this.tokenProperties[EXPIRES_AT_PROPERTY_NAME] >= new Date()
+    ) {
+      return fetch(proxy(this.currentSettings.url), {
         body: {
           refresh_token: this.tokenProperties.token.refresh_token,
         },
@@ -66,7 +71,7 @@ export class OAuth2Provider {
         .then((d) => (this.tokenProperties = this.parseToken(d)))
         .then((p) => p.token.access_token);
     } else {
-      return fetch(this.currentSettings.url, {
+      return fetch(proxy(this.currentSettings.url), {
         body: {
           username: this.currentSettings.username,
           password: this.currentSettings.password,
