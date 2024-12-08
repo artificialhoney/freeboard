@@ -17,7 +17,7 @@ export default defineConfig(({ mode }) => {
       },
     },
     define: {
-      __APP_VERSION__: JSON.stringify(process.env.npm_package_version),
+      __FREEBOARD_VERSION__: JSON.stringify(process.env.npm_package_version),
     },
     server: {
       proxy: {

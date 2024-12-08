@@ -25,7 +25,7 @@ const handler = (clientReq, clientRes) => {
     protocol: url.protocol,
     path: url.href,
     method: clientReq.method,
-    // headers: {...clientReq.headers, host: url.host},
+    headers: clientReq.headers,
   };
 
   if (isHttps) {
