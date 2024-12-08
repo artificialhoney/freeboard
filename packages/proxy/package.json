@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon index.js",
-    "docker:dev": "npm run dev -- --watch=false"
+    "docker:dev": "node index.js"
   },
   "private": true,
   "dependencies": {
