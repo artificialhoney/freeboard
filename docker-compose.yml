@@ -8,7 +8,7 @@ services:
       dockerfile: Dockerfile
     environment:
       - FREEBOARD_BACKEND_URL=http://backend:4001
-      - FREEBOARD_PROXY_URL=http://proxy:4001
+      - FREEBOARD_PROXY_URL=http://proxy:8001
       - FREEBOARD_NODE_MODULES=./node_modules
     ports:
       - 4173:4173
