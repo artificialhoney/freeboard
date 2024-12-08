@@ -12,7 +12,7 @@ const cache = new InMemoryCache();
 
 const apolloClient = new ApolloClient({
   cache,
-  uri: __FREEBOARD_BACKEND_URL__ + "/graphql",
+  uri: "/graphql",
 });
 
 const app = createApp({

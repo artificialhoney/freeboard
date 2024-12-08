@@ -2,6 +2,7 @@ services:
   mongo:
     image: ${FREEBOARD_MONGO_IMAGE:-mongo}
     restart: unless-stopped
+    container_name: mongo
     ports:
       - 27017:27017
     volumes:

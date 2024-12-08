@@ -1,0 +1,10 @@
+services:
+  api:
+    restart: unless-stopped
+    container_name: api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - mongoURI=mongodb://root:unsecure@mongo:27017
+      - secretOrKey=DEHEiRMt32flRLcntMyH3mmeflLiAVuv

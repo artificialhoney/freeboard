@@ -9,9 +9,13 @@ const PORT = process.env.PORT || 8001;
 const app = express();
 
 app.use(bodyParser.text({ type: "*/*" }));
-app.use(cors());
+app.use(
+  cors({
+    allowedHeaders: ["Authorization", "X-API-Key", "Content-Type"],
+  }),
+);
 
-app.all("/", (clientReq, clientRes) => {
+const handler = (clientReq, clientRes) => {
   const url = new URL(
     new URL(
       clientReq.url || "",
@@ -27,7 +31,7 @@ app.all("/", (clientReq, clientRes) => {
     protocol: url.protocol,
     path: url.href,
     method: clientReq.method,
-    headers: clientReq.headers,
+    // headers: {...clientReq.headers, host: url.host},
   };
 
   if (isHttps) {
@@ -50,8 +54,11 @@ app.all("/", (clientReq, clientRes) => {
     proxy.write(clientReq.body);
   }
   proxy.end();
-});
+};
 
-app.listen(PORT, () => {
+app.post("/", handler);
+app.get("/", handler);
+
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`Proxy listening on port ${PORT}`);
 });

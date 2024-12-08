@@ -1,34 +1,15 @@
 include:
-  - ./docker-compose.dev.yml
+  - ./docker-compose.mongo.yml
+  - ./packages/api/docker-compose.yml
+  - ./packages/proxy/docker-compose.yml
 services:
-  frontend:
+  ui:
     restart: unless-stopped
+    container_name: ui
     build:
-      context: packages/ui
+      context: .
       dockerfile: Dockerfile
     environment:
       - FREEBOARD_NODE_MODULES=./node_modules
     ports:
-      - 4173:4173
-    depends_on:
-      - backend
-      - proxy
-  backend:
-    restart: unless-stopped
-    build:
-      context: packages/api
-      dockerfile: Dockerfile
-    environment:
-      - mongoURI=mongodb://root:unsecure@mongo:27017
-      - secretOrKey=DEHEiRMt32flRLcntMyH3mmeflLiAVuv
-    ports:
-      - 4001:4001
-    depends_on:
-      - mongo
-  proxy:
-    restart: unless-stopped
-    build:
-      context: packages/proxy
-      dockerfile: Dockerfile
-    ports:
-      - 8001:8001
+      - 8080:80

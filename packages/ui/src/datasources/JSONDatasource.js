@@ -133,14 +133,18 @@ export class JSONDatasource {
     const freeboardStore = useFreeboardStore();
     const { dashboard } = storeToRefs(freeboardStore);
 
+    const authorizedRequest = this.currentSettings.authProvider
+      ? await dashboard.value
+          .getAuthProviderByName(this.currentSettings.authProvider)
+          .createRequest()
+      : { headers: {} };
+
+    authorizedRequest.headers["Content-Type"] = "application/json";
+
     fetch(requestURL, {
       method: this.currentSettings.method || "GET",
       body: body,
-      ...(this.currentSettings.authProvider
-        ? await dashboard.value
-            .getAuthProviderByName(this.currentSettings.authProvider)
-            .createRequest()
-        : []),
+      ...authorizedRequest,
     })
       .then((response) => response.json())
       .then((data) => {
