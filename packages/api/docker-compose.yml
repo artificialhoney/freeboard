@@ -8,3 +8,5 @@ services:
     environment:
       - mongoURI=mongodb://root:unsecure@mongo:27017
       - secretOrKey=DEHEiRMt32flRLcntMyH3mmeflLiAVuv
+    ports:
+      - 4001:4001
