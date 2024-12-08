@@ -3,12 +3,8 @@ FROM node:20.18.1-alpine AS build-stage
 # set the working directory
 WORKDIR /app
 # Copy the working directory in the container
-COPY package*.json ./
-# Install the project dependencies
-RUN npm install --workspaces && npm install @rollup/rollup-linux-arm64-musl @esbuild/linux-arm64
-# Copy the rest of the project files to the container
 COPY . .
-COPY packages/ui .
+RUN npm install --workspaces && npm install @rollup/rollup-linux-arm64-musl @esbuild/linux-arm64
 # Build the Vue.js application to the production mode to dist folder
 RUN npm run build
 # Use the lightweight Nginx image from the previous stage for the nginx container
