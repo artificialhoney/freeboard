@@ -1,6 +1,6 @@
 services:
   mongo:
-    image: mongo
+    image: ${FREEBOARD_MONGO_IMAGE:-mongo}
     restart: unless-stopped
     ports:
       - 27017:27017
