@@ -2,18 +2,12 @@ import * as http from "http";
 import * as https from "https";
 import express from "express";
 import bodyParser from "body-parser";
-import cors from "cors";
 
 const PORT = process.env.PORT || 8001;
 
 const app = express();
 
 app.use(bodyParser.text({ type: "*/*" }));
-app.use(
-  cors({
-    allowedHeaders: ["Authorization", "X-API-Key", "Content-Type"],
-  }),
-);
 
 const handler = (clientReq, clientRes) => {
   const url = new URL(
