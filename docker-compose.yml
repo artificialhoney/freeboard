@@ -4,12 +4,11 @@ include:
   - ./packages/proxy/docker-compose.yml
 services:
   ui:
+    image: nginx
     restart: unless-stopped
     container_name: ui
-    build:
-      context: .
-      dockerfile: Dockerfile
-    environment:
-      - FREEBOARD_NODE_MODULES=./node_modules
+    volumes:
+      - ./packages/ui/dist:/usr/share/nginx/html/
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
     ports:
-      - 8087:80
+      - 8088:80
