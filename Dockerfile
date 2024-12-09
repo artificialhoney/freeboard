@@ -4,7 +4,7 @@ FROM node:20.18.1-alpine AS build-stage
 WORKDIR /app
 # Copy the working directory in the container
 COPY . .
-RUN npm install --workspaces && npm install @rollup/rollup-linux-arm64-musl @esbuild/linux-arm64
+RUN npm install --workspaces
 # Build the Vue.js application to the production mode to dist folder
 COPY packages/ui .
 RUN npm run build

@@ -12,6 +12,17 @@
     "eslint": "^9.15.0",
     "globals": "^15.12.0"
   },
+  "overrides": {
+    "os": {
+      "linux": {
+        "dependencies": {
+          "vite": {
+            "rollup": "npm:@rollup/wasm-node@^4.28.1"
+          }
+        }
+      }
+    }
+  },
   "workspaces": [
     "packages/ui",
     "packages/api",
