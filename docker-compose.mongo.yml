@@ -6,7 +6,7 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - ${FREEBOARD_MONGO_DB_PATH:./db}:/data/db
+      - ${FREEBOARD_MONGO_DB_PATH:-./db}:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: unsecure
