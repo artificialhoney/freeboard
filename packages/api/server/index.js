@@ -9,7 +9,11 @@ import mongoose from "mongoose";
 import schema from "./../graphql/index.js";
 import { models } from "./config/db/index.js";
 
-const { FREEBOARD_MONGO_URL: db, PORT: port } = process.env;
+const { FREEBOARD_MONGO_URL: db, PORT: port } = {
+  FREEBOARD_MONGO_URL: "mongodb://root:unsecure@localhost:27017/freeboard",
+  PORT: 4001,
+  ...process.env,
+};
 
 const pubsub = createPubSub();
 
@@ -20,7 +24,7 @@ const context = {
 
 // Connect to MongoDB with Mongoose.
 mongoose
-  .connect(db || "mongodb://root:unsecure@localhost:27017", {})
+  .connect(db, {})
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.log(err));
 
@@ -32,6 +36,7 @@ const server = createServer(
   }),
 );
 
-server.listen(port || 4001, "0.0.0.0", () => {
-  console.info(`Server is running on http://localhost:${port || 4001}/graphql`);
+server.listen(port, "0.0.0.0", () => {
+  console.info(`Server is running on http://localhost:${port}/graphql`);
+  console.info(`Using MongoDB => ${db}`);
 });
