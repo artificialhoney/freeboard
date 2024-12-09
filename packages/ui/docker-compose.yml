@@ -1,7 +1,0 @@
-services:
-  ui:
-    restart: unless-stopped
-    container_name: ui
-    build:
-      context: .
-      dockerfile: Dockerfile
