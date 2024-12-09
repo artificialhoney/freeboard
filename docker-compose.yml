@@ -14,8 +14,7 @@ services:
       - 8088:80
     networks:
       - freeboard
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
 networks:
   freeboard:
+    name: freeboard
     driver: bridge
