@@ -18,4 +18,4 @@ services:
       - "host.docker.internal:host-gateway"
 networks:
   freeboard:
-    external: true
+    driver: bridge
