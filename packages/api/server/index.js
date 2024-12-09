@@ -9,7 +9,7 @@ import mongoose from "mongoose";
 import schema from "./../graphql/index.js";
 import { models } from "./config/db/index.js";
 
-const { mongoURI: db, PORT: port } = process.env;
+const { FREEBOARD_MONGO_URL: db, PORT: port } = process.env;
 
 const pubsub = createPubSub();
 
