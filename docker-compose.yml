@@ -1,5 +1,4 @@
 include:
-  - ./docker-compose.mongo.yml
   - ./packages/api/docker-compose.yml
   - ./packages/proxy/docker-compose.yml
 services:
