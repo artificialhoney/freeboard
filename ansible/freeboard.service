@@ -6,6 +6,8 @@ After=docker.service
 [Service]
 Type=simple
 
+User=root
+
 # project working directory
 WorkingDirectory=/home/pi/freeboard/
 
