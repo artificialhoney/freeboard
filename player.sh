@@ -25,4 +25,4 @@ flags=(
 )
 
 # Standard behavior - runs chromium
-startx /usr/bin/chromium-browser "${flags[@]}" --app=$FREEBOARD_PLAYER_URL --
+DISPLAY=:0 startx /usr/bin/chromium-browser "${flags[@]}" --app=$FREEBOARD_PLAYER_URL --
