@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 import sys
 import vlc
-from dotenv import load_dotenv
+from dotenv import dotenv_values
 
 def get_device_type():
     try:
@@ -21,7 +21,7 @@ def get_device_type():
 
 class Player:
     def __init__(self, env):
-        self.settings = load_dotenv(env)
+        self.settings = dotenv_values(env)
         options = self.__get_options()
         self.instance = vlc.Instance(options)
         self.player = self.instance.media_player_new()
