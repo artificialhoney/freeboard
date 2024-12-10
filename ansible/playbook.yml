@@ -328,6 +328,27 @@
       tags:
         - player
 
+    - name: Backup Xwrapper.config
+      ansible.builtin.copy:
+        src: "/etc/X11/Xwrapper.config"
+        dest: "/etc/X11/Xwrapper.config.orig"
+        owner: root
+        group: root
+        mode: "0755"
+        force: true
+      tags:
+        - player
+
+    - name: Copy Xwrapper.config
+      ansible.builtin.copy:
+        src: Xwrapper.config
+        dest: /etc/X11/Xwrapper.config
+        mode: "0644"
+        owner: root
+        group: root
+      tags:
+        - player
+
     - name: Create Unit file
       ansible.builtin.copy:
         src: freeboard.service
