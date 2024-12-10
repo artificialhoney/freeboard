@@ -9,8 +9,6 @@ until curl --output /dev/null --silent --head --fail http://localhost:8088; do
     sleep 5
 done
 
-xdotool mousemove 9000 9000
-
 flags=(
    --kiosk
    --touch-events=enabled
@@ -27,3 +25,4 @@ flags=(
 export DISPLAY=:0.0
 
 startx /usr/bin/chromium-browser "${flags[@]}" --app=$FREEBOARD_PLAYER_URL --
+xdotool mousemove 9000 9000
