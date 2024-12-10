@@ -2,12 +2,14 @@
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
+. $SCRIPT_DIR/.env.player
+
 until curl --output /dev/null --silent --head --fail http://localhost:8088; do
     printf '.'
     sleep 5
 done
 
-. $SCRIPT_DIR/.env.player
+xdotool mousemove 9000 9000
 
 flags=(
    --kiosk

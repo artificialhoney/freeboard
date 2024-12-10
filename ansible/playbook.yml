@@ -320,6 +320,9 @@
     - name: Install player dependencies
       ansible.builtin.apt:
         name:
+          - xterm
+          - xdotool
+          - feh
           - chromium-browser
         state: present
       tags:
