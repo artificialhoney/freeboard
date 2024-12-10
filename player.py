@@ -22,7 +22,7 @@ def get_device_type():
 class Player:
     def __init__(self, env):
         self.settings = dotenv_values(env)
-        print(self.settings.to_s)
+        print(self.settings)
         options = self.__get_options()
         self.instance = vlc.Instance(options)
         self.player = self.instance.media_player_new()
