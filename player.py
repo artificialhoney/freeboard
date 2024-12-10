@@ -1,5 +1,5 @@
 from __future__ import unicode_literals
-
+import sys
 import vlc
 from dotenv import load_dotenv
 
@@ -20,7 +20,8 @@ def get_device_type():
         return 'x86'
 
 class Player:
-    def __init__(self):
+    def __init__(self, env):
+        self.settings = load_dotenv(env)
         options = self.__get_options()
         self.instance = vlc.Instance(options)
         self.player = self.instance.media_player_new()
@@ -44,7 +45,6 @@ class Player:
         ]
 
     def play(self):
-        self.settings = load_dotenv(".env.player")
         print(self.settings)
         self.player.set_mrl(self.settings.url)
         self.player.audio_output_device_set(
@@ -53,7 +53,7 @@ class Player:
 
 
 def main():
-    Player().play()
+    Player(sys.argv[1]).play()
 
 if __name__ == "__main__":
     main()

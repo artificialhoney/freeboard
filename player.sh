@@ -7,4 +7,4 @@ until curl --output /dev/null --silent --head --fail http://localhost:8088; do
     sleep 5
 done
 
-.venv/bin/python player.py
+.venv/bin/python player.py .env.player
