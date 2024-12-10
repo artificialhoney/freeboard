@@ -42,7 +42,7 @@ npm run dev
 ```
 python -m venv .venv
 .venv/bin/pip install -r requirements.txt
-.venv/bin/ansible-playbook ansible/playbook.yml
+.venv/bin/ansible-playbook ansible/playbook.yml --become
 ```
 
 ## TODO
