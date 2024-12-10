@@ -320,10 +320,7 @@
     - name: Install player dependencies
       ansible.builtin.apt:
         name:
-          - vlc
-          - alsa-utils
-          - libasound2
-          - libasound2-plugins
+          - chromium-browser
         state: present
       tags:
         - player
