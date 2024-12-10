@@ -53,7 +53,7 @@ class Player:
 
 
 def main():
-    Player(sys.argv[1]).play()
+    Player(sys.argv[2]).play()
 
 if __name__ == "__main__":
     main()
