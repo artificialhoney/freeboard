@@ -332,5 +332,6 @@
         name: freeboard.service
         state: started
         enabled: true
+        daemon_reload: true
       tags:
         - player
