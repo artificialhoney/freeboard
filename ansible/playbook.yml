@@ -324,13 +324,11 @@
         mode: "0644"
         owner: root
         group: root
-      notify:
-        - reload systemctl
       tags:
         - player
 
     - name: Start service
-      ansible.builtin.service:
+      ansible.builtin.systemd:
         name: freeboard.service
         state: started
         enabled: true
