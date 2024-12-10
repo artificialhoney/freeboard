@@ -10,7 +10,7 @@ import schema from "./../graphql/index.js";
 import { models } from "./config/db/index.js";
 
 const { FREEBOARD_MONGO_URL: db, PORT: port } = {
-  FREEBOARD_MONGO_URL: "mongodb://root:unsecure@localhost:27017/freeboard",
+  FREEBOARD_MONGO_URL: "mongodb://freeboard:unsecure@localhost:27017",
   PORT: 4001,
   ...process.env,
 };
