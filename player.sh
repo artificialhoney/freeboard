@@ -24,5 +24,6 @@ flags=(
    --autoplay-policy=no-user-gesture-required
 )
 
-# Standard behavior - runs chromium
-DISPLAY=:0 startx /usr/bin/chromium-browser "${flags[@]}" --app=$FREEBOARD_PLAYER_URL --
+export DISPLAY=:0.0
+
+startx /usr/bin/chromium-browser "${flags[@]}" --app=$FREEBOARD_PLAYER_URL --
