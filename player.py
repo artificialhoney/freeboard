@@ -22,8 +22,8 @@ def get_device_type():
 class Player:
     def __init__(self, env):
         self.settings = dotenv_values(env)
-        options = self.__get_options()
-        self.instance = vlc.Instance(options)
+        # options = self.__get_options()
+        self.instance = vlc.Instance()
         self.player = self.instance.media_player_new()
         self.player.audio_output_device_set(
             'alsa', self.get_alsa_audio_device())
