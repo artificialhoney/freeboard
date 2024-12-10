@@ -25,6 +25,8 @@ class Player:
         options = self.__get_options()
         self.instance = vlc.Instance(options)
         self.player = self.instance.media_player_new()
+        self.player.audio_output_device_set(
+            'alsa', self.get_alsa_audio_device())
 
     def get_alsa_audio_device(self):
         if self.settings['audio_output'] == 'local':
@@ -44,8 +46,6 @@ class Player:
 
     def play(self):
         self.player.set_mrl(self.settings['url'])
-        self.player.audio_output_device_set(
-            'alsa', self.get_alsa_audio_device())
         self.player.play()
 
 
