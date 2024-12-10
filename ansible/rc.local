@@ -11,6 +11,6 @@ if [ "$(ip address | grep wlan)" ]; then
   iwconfig wlan0 power off
 fi
 
-feh --bg-center /usr/share/plymouth/themes/freeboard/splashscreen.png
+/usr/bin/feh --bg-center /usr/share/plymouth/themes/freeboard/splashscreen.png
 
 exit 0
