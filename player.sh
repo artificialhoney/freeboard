@@ -10,10 +10,16 @@ until curl --output /dev/null --silent --head --fail http://localhost:8088; do
 done
 
 flags=(
-   --start-fullscreen
-   --kiosk
    --window-size=1920,1080
+   --kiosk
+   --incognito
+   --disable-infobars
+   --noerrdialogs
+   --disable-crash-report
+   --start-fullscreen
+   --start-maximized
    --window-position=0,0
+   --ignore-certificate-errors
 )
 
 export DISPLAY=:0.0
