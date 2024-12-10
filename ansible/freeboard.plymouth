@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=Freeboard
+Description=Freeboard Splash Screen
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/freeboard
+ScriptFile=/usr/share/plymouth/themes/freeboard/freeboard.script

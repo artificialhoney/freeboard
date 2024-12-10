@@ -37,10 +37,17 @@ docker compose up -d
 npm run dev
 ```
 
+## RaspberryPi
+
+```
+python -m venv .venv
+.venv/bin/pip install -r requirements.txt
+.venv/bin/ansible-playbook ansible/playbook.yml
+```
+
 ## TODO
 
 - Secure environment variable store
-- Template engine for widget rendering
 - i18n: externalize strings and labels
 
 ## Copyright
