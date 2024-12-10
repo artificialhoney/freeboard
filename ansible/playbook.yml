@@ -329,22 +329,28 @@
 
     - name: Backup Xwrapper.config
       ansible.builtin.copy:
-        src: "/etc/X11/Xwrapper.config"
-        dest: "/etc/X11/Xwrapper.config.orig"
+        src: "{{ item }}"
+        dest: "{{ item }}.orig"
         owner: root
         group: root
         mode: "0755"
         force: true
+      with_items:
+        - /etc/X11/Xwrapper.config
+        - /etc/X11/xorg.conf
       tags:
         - player
 
     - name: Copy Xwrapper.config
       ansible.builtin.copy:
-        src: Xwrapper.config
-        dest: /etc/X11/Xwrapper.config
+        src: "{{ item | basename }}"
+        dest: "{{ item }}"
         mode: "0644"
         owner: root
         group: root
+      with_items:
+        - /etc/X11/Xwrapper.config
+        - /etc/X11/xorg.conf
       tags:
         - player
 
