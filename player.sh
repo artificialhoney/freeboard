@@ -10,6 +10,7 @@ until curl --output /dev/null --silent --head --fail http://localhost:8088; do
 done
 
 flags=(
+   --start-fullscreen
    --kiosk
    --touch-events=enabled
    --disable-pinch
