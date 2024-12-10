@@ -3,6 +3,8 @@ from __future__ import unicode_literals
 import vlc
 from dotenv import load_dotenv
 
+load_dotenv()
+
 def get_device_type():
     try:
         with open('/proc/device-tree/model') as file:
@@ -44,7 +46,7 @@ class Player:
         ]
 
     def play(self):
-        self.settings = load_dotenv(".env.player")
+        self.settings = load_dotenv()
         self.player.set_mrl(self.settings.url)
         self.player.audio_output_device_set(
             'alsa', self.get_alsa_audio_device())
