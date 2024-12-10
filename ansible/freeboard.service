@@ -6,7 +6,7 @@ After=docker.service
 [Service]
 Type=simple
 User=root
-ExecStart=/home/pi/freeboard/.venv/bin/python /home/pi/freeboard/player.py
+ExecStart=/usr/bin/bash /home/pi/freeboard/player.sh
 Restart=always
 
 [Install]
