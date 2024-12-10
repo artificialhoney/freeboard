@@ -12,7 +12,6 @@ done
 flags=(
    --window-size=1920,1080
    --kiosk
-   --incognito
    --disable-infobars
    --noerrdialogs
    --disable-crash-report
