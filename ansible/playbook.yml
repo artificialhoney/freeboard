@@ -321,10 +321,8 @@
       ansible.builtin.apt:
         name:
           - xinit
-          - xdotool
           - feh
           - chromium-browser
-          - unclutter
         state: present
       tags:
         - player

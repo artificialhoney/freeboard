@@ -26,6 +26,4 @@ flags=(
 
 export DISPLAY=:0.0
 
-unclutter -idle 0
-
-sudo -u pi startx /usr/bin/chromium-browser "${flags[@]}" --app=$FREEBOARD_PLAYER_URL --
+sudo -u pi startx /usr/bin/chromium-browser "${flags[@]}" --app=$FREEBOARD_PLAYER_URL -- -nocursor
