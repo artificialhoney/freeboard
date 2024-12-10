@@ -38,5 +38,4 @@ const server = createServer(
 
 server.listen(port, "0.0.0.0", () => {
   console.info(`Server is running on http://localhost:${port}/graphql`);
-  console.info(`Using MongoDB => ${db}`);
 });

@@ -47,7 +47,10 @@ const handler = (clientReq, clientRes) => {
   if (["POST"].includes(options.method)) {
     proxy.write(clientReq.body);
   }
-  proxy.end();
+
+  clientReq.pipe(proxy, {
+    end: true,
+  });
 };
 
 app.post("/", handler);

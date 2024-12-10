@@ -46,6 +46,7 @@ watch(result, (newResult) => {
   showLoadingIndicator.value = false;
   const dashboard = newResult.dashboard;
   if (!dashboard && idRef.value) {
+    freeboardStore.toggleIsEditing();
     router.push("/");
   } else if (dashboard) {
     idRef.value = dashboard._id;
@@ -61,7 +62,9 @@ freeboardStore.loadDatasourcePlugin(ClockDatasource);
 freeboardStore.loadWidgetPlugin(TemplateWidget);
 
 freeboardStore.toggleAllowEdit();
-freeboardStore.toggleIsEditing();
+if (!idRef.value) {
+  freeboardStore.toggleIsEditing();
+}
 showLoadingIndicator.value = false;
 </script>
 
