@@ -1,3 +1,3 @@
 ansible
-vlc
+python-vlc
 python-dotenv
