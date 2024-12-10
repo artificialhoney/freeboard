@@ -322,6 +322,7 @@
         name:
           - vlc
           - alsa-utils
+          - libasound2
           - libasound2-plugins
         state: present
       tags:
