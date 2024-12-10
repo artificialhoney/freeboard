@@ -331,7 +331,7 @@
 
     - name: Start service
       ansible.builtin.service:
-        name: teamcity.service
+        name: freeboard.service
         state: started
         enabled: true
       tags:
