@@ -26,4 +26,3 @@ flags=(
 export DISPLAY=:0.0
 
 sudo -u pi startx /usr/bin/chromium-browser "${flags[@]}" --app=$FREEBOARD_PLAYER_URL --
-xdotool mousemove 9000 9000
