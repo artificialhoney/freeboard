@@ -3,6 +3,8 @@ from __future__ import unicode_literals
 import vlc
 from dotenv import load_dotenv
 
+load_dotenv()
+
 def get_device_type():
     try:
         with open('/proc/device-tree/model') as file:
