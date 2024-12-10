@@ -317,10 +317,12 @@
       tags:
         - system
 
-    - name: Install vlc
+    - name: Install player dependencies
       ansible.builtin.apt:
         name:
           - vlc
+          - alsa-utils
+          - libasound2-plugins
         state: present
       tags:
         - player
