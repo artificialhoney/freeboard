@@ -317,6 +317,12 @@
       tags:
         - system
 
+    - name: Install vlc
+      ansible.builtin.apt:
+        name:
+          - vlc
+        state: present
+
     - name: Create Unit file
       ansible.builtin.copy:
         src: freeboard.service
