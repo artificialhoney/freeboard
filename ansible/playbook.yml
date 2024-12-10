@@ -322,6 +322,8 @@
         name:
           - vlc
         state: present
+      tags:
+        - player
 
     - name: Create Unit file
       ansible.builtin.copy:
