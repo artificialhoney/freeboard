@@ -316,3 +316,23 @@
         state: absent
       tags:
         - system
+
+    - name: Create Unit file
+      ansible.builtin.copy:
+        src: freeboard.service
+        dest: /lib/systemd/system/freeboard.service
+        mode: "0644"
+        owner: root
+        group: root
+      notify:
+        - reload systemctl
+      tags:
+        - player
+
+    - name: Start service
+      ansible.builtin.service:
+        name: teamcity.service
+        state: started
+        enabled: true
+      tags:
+        - player
