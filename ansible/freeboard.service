@@ -6,7 +6,8 @@ After=docker.service
 [Service]
 Type=simple
 User=root
-ExecStart=/usr/bin/bash /home/pi/freeboard/player.sh
+WorkingDirectory=/home/pi/freeboard
+ExecStart=/usr/bin/bash player.sh
 Restart=always
 
 [Install]
