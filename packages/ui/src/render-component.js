@@ -1,8 +1,8 @@
 import { createVNode, render } from "vue";
 
-export default function renderComponent({ el, component, props }) {
+export default function renderComponent({ el, component, appContext, props }) {
   let vnode = createVNode(component, props);
-  // vnode.appContext = { ...appContext }
+  vnode.appContext = { ...appContext };
   render(vnode, el);
 
   return {

@@ -4,12 +4,13 @@ import { useFreeboardStore } from "../stores/freeboard";
 import AuthProviderDialogBox from "./AuthProviderDialogBox.vue";
 import ConfirmDialogBox from "./ConfirmDialogBox.vue";
 import { AuthProvider } from "../models/AuthProvider";
+import { getCurrentInstance } from "vue";
 
 const freeboardStore = useFreeboardStore();
 const { dashboard } = storeToRefs(freeboardStore);
 
 const openAuthProviderEditDialogBox = (authprovider) => {
-  freeboardStore.createComponent(AuthProviderDialogBox, {
+  freeboardStore.createComponent(AuthProviderDialogBox, instance.appContext, {
     header: "Edit AuthProvider",
     settings: { ...authprovider.settings, name: authprovider.name },
     type: authprovider.type,
@@ -23,7 +24,7 @@ const openAuthProviderEditDialogBox = (authprovider) => {
 };
 
 const openAuthProviderDeleteDialogBox = (authprovider) => {
-  freeboardStore.createComponent(ConfirmDialogBox, {
+  freeboardStore.createComponent(ConfirmDialogBox, instance.appContext, {
     title: "AuthProvider",
     onOk: () => {
       dashboard.value.deleteAuthProvider(authprovider);
@@ -32,7 +33,7 @@ const openAuthProviderDeleteDialogBox = (authprovider) => {
 };
 
 const openAuthProviderAddDialogBox = () => {
-  freeboardStore.createComponent(AuthProviderDialogBox, {
+  freeboardStore.createComponent(AuthProviderDialogBox, instance.appContext, {
     header: "Add AuthProvider",
     onOk: (newSettings) => {
       const newViewModel = new AuthProvider();
@@ -47,6 +48,8 @@ const openAuthProviderAddDialogBox = () => {
     },
   });
 };
+
+const instance = getCurrentInstance();
 </script>
 
 <template>
@@ -77,7 +80,9 @@ const openAuthProviderAddDialogBox = () => {
                 <li
                   @click="() => openAuthProviderDeleteDialogBox(authProvider)"
                 >
-                  <i class="icon-trash icon-white"></i>
+                  <i class="icon-white">
+                    <v-icon name="hi-trash"></v-icon>
+                  </i>
                 </li>
               </ul>
             </td>

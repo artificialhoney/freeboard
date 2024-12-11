@@ -3,7 +3,7 @@ import { storeToRefs } from "pinia";
 import { useFreeboardStore } from "../stores/freeboard";
 import Form from "./Form.vue";
 import { MAX_COLUMNS, MIN_COLUMNS } from "../models/Dashboard";
-import { computed, onMounted, ref, watch } from "vue";
+import { computed, getCurrentInstance, onMounted, ref, watch } from "vue";
 import DatasourcesDialogBox from "./DatasourcesDialogBox.vue";
 import AuthProvidersDialogBox from "./AuthProvidersDialogBox.vue";
 
@@ -43,30 +43,35 @@ watch(dashboard, applySettings);
 onMounted(applySettings);
 
 const openDatasourcesDialogBox = () => {
-  freeboardStore.createComponent(DatasourcesDialogBox);
+  freeboardStore.createComponent(DatasourcesDialogBox, instance.appContext);
 };
 
 const openAuthProvidersDialogBox = () => {
-  freeboardStore.createComponent(AuthProvidersDialogBox);
+  freeboardStore.createComponent(AuthProvidersDialogBox, instance.appContext);
 };
 
 const onChange = (s) => {
   dashboard.value.columns = parseInt(s.columns);
   dashboard.value.title = s.title;
 };
+
+const instance = getCurrentInstance();
+console.log(instance);
 </script>
 
 <template>
   <div class="dashboard-control">
     <ul class="board-toolbar vertical">
       <li @click="() => openDatasourcesDialogBox()">
-        <i class="icon-folder-open icon-white"></i><label>Datasources</label>
+        <i class="icon-white"><v-icon name="hi-database" /></i
+        ><label>Datasources</label>
       </li>
       <li @click="() => openAuthProvidersDialogBox()">
-        <i class="icon-eye-open icon-white"></i><label>Auth</label>
+        <i class="icon-white"><v-icon name="hi-eye" /></i><label>Auth</label>
       </li>
       <li class="add-pane" @click="() => dashboard.createPane()">
-        <i class="icon-plus icon-white"></i><label>Add Pane</label>
+        <i class="icon-white"><v-icon name="hi-plus-circle" /></i
+        ><label>Add Pane</label>
       </li>
     </ul>
     <Form

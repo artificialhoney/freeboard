@@ -4,12 +4,13 @@ import { useFreeboardStore } from "../stores/freeboard";
 import DatasourceDialogBox from "./DatasourceDialogBox.vue";
 import ConfirmDialogBox from "./ConfirmDialogBox.vue";
 import { Datasource } from "../models/Datasource";
+import { getCurrentInstance } from "vue";
 
 const freeboardStore = useFreeboardStore();
 const { dashboard } = storeToRefs(freeboardStore);
 
 const openDatasourceEditDialogBox = (datasource) => {
-  freeboardStore.createComponent(DatasourceDialogBox, {
+  freeboardStore.createComponent(DatasourceDialogBox, instance.appContext, {
     header: "Edit Datasource",
     settings: { ...datasource.settings, name: datasource.name },
     type: datasource.type,
@@ -23,7 +24,7 @@ const openDatasourceEditDialogBox = (datasource) => {
 };
 
 const openDatasourceDeleteDialogBox = (datasource) => {
-  freeboardStore.createComponent(ConfirmDialogBox, {
+  freeboardStore.createComponent(ConfirmDialogBox, instance.appContext, {
     title: "Datasource",
     onOk: () => {
       dashboard.value.deleteDatasource(datasource);
@@ -32,7 +33,7 @@ const openDatasourceDeleteDialogBox = (datasource) => {
 };
 
 const openDatasourceAddDialogBox = () => {
-  freeboardStore.createComponent(DatasourceDialogBox, {
+  freeboardStore.createComponent(DatasourceDialogBox, instance.appContext, {
     header: "Add Datasource",
     onOk: (newSettings) => {
       const newViewModel = new Datasource();
@@ -47,6 +48,8 @@ const openDatasourceAddDialogBox = () => {
     },
   });
 };
+
+const instance = getCurrentInstance();
 </script>
 
 <template>
@@ -77,10 +80,10 @@ const openDatasourceAddDialogBox = () => {
             <td>
               <ul class="board-toolbar">
                 <li @click="() => datasource.updateNow()">
-                  <i class="icon-refresh icon-white"></i>
+                  <i class="icon-white"><v-icon name="hi-refresh"></v-icon></i>
                 </li>
                 <li @click="() => openDatasourceDeleteDialogBox(datasource)">
-                  <i class="icon-trash icon-white"></i>
+                  <i class="icon-white"><v-icon name="hi-trash"></v-icon></i>
                 </li>
               </ul>
             </td>

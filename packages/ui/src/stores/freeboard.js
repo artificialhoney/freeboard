@@ -96,11 +96,12 @@ export const useFreeboardStore = defineStore("freeboard", {
       a.target = "_self";
       a.click();
     },
-    createComponent(component, props = {}) {
+    createComponent(component, appContext, props = {}) {
       const el = document.body.appendChild(document.createElement("div"));
       const c = renderComponent({
         el,
         component,
+        appContext,
         props: {
           ...props,
           onClose: (event) => {

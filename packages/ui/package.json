@@ -16,6 +16,7 @@
     "graphql": "^16.9.0",
     "graphql-tag": "^2.12.6",
     "monaco-editor": "^0.52.2",
+    "oh-vue-icons": "^1.0.0-rc3",
     "pinia": "^2.2.8",
     "rpg-awesome": "^0.2.0",
     "vue": "^3.5.13",

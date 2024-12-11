@@ -2,7 +2,7 @@
 import { storeToRefs } from "pinia";
 import { useFreeboardStore } from "../stores/freeboard";
 import WidgetDialogBox from "./WidgetDialogBox.vue";
-import { onMounted, onUpdated, ref, watch } from "vue";
+import { getCurrentInstance, onMounted, onUpdated, ref, watch } from "vue";
 import ConfirmDialogBox from "./ConfirmDialogBox.vue";
 
 const freeboardStore = useFreeboardStore();
@@ -11,7 +11,7 @@ const { isEditing, dashboard } = storeToRefs(freeboardStore);
 const widgetRef = ref(null);
 
 const openWidgetEditDialogBox = (widget) => {
-  freeboardStore.createComponent(WidgetDialogBox, {
+  freeboardStore.createComponent(WidgetDialogBox, instance.appContext, {
     header: "Edit Widget",
     settings: widget.settings,
     type: widget.type,
@@ -24,7 +24,7 @@ const openWidgetEditDialogBox = (widget) => {
 };
 
 const openWidgetDeleteDialogBox = (widget) => {
-  freeboardStore.createComponent(ConfirmDialogBox, {
+  freeboardStore.createComponent(ConfirmDialogBox, instance.appContext, {
     title: "Widget",
     onOk: () => {
       dashboard.value.deleteWidget(widget.pane, widget);
@@ -44,6 +44,8 @@ const render = () => {
 };
 
 onMounted(render);
+
+const instance = getCurrentInstance();
 </script>
 
 <template>
@@ -54,16 +56,20 @@ onMounted(render);
         <div class="sub-section-tools" v-if="isEditing">
           <ul class="board-toolbar">
             <li @click="() => widget.pane.moveWidgetUp(widget)">
-              <i class="icon-chevron-up icon-white"></i>
+              <i class="icon-white"
+                ><v-icon name="hi-solid-chevron-up"></v-icon
+              ></i>
             </li>
             <li @click="() => widget.pane.moveWidgetDown(widget)">
-              <i class="icon-chevron-down icon-white"></i>
+              <i class="icon-white"
+                ><v-icon name="hi-solid-chevron-down"></v-icon
+              ></i>
             </li>
             <li @click="() => openWidgetEditDialogBox(widget)">
-              <i class="icon-wrench icon-white"></i>
+              <i class="icon-white"><v-icon name="hi-solid-cog"></v-icon></i>
             </li>
             <li @click="() => openWidgetDeleteDialogBox(widget)">
-              <i class="icon-trash icon-white"></i>
+              <i class="icon-white"><v-icon name="hi-trash"></v-icon></i>
             </li>
           </ul>
         </div>

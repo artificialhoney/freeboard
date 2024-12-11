@@ -1,5 +1,5 @@
 <script setup lang="js">
-import { ref } from "vue";
+import { getCurrentInstance, ref } from "vue";
 import { useFreeboardStore } from "../stores/freeboard";
 import CodeEditor from "./CodeEditor.vue";
 
@@ -24,7 +24,7 @@ const onChange = (value) => {
 };
 
 const openCodeEditor = () => {
-  freeboardStore.createComponent(CodeEditor, {
+  freeboardStore.createComponent(CodeEditor, instance.appContext, {
     value: textarea.value.value,
     onClose: (value) => {
       textarea.value.value = value;
@@ -32,6 +32,8 @@ const openCodeEditor = () => {
     },
   });
 };
+
+const instance = getCurrentInstance();
 
 defineExpose({
   errors,
@@ -46,11 +48,9 @@ defineExpose({
       >{{ modelValue }}</textarea
     >
     <ul class="board-toolbar datasource-input-suffix">
-      <li @click="textarea.value = 'datasources['">
-        <i class="icon-plus icon-white"></i><label>DATASOURCE</label>
-      </li>
       <li @click="() => openCodeEditor()">
-        <i class="icon-fullscreen icon-white"></i><label>.JS EDITOR</label>
+        <i class="icon-white"><v-icon name="hi-code"></v-icon></i
+        ><label>CODE</label>
       </li>
     </ul>
   </div>

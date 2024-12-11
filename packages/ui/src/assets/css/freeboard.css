@@ -1,5 +1,4 @@
 @import "./forms.css";
-@import "./icons.css";
 @import "./grid.css";
 @import "./modal.css";
 @import "./preloader.css";
@@ -82,6 +81,7 @@
   --onoffswitch-checked-background: #ff9900;
   --code-window-background: #2a2a2a;
   --uneditable-input-color: #d3d4d4;
+  --icon-white-color: #d3d4d4;
 }
 
 article,
@@ -563,9 +563,16 @@ header h1 {
 }
 
 .toggle-header-icon {
-  margin-top: 4px;
-  margin-bottom: 7px;
-  margin-right: 0px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 5px 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.toggle-header-icon svg {
+  height: 18px;
 }
 
 .section-title {
@@ -648,8 +655,6 @@ ol {
 
 .column-icon {
   display: inline-block;
-  background-color: white;
-  width: 5px;
   height: 100%;
 }
 
@@ -723,24 +728,20 @@ ul.board-toolbar {
   margin: 0px;
   text-transform: uppercase;
   font-size: 11px;
+  display: flex;
 }
 
 ul.board-toolbar.vertical {
-  display: inline-block;
+  flex-direction: column;
 }
 
 .board-toolbar li {
+  display: flex;
   color: var(--board-toolbar-li-color);
-  float: left;
   cursor: pointer;
   margin: 0px 0px 0px 5px;
   background-color: var(--board-toolbar-li-background);
-  padding: 8px;
-  height: 14px;
-}
-
-.board-toolbar.vertical li {
-  float: none;
+  padding: 4px;
 }
 
 .board-toolbar li:hover {
@@ -749,18 +750,9 @@ ul.board-toolbar.vertical {
   transition: 250ms linear;
 }
 
-.board-toolbar li i {
-  float: left;
-  margin: 0;
-  padding: 0;
-}
-
 .board-toolbar li label {
   cursor: pointer;
-  margin-left: 5px;
-  float: left;
-  margin-top: -3px;
-  margin-bottom: -10px;
+  margin-left: 8px;
 }
 
 .text-button {
@@ -1063,4 +1055,8 @@ h2.title {
   display: flex;
   flex-direction: column;
   height: 100%;
+}
+
+.icon-white {
+  color: var(--icon-white-color);
 }

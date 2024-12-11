@@ -6,12 +6,13 @@ import PaneDialogBox from "./PaneDialogBox.vue";
 import WidgetDialogBox from "./WidgetDialogBox.vue";
 import Widget from "./Widget.vue";
 import { Widget as _Widget } from "../models/Widget";
+import { getCurrentInstance } from "vue";
 
 const freeboardStore = useFreeboardStore();
 const { isEditing, dashboard } = storeToRefs(freeboardStore);
 
 const openPaneEditDialogBox = (pane) => {
-  freeboardStore.createComponent(PaneDialogBox, {
+  freeboardStore.createComponent(PaneDialogBox, instance.appContext, {
     header: "Edit Pane",
     onOk: (newSettings) => {
       pane.title = newSettings.settings.name;
@@ -21,14 +22,14 @@ const openPaneEditDialogBox = (pane) => {
 };
 
 const openPaneDeleteDialogBox = (pane) => {
-  freeboardStore.createComponent(ConfirmDialogBox, {
+  freeboardStore.createComponent(ConfirmDialogBox, instance.appContext, {
     title: "Pane",
     onOk: () => dashboard.value.deletePane(pane),
   });
 };
 
 const openWidgetAddDialogBox = (pane) => {
-  freeboardStore.createComponent(WidgetDialogBox, {
+  freeboardStore.createComponent(WidgetDialogBox, instance.appContext, {
     header: "Add Widget",
     onOk: (newSettings) => {
       const newViewModel = new _Widget(newSettings.settings, newSettings.type);
@@ -38,6 +39,7 @@ const openWidgetAddDialogBox = (pane) => {
 };
 
 const { pane } = defineProps({ pane: Object });
+const instance = getCurrentInstance();
 </script>
 
 <template>
@@ -47,13 +49,13 @@ const { pane } = defineProps({ pane: Object });
       <Transition>
         <ul v-if="isEditing" class="board-toolbar pane-tools">
           <li @click="() => openWidgetAddDialogBox(pane)">
-            <i class="icon-plus icon-white"></i>
+            <i class="icon-white"><v-icon name="hi-plus" /></i>
           </li>
           <li @click="() => openPaneEditDialogBox(pane)">
-            <i class="icon-wrench icon-white"></i>
+            <i class="icon-white"><v-icon name="hi-clipboard-list" /></i>
           </li>
           <li @click="() => openPaneDeleteDialogBox(pane)">
-            <i class="icon-trash icon-white"></i>
+            <i class="icon-white"><v-icon name="hi-trash" /></i>
           </li>
         </ul>
       </Transition>

@@ -69,10 +69,9 @@ defineExpose({
           <td class="table-row-operation">
             <ul class="board-toolbar">
               <li>
-                <i
-                  class="icon-trash icon-white"
-                  @click="onSettingRemove(index)"
-                ></i>
+                <i class="icon-white" @click="onSettingRemove(index)">
+                  <v-icon name="hi-trash"></v-icon>
+                </i>
               </li>
             </ul>
           </td>
