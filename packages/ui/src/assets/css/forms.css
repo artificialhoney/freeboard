@@ -133,7 +133,6 @@ textarea {
   vertical-align: middle;
 }
 
-select,
 textarea,
 input[type="text"],
 input[type="password"],
@@ -158,6 +157,35 @@ input[type="color"],
   color: var(--uneditable-input-color);
   vertical-align: middle;
   width: 100%;
+}
+
+.styled-select {
+  position: relative;
+  width: 100%;
+  border: 1px solid var(--styled-select-border);
+  background-color: var(--styled-select-background);
+}
+
+.styled-select select {
+  width: 100%;
+  position: absolute;
+}
+
+.styled-select i {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+}
+
+.styled-select {
+  width: 100%;
+  height: 20px;
+  padding: 4px 6px;
+  background-color: var(--select-background);
 }
 
 input.small,
@@ -224,10 +252,6 @@ textarea::-webkit-input-placeholder {
 input:-moz-placeholder,
 textarea:-moz-placeholder {
   color: var(--input-placeholder-color);
-}
-
-select {
-  background-color: var(--select-background);
 }
 
 .form {
@@ -307,18 +331,6 @@ td.form-table-value > input[type="checkbox"] {
 
 .table-row-operation > i {
   cursor: pointer;
-}
-
-.styled-select {
-  display: flex;
-  width: 100%;
-}
-
-.styled-select select {
-  width: 100%;
-  border: 1px solid var(--styled-select-border);
-  background: url(/img/dropdown-arrow.png) no-repeat right
-    var(--styled-select-background);
 }
 
 .calculated-value {

@@ -41,5 +41,6 @@ defineExpose({
         {{ option.label }}
       </option>
     </select>
+    <i class="icon-white"><v-icon name="hi-solid-chevron-down"></v-icon></i>
   </div>
 </template>
