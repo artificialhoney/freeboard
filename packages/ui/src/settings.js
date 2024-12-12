@@ -60,5 +60,44 @@ export default (dashboard) => {
         },
       ],
     },
+    {
+      label: "Resources",
+      icon: "hi-solid-archive",
+      name: "resources",
+      settings: {
+        resources: dashboard.settings.resources,
+      },
+      fields: [
+        {
+          name: "resources",
+          label: "Resources",
+          type: "array",
+          settings: [
+            {
+              name: "type",
+              label: "Type",
+              type: "option",
+              required: true,
+              default: "script",
+              options: [
+                {
+                  label: "Script",
+                  value: "script",
+                },
+                {
+                  label: "Stylesheet",
+                  value: "style",
+                },
+              ],
+            },
+            {
+              name: "url",
+              label: "URL",
+              type: "text",
+            },
+          ],
+        },
+      ],
+    },
   ];
 };

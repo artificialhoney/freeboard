@@ -25,6 +25,7 @@ const openSettingsDialogBox = () => {
         columns: newSettings.columns,
       };
       onChange(settings.value);
+      freeboardStore.loadDashboardAssets();
     },
   });
 };

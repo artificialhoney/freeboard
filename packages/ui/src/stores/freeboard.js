@@ -12,6 +12,7 @@ export const useFreeboardStore = defineStore("freeboard", {
     widgetPlugins: {},
     authPlugins: {},
     dashboard: new Dashboard(),
+    assets: {},
   }),
   actions: {
     setIsSaved(isSaved) {
@@ -47,10 +48,88 @@ export const useFreeboardStore = defineStore("freeboard", {
 
       this.widgetPlugins[plugin.typeName] = plugin;
     },
+    createAsset(type, value, inline) {
+      let node = null;
+      if (inline) {
+        if (type === "style") {
+          const style = document.createElement("style");
+          style.appendChild(document.createTextNode(value));
+          node = style;
+        } else {
+          const script = document.createElement("script");
+          script.type = "application/javascript";
+          script.appendChild(document.createTextNode(value));
+          node = script;
+        }
+      } else {
+        if (type === "style") {
+          const link = document.createElement("link");
+          link.type = "text/css";
+          link.rel = "stylesheet";
+          link.href = value;
+          node = link;
+        } else {
+          const script = document.createElement("script");
+          script.type = "application/javascript";
+          script.src = value;
+          node = script;
+        }
+      }
+
+      return {
+        node,
+        type,
+        value,
+        inline,
+      };
+    },
+    loadDashboardAssets() {
+      this.showLoadingIndicator = true;
+      const assets = {};
+      Object.values(assets).forEach((asset) => {
+        asset.node.remove();
+        asset.node = null;
+      });
+
+      const head = document.head || document.getElementsByTagName("head")[0];
+
+      if (this.dashboard.settings.script) {
+        const script = this.createAsset(
+          "script",
+          this.dashboard.settings.script,
+          true,
+        );
+        head.appendChild(script.node);
+        assets["script"] = script;
+      }
+
+      if (this.dashboard.settings.style) {
+        const style = this.createAsset(
+          "style",
+          this.dashboard.settings.style,
+          true,
+        );
+        head.appendChild(style.node);
+        assets["style"] = style;
+      }
+
+      if (Array.isArray(this.dashboard.settings.resources)) {
+        const resources = this.dashboard.settings.resources;
+        resources.forEach((element) => {
+          const node = this.createAsset(element.type, element.url);
+          head.appendChild(node.node);
+          assets[element.url] = node;
+        });
+      }
+
+      this.assets = assets;
+      this.showLoadingIndicator = false;
+    },
     loadDashboard(dashboardData) {
       this.showLoadingIndicator = true;
       this.dashboard = new Dashboard();
       this.dashboard.deserialize(dashboardData);
+      this.loadDashboardAssets();
       this.showLoadingIndicator = false;
     },
     loadDashboardFromLocalFile() {

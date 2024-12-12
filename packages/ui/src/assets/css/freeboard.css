@@ -1072,11 +1072,23 @@ h2.title {
 .tab-navigator {
   display: flex;
   width: 100%;
+  gap: 20px;
 }
 
 .tab-navigator .menu {
   width: 20%;
   border-right: 1px solid var(--onoffswitch-switch-border);
+}
+
+@media screen and (max-width: 640px) {
+  .tab-navigator {
+    flex-direction: column;
+  }
+  .tab-navigator .menu {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--onoffswitch-switch-border);
+  }
 }
 
 .tab-navigator .board-toolbar {
