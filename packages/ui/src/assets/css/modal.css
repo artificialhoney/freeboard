@@ -6,18 +6,16 @@
   height: 100%;
   width: 100%;
   background: var(--modal-overlay-background);
-  overflow-y: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .modal {
   position: absolute;
   background-color: var(--modal-background);
-  top: 120px;
   width: 900px;
   margin: auto;
-  right: 0px;
-  left: 0px;
-  margin-bottom: 25px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

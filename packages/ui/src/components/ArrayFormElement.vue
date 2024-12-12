@@ -1,8 +1,8 @@
 <script setup lang="js">
-import { onMounted, ref, watch } from "vue";
+import { ref, watch } from "vue";
 import Form from "./Form.vue";
 
-const props = defineProps(["modelValue", "validators", "options"]);
+const props = defineProps(["modelValue", "options"]);
 const emit = defineEmits(["update:modelValue"]);
 
 const errors = ref([]);
@@ -12,18 +12,6 @@ watch(
   () => props.modelValue,
   (v) => (value.value = v && [...v]),
 );
-
-const onChange = (v) => {
-  const e = [];
-  props.validators?.forEach((validator) => {
-    const result = validator(v);
-    if (result.error) {
-      e.push(result.error);
-    }
-  });
-  errors.value = e;
-  emit("update:modelValue", [...v]);
-};
 
 const onSettingChange = (index, v) => {
   value.value[index] = v;
@@ -42,6 +30,10 @@ const onSettingAdd = () => {
   });
   value.value.push(val);
   onChange(value.value);
+};
+
+const onChange = (value) => {
+  emit("update:modelValue", value);
 };
 
 defineExpose({

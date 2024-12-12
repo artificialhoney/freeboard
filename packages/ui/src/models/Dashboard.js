@@ -16,6 +16,7 @@ export class Dashboard {
   panes = [];
   authProviders = [];
   settings = {};
+  isOwner = true;
 
   get layout() {
     return this.panes.map((pane) => pane.layout);
@@ -91,7 +92,8 @@ export class Dashboard {
     this.image = object.image;
     this.width = object.width;
     this.published = object.published;
-    this.settings = object.settings;
+    this.settings = object.settings || {};
+    this.isOwner = !object.user;
 
     object.authProviders?.forEach((providerConfig) => {
       const authProvider = new AuthProvider();

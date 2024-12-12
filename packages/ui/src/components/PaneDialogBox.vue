@@ -25,19 +25,21 @@ onMounted(() => {
   fields.value = data;
 });
 
-const onDialogBoxOk = () => {
-  onOk({ settings: form.value.getValue() });
-};
+const dialog = ref(null);
 
-const hasErrors = computed(() => {
-  return form.value?.hasErrors();
-});
+const onDialogBoxOk = () => {
+  if (form.value.hasErrors()) {
+    return;
+  }
+  onOk({ settings: form.value.getValue() });
+  dialog.value.closeModal();
+};
 </script>
 
 <template>
   <DialogBox
     :header="header"
-    :okDisabled="hasErrors"
+    ref="dialog"
     ok="Save"
     cancel="Cancel"
     @close="onClose"

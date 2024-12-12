@@ -1,5 +1,5 @@
 import { defineStore, storeToRefs } from "pinia";
-import renderComponent from "../render-component";
+import renderComponent from "../render";
 import { Dashboard } from "../models/Dashboard";
 
 export const useFreeboardStore = defineStore("freeboard", {
@@ -13,8 +13,37 @@ export const useFreeboardStore = defineStore("freeboard", {
     authPlugins: {},
     dashboard: new Dashboard(),
     assets: {},
+    token: null,
   }),
   actions: {
+    loadSettingsFromLocalStorage() {
+      const item = localStorage.getItem("freeboard");
+      if (!item) {
+        return;
+      }
+      const settings = JSON.parse(item);
+      if (settings.token) {
+        this.token = settings.token;
+      }
+    },
+    saveSettingsToLocalStorage() {
+      const settings = {};
+      if (this.token) {
+        settings.token = this.token;
+      }
+      localStorage.setItem("freeboard", JSON.stringify(settings));
+    },
+    login(token) {
+      this.token = token;
+      this.saveSettingsToLocalStorage();
+    },
+    logout() {
+      this.token = null;
+      this.saveSettingsToLocalStorage();
+    },
+    isLoggedIn() {
+      return !!this.token;
+    },
     setIsSaved(isSaved) {
       this.isSaved = isSaved;
     },

@@ -12,7 +12,6 @@ const emit = defineEmits(["ok", "cancel", "close"]);
 
 const onOk = (event) => {
   emit("ok", event);
-  closeModal();
 };
 
 const onCancel = (event) => {
@@ -29,6 +28,10 @@ const { header, ok, cancel, okDisabled } = defineProps({
   ok: String,
   cancel: String,
   okDisabled: Boolean,
+});
+
+defineExpose({
+  closeModal,
 });
 </script>
 <template>

@@ -20,14 +20,6 @@ const handleMount = (editorInstance) => (editor.value = editorInstance);
 watch(code, (value) => onChange(value));
 
 const onChange = (value) => {
-  const e = [];
-  props.validators?.forEach((validator) => {
-    const result = validator(value);
-    if (result.error) {
-      e.push(result.error);
-    }
-  });
-  errors.value = e;
   emit("update:modelValue", value);
 };
 

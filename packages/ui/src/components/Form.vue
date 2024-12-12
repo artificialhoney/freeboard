@@ -1,5 +1,5 @@
 <script setup lang="js">
-import { onMounted, onUpdated, ref, shallowRef, watch } from "vue";
+import { computed, onMounted, onUpdated, ref, shallowRef, watch } from "vue";
 import InputFormElement from "./InputFormElement.vue";
 import {
   validateInteger,
@@ -12,7 +12,7 @@ import TextareaFormElement from "./TextareaFormElement.vue";
 import ArrayFormElement from "./ArrayFormElement.vue";
 import CodeEditorFormElement from "./CodeEditorFormElement.vue";
 
-const { fields, hideLabels, settings } = defineProps({
+const { hideLabels, settings, ...props } = defineProps({
   fields: Array,
   settings: Object,
   hideLabels: Boolean,
@@ -23,8 +23,8 @@ const components = ref({});
 
 const applySettings = (s) => {
   const m = {};
-  fields.forEach((f) => {
-    m[f.name] = (s && s[f.name]) || f.default;
+  fields.value.forEach((f) => {
+    m[f.name] = s[f.name] !== undefined ? s[f.name] : f.default;
   });
   model.value = m;
 };
@@ -47,14 +47,42 @@ const storeComponentRef = (name, el) => {
   components.value[name] = el;
 };
 
+const errors = ref({});
+
 const hasErrors = () => {
   let value = false;
+  const e = {};
   Object.keys(components.value).forEach((key) => {
-    if (components.value[key].errors.value) {
-      value = true;
+    const result = validateField(key);
+    if (result) {
+      e[key] = result;
     }
   });
-  return value;
+  if (Object.keys(e).length) {
+    errors.value = e;
+    return e;
+  } else {
+    errors.value = {};
+    return null;
+  }
+};
+
+const validateField = (key) => {
+  const e = [];
+  fields.value
+    .find((f) => f.name === key)
+    .validators.forEach((validator) => {
+      const result = validator(model.value[key]);
+
+      if (result.error) {
+        e.push(result.error);
+      }
+    });
+  if (e.length) {
+    return e;
+  } else {
+    return null;
+  }
 };
 
 const inputFormElementRef = shallowRef(InputFormElement);
@@ -120,11 +148,17 @@ defineExpose({
 });
 
 const emit = defineEmits(["change"]);
+
+const fields = ref(props.fields.map(fieldToFormElement));
+
+const onUpdate = () => {
+  emit("change", getValue());
+};
 </script>
 
 <template>
   <form class="form" action="">
-    <div class="form-row" v-for="field in fields.map(fieldToFormElement)">
+    <div class="form-row" v-for="field in props.fields.map(fieldToFormElement)">
       <div class="form-label" v-if="!hideLabels">
         <label class="control-label">{{ field.label }}</label>
       </div>
@@ -133,18 +167,20 @@ const emit = defineEmits(["change"]);
           <component
             :ref="(el) => storeComponentRef(field.name, el)"
             :is="field.component"
+            :disabled="field.disabled"
             v-model="model[field.name]"
             :validators="field.validators"
             :options="field.options || field.settings"
             :placeholder="field.placeholder"
             :secret="field.type === 'password'"
             :language="field.language"
-            @update:modelValue="emit('change', getValue())"
+            @update:modelValue="onUpdate"
           ></component>
         </div>
         <div
           class="validation-error"
-          v-for="error in components[field.name]?.errors"
+          v-for="error in errors[field.name]"
+          v-if="errors[field.name]"
         >
           {{ error }}
         </div>

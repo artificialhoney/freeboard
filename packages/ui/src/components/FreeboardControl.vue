@@ -4,21 +4,31 @@ import { useFreeboardStore } from "../stores/freeboard";
 import { useMutation } from "@vue/apollo-composable";
 import { DASHBOARD_CREATE_MUTATION, DASHBOARD_UPDATE_MUTATION } from "../gql";
 import { useRouter } from "vue-router";
+import { watch } from "vue";
 
 const freeboardStore = useFreeboardStore();
 const { dashboard } = storeToRefs(freeboardStore);
 
-const { mutate: createDashboard } = useMutation(DASHBOARD_CREATE_MUTATION);
-const { mutate: updateDashboard } = useMutation(DASHBOARD_UPDATE_MUTATION);
+const { mutate: createDashboard, error: createError } = useMutation(
+  DASHBOARD_CREATE_MUTATION,
+);
+const { mutate: updateDashboard, error: updateError } = useMutation(
+  DASHBOARD_UPDATE_MUTATION,
+);
 
 const router = useRouter();
+
+watch([createError, updateError], () => {
+  freeboardStore.logout();
+  router.push("/login");
+});
 
 const saveDashboard = async () => {
   const d = dashboard.value.serialize();
   const id = d._id;
   delete d._id;
   const { isSaved } = storeToRefs(freeboardStore);
-  if (isSaved.value) {
+  if (isSaved.value && dashboard.value.isOwner) {
     updateDashboard({ id, dashboard: d });
   } else {
     const result = await createDashboard({ dashboard: d });

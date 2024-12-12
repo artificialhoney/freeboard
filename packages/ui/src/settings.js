@@ -26,6 +26,11 @@ export default (dashboard) => {
             .filter((i) => i >= MIN_COLUMNS - 1)
             .map((i) => ({ value: i + 1, label: i + 1 })),
         },
+        {
+          name: "published",
+          label: "Published",
+          type: "boolean",
+        },
       ],
     },
     {

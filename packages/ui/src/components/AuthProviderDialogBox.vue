@@ -52,20 +52,22 @@ const authPluginsOptions = computed(() => {
   }));
 });
 
-const onDialogBoxOk = () => {
-  onOk({ settings: form.value.getValue(), type: typeRef.value });
-};
+const dialog = ref(null);
 
-const hasErrors = computed(() => {
-  return !!form.value?.hasErrors();
-});
+const onDialogBoxOk = () => {
+  if (form.value.hasErrors()) {
+    return;
+  }
+  onOk({ settings: form.value.getValue(), type: typeRef.value });
+  dialog.value.closeModal();
+};
 </script>
 
 <template>
   <DialogBox
     :header="header"
+    ref="dialog"
     ok="Save"
-    :okDisabled="hasErrors"
     cancel="Cancel"
     @close="onClose"
     @ok="onDialogBoxOk"

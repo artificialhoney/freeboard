@@ -1,25 +1,12 @@
 <script setup lang="js">
 import { ref } from "vue";
 
-const props = defineProps([
-  "modelValue",
-  "validators",
-  "options",
-  "placeholder",
-]);
+const props = defineProps(["modelValue", "options", "placeholder", "disabled"]);
 const emit = defineEmits(["update:modelValue"]);
 
 const errors = ref([]);
 
-const onChange = (value) => {
-  const e = [];
-  props.validators?.forEach((validator) => {
-    const result = validator(value);
-    if (result.error) {
-      e.push(result.error);
-    }
-  });
-  errors.value = e;
+const onInput = (value) => {
   emit("update:modelValue", value);
 };
 
@@ -29,7 +16,7 @@ defineExpose({
 </script>
 <template>
   <div class="styled-select">
-    <select @change="onChange($event.target.value)">
+    <select @change="onInput($event.target.value)" :disabled="props.disabled">
       <option value="" :selected="modelValue === ''" v-if="placeholder">
         {{ placeholder }}
       </option>

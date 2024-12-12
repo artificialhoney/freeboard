@@ -1,6 +1,6 @@
 import { createApp, provide, h } from "vue";
 import { DefaultApolloClient } from "@vue/apollo-composable";
-import { ApolloClient, InMemoryCache } from "@apollo/client/core";
+import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client/core";
 import App from "./App.vue";
 import monaco from "./monaco";
 import { install as VueMonacoEditorPlugin } from "@guolao/vue-monaco-editor";
@@ -27,8 +27,9 @@ import {
   HiSolidArchive,
 } from "oh-vue-icons/icons";
 
-import { createPinia } from "pinia";
+import { createPinia, storeToRefs } from "pinia";
 import router from "./router";
+import { useFreeboardStore } from "./stores/freeboard";
 
 addIcons(
   HiDatabase,
@@ -56,9 +57,28 @@ const pinia = createPinia();
 
 const cache = new InMemoryCache();
 
+const getHeaders = () => {
+  const headers = {};
+  const freeboardStore = useFreeboardStore();
+  const { token } = storeToRefs(freeboardStore);
+  if (token.value) {
+    headers["Authorization"] = `Bearer ${token.value}`;
+  }
+  headers["Content-Type"] = "application/json";
+  return headers;
+};
+
+const link = new HttpLink({
+  uri: `/graphql`,
+  fetch: (uri, options) => {
+    options.headers = getHeaders();
+    return fetch(uri, options);
+  },
+});
+
 const apolloClient = new ApolloClient({
   cache,
-  uri: "/graphql",
+  link,
 });
 
 const app = createApp({

@@ -2,7 +2,7 @@
 import { storeToRefs } from "pinia";
 import { useFreeboardStore } from "../stores/freeboard";
 import Form from "./Form.vue";
-import { getCurrentInstance, onMounted, ref } from "vue";
+import { getCurrentInstance, onMounted, ref, watch } from "vue";
 import DatasourcesDialogBox from "./DatasourcesDialogBox.vue";
 import AuthProvidersDialogBox from "./AuthProvidersDialogBox.vue";
 import SettingsDialogBox from "./SettingsDialogBox.vue";
@@ -12,9 +12,13 @@ const freeboardStore = useFreeboardStore();
 const { dashboard } = storeToRefs(freeboardStore);
 
 const fields = ref(createSettings(dashboard.value)[0].fields);
-const settings = ref(dashboard.value);
+const settings = ref({});
 
 const form = ref(null);
+
+watch(dashboard, (d) => {
+  settings.value = d;
+});
 
 const openSettingsDialogBox = () => {
   freeboardStore.createComponent(SettingsDialogBox, instance.appContext, {
@@ -23,6 +27,7 @@ const openSettingsDialogBox = () => {
       settings.value = {
         title: newSettings.title,
         columns: newSettings.columns,
+        published: newSettings.published,
       };
       onChange(settings.value);
       freeboardStore.loadDashboardAssets();
@@ -41,6 +46,7 @@ const openAuthProvidersDialogBox = () => {
 const onChange = (s) => {
   dashboard.value.columns = parseInt(s.columns);
   dashboard.value.title = s.title;
+  dashboard.value.published = s.published;
 };
 
 const instance = getCurrentInstance();
@@ -68,7 +74,7 @@ const instance = getCurrentInstance();
     <div>
       <Form
         ref="form"
-        :settings.sync="settings"
+        :settings="settings"
         :fields="fields"
         @change="onChange"
       />

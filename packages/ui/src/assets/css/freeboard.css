@@ -1080,6 +1080,10 @@ h2.title {
   border-right: 1px solid var(--onoffswitch-switch-border);
 }
 
+.tab-navigator .menu li.active i {
+  color: var(--a-color);
+}
+
 @media screen and (max-width: 640px) {
   .tab-navigator {
     flex-direction: column;
@@ -1099,6 +1103,15 @@ h2.title {
   width: 100%;
 }
 
+.tab-navigator .tabs > * {
+  width: 100%;
+  transition: height 250ms linear;
+}
+
 .monaco-editor {
   min-height: 400px;
+}
+
+.login .modal-overlay {
+  background: none;
 }

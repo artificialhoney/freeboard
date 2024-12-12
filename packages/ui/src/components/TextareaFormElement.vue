@@ -5,21 +5,13 @@ import CodeEditor from "./CodeEditor.vue";
 
 const freeboardStore = useFreeboardStore();
 
-const props = defineProps(["modelValue", "validators"]);
+const props = defineProps(["modelValue", "disabled"]);
 const emit = defineEmits(["update:modelValue"]);
 
 const errors = ref([]);
 const textarea = ref(null);
 
 const onChange = (value) => {
-  const e = [];
-  props.validators?.forEach((validator) => {
-    const result = validator(value);
-    if (result.error) {
-      e.push(result.error);
-    }
-  });
-  errors.value = e;
   emit("update:modelValue", value);
 };
 
@@ -43,9 +35,10 @@ defineExpose({
   <div class="calculated-value">
     <textarea
       ref="textarea"
+      :disabled="props.disabled"
       @change="onChange($event.target.value)"
       class="calculated-value-input"
-      >{{ modelValue }}</textarea
+      >{{ props.modelValue }}</textarea
     >
     <ul class="board-toolbar datasource-input-suffix">
       <li @click="() => openCodeEditor()">

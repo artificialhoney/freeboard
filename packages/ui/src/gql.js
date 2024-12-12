@@ -47,6 +47,15 @@ export const DASHBOARD_READ_QUERY = gql`
       panes
       authProviders
       settings
+      user
+    }
+  }
+`;
+
+export const USER_AUTH_MUTATION = gql`
+  mutation UserAuth($email: String!, $password: String!) {
+    authUser(email: $email, password: $password) {
+      token
     }
   }
 `;

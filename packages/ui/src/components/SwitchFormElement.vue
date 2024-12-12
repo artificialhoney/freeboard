@@ -1,24 +1,28 @@
 <script setup lang="js">
-import { ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 
-const props = defineProps(["modelValue", "validators"]);
+const props = defineProps(["modelValue", "disabled"]);
 const emit = defineEmits(["update:modelValue"]);
 
 const errors = ref([]);
+const input = ref(null);
 
 const id = `onoffswitch-${new Date().getTime()}`;
 
 const onChange = (value) => {
-  const e = [];
-  props.validators?.forEach((validator) => {
-    const result = validator(value);
-    if (result.error) {
-      e.push(result.error);
-    }
-  });
-  errors.value = e;
   emit("update:modelValue", value);
 };
+
+watch(
+  () => props.modelValue,
+  (v) => {
+    if (!v) {
+      return;
+    }
+
+    input.value.checked = true;
+  },
+);
 
 defineExpose({
   errors,
@@ -28,11 +32,11 @@ defineExpose({
   <div class="onoffswitch">
     <input
       :id="id"
+      ref="input"
       type="checkbox"
       name="onoffswitch"
       class="onoffswitch-checkbox"
-      :checked="modelValue === false ? false : true"
-      :value="modelValue === false ? false : true"
+      :disabled="props.disabled"
       @change="onChange($event.target.checked)"
     />
     <label class="onoffswitch-label" :for="id">

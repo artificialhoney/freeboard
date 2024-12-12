@@ -1,4 +1,6 @@
-import Dashboard from "../../server/models/Dashboard.js";
+import { createGraphQLError } from "graphql-yoga";
+import { ensureThatUserIsLogged } from "../auth.js";
+import Dashboard from "../models/Dashboard.js";
 
 import { transformDashboard } from "./merge.js";
 
@@ -7,16 +9,32 @@ export default {
     dashboard: async (parent, { _id }, context, info) => {
       const res = await Dashboard.findOne({ _id });
 
-      return res ? transformDashboard(res) : null;
+      if (res && res.published) {
+        return { ...transformDashboard(res), user: res.user._id };
+      } else if (!res.published) {
+        ensureThatUserIsLogged(context);
+        if (context.user._id === res.user) {
+          return transformDashboard(res);
+        } else {
+          createGraphQLError("Dashboard not found");
+        }
+      } else {
+        createGraphQLError("Dashboard not found");
+      }
     },
     dashboards: async (parent, args, context, info) => {
-      const res = await Dashboard.find({}).populate().exec();
+      ensureThatUserIsLogged(context);
+      const res = await Dashboard.find({ user: context.user._id })
+        .populate()
+        .exec();
 
       return res.map(transformDashboard);
     },
   },
   Mutation: {
     createDashboard: async (parent, { dashboard }, context, info) => {
+      ensureThatUserIsLogged(context);
+
       const newDashboard = await new Dashboard({
         title: dashboard.title,
         version: dashboard.version,
@@ -29,6 +47,7 @@ export default {
         layout: dashboard.layout,
         authProviders: dashboard.authProviders,
         settings: dashboard.settings,
+        user: context.user._id,
       });
       try {
         return newDashboard.save().then(transformDashboard);
@@ -38,19 +57,29 @@ export default {
       }
     },
     updateDashboard: async (parent, { _id, dashboard }, context, info) => {
-      return Dashboard.findByIdAndUpdate(
-        _id,
-        { $set: { ...dashboard } },
-        { new: true },
-      ).then(transformDashboard);
+      ensureThatUserIsLogged(context);
+
+      const res = await Dashboard.findOne({ _id, user: context.user._id });
+
+      if (res) {
+        return Dashboard.findByIdAndUpdate(
+          _id,
+          { $set: { ...dashboard } },
+          { new: true },
+        ).then(transformDashboard);
+      } else {
+        createGraphQLError("Dashboard not found");
+      }
     },
     deleteDashboard: async (parent, { _id }, context, info) => {
-      try {
-        // searching for creator of the dashboard and deleting it from the list
+      ensureThatUserIsLogged(context);
+
+      const res = await Dashboard.findOne({ _id, user: context.user._id });
+
+      if (res) {
         return Dashboard.findByIdAndDelete(_id).then(transformDashboard);
-      } catch (error) {
-        console.log(error);
-        throw error;
+      } else {
+        createGraphQLError("Dashboard not found");
       }
     },
   },

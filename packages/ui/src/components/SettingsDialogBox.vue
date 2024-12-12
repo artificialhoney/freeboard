@@ -22,7 +22,17 @@ const { onClose, onOk } = defineProps({
   onOk: Function,
 });
 
+const fields = computed(() => {
+  return createSettings(dashboard.value);
+});
+
+const dialog = ref(null);
+
 const onDialogBoxOk = () => {
+  console.log(fields.value.map((f) => components.value[f.name].hasErrors()));
+  if (fields.value.some((f) => components.value[f.name].hasErrors())) {
+    return;
+  }
   const s = {};
   const result = {};
   fields.value.forEach((f) => {
@@ -36,21 +46,14 @@ const onDialogBoxOk = () => {
     });
   });
   onOk({ ...result, settings: s });
+  dialog.value.closeModal();
 };
-
-const fields = computed(() => {
-  return createSettings(dashboard.value);
-});
-
-const hasErrors = computed(() => {
-  return Object.values(components.value).some((el) => el.hasErrors());
-});
 </script>
 
 <template>
   <DialogBox
     header="Settings"
-    :okDisabled="hasErrors"
+    ref="dialog"
     ok="Save"
     cancel="Cancel"
     @close="onClose"

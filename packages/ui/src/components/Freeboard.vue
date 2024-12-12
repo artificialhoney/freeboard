@@ -12,7 +12,6 @@ import Preloader from "./Preloader.vue";
 import { ClockDatasource } from "../datasources/ClockDatasource";
 import { JSONDatasource } from "../datasources/JSONDatasource";
 import { TemplateWidget } from "../widgets/TemplateWidget";
-import { Dashboard } from "../models/Dashboard";
 import { HeaderAuthProvider } from "../auth/HeaderAuthProvider";
 import { OAuth2Provider } from "../auth/OAuth2Provider";
 
@@ -28,7 +27,7 @@ const { showLoadingIndicator } = storeToRefs(freeboardStore);
 
 const router = useRouter();
 
-const { result, loading } = useQuery(
+const { result, loading, error } = useQuery(
   DASHBOARD_READ_QUERY,
   {
     id: idRef.value,
@@ -38,8 +37,12 @@ const { result, loading } = useQuery(
   },
 );
 
-watch(loading, (loading) => {
-  showLoadingIndicator.value = loading;
+watch(error, (e) => {
+  router.push("/");
+});
+
+watch(loading, (l) => {
+  showLoadingIndicator.value = l;
 });
 
 watch(result, (newResult) => {
@@ -55,6 +58,7 @@ watch(result, (newResult) => {
   }
 });
 
+freeboardStore.loadSettingsFromLocalStorage();
 freeboardStore.loadAuthPlugin(HeaderAuthProvider);
 freeboardStore.loadAuthPlugin(OAuth2Provider);
 freeboardStore.loadDatasourcePlugin(JSONDatasource);
@@ -62,9 +66,8 @@ freeboardStore.loadDatasourcePlugin(ClockDatasource);
 freeboardStore.loadWidgetPlugin(TemplateWidget);
 
 freeboardStore.toggleAllowEdit();
-if (!idRef.value) {
-  freeboardStore.toggleIsEditing();
-}
+freeboardStore.toggleIsEditing();
+
 showLoadingIndicator.value = false;
 </script>
 
@@ -72,7 +75,7 @@ showLoadingIndicator.value = false;
   <Transition>
     <div class="app-container">
       <Preloader v-if="showLoadingIndicator" />
-      <Header v-if="!showLoadingIndicator" />
+      <Header v-if="freeboardStore.isLoggedIn() && !showLoadingIndicator" />
       <Board v-if="!showLoadingIndicator" />
     </div>
   </Transition>
