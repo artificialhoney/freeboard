@@ -10,8 +10,9 @@ import SwitchFormElement from "./SwitchFormElement.vue";
 import SelectFormElement from "./SelectFormElement.vue";
 import TextareaFormElement from "./TextareaFormElement.vue";
 import ArrayFormElement from "./ArrayFormElement.vue";
+import CodeEditorFormElement from "./CodeEditorFormElement.vue";
 
-const { fields, settings } = defineProps({
+const { fields, hideLabels, settings } = defineProps({
   fields: Array,
   settings: Object,
   hideLabels: Boolean,
@@ -20,16 +21,19 @@ const { fields, settings } = defineProps({
 const model = ref({});
 const components = ref({});
 
-const applySettings = () => {
+const applySettings = (s) => {
   const m = {};
   fields.forEach((f) => {
-    m[f.name] = (settings && settings[f.name]) || f.default;
+    m[f.name] = (s && s[f.name]) || f.default;
   });
   model.value = m;
 };
 
-watch(() => settings, applySettings);
-onMounted(applySettings);
+watch(
+  () => settings,
+  () => applySettings(settings),
+);
+onMounted(() => applySettings(settings));
 
 const getValue = () => {
   const value = {};
@@ -58,6 +62,7 @@ const switchFormElementRef = shallowRef(SwitchFormElement);
 const selectFormElementRef = shallowRef(SelectFormElement);
 const textareaFormElementRef = shallowRef(TextareaFormElement);
 const arrayFormElementRef = shallowRef(ArrayFormElement);
+const codeEditorFormElementRef = shallowRef(CodeEditorFormElement);
 
 const fieldToFormElement = (field) => {
   const validators = [];
@@ -100,6 +105,11 @@ const fieldToFormElement = (field) => {
       validators.push(validateRequired);
     }
     type = inputFormElementRef.value;
+  } else if (field.type === "code") {
+    if (field.required) {
+      validators.push(validateRequired);
+    }
+    type = codeEditorFormElementRef.value;
   }
   return { ...field, component: type, validators };
 };
@@ -128,6 +138,7 @@ const emit = defineEmits(["change"]);
             :options="field.options || field.settings"
             :placeholder="field.placeholder"
             :secret="field.type === 'password'"
+            :language="field.language"
             @update:modelValue="emit('change', getValue())"
           ></component>
         </div>

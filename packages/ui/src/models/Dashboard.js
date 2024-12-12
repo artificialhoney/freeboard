@@ -15,6 +15,7 @@ export class Dashboard {
   datasources = [];
   panes = [];
   authProviders = [];
+  settings = {};
 
   get layout() {
     return this.panes.map((pane) => pane.layout);
@@ -78,6 +79,7 @@ export class Dashboard {
       datasources: datasources,
       panes: panes,
       authProviders: authProviders,
+      settings: this.settings,
     };
   }
 
@@ -89,6 +91,7 @@ export class Dashboard {
     this.image = object.image;
     this.width = object.width;
     this.published = object.published;
+    this.settings = object.settings;
 
     object.authProviders?.forEach((providerConfig) => {
       const authProvider = new AuthProvider();

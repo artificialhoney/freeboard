@@ -22,6 +22,8 @@ import {
   HiRefresh,
   HiSolidChevronDoubleLeft,
   HiSolidChevronDoubleRight,
+  HiVariable,
+  HiSolidHome,
 } from "oh-vue-icons/icons";
 
 import { createPinia } from "pinia";
@@ -44,6 +46,8 @@ addIcons(
   HiRefresh,
   HiSolidChevronDoubleLeft,
   HiSolidChevronDoubleRight,
+  HiVariable,
+  HiSolidHome,
 );
 
 const pinia = createPinia();

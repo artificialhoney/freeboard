@@ -12,6 +12,7 @@ export const DASHBOARD_CREATE_MUTATION = gql`
       width
       panes
       authProviders
+      settings
     }
   }
 `;
@@ -28,6 +29,7 @@ export const DASHBOARD_UPDATE_MUTATION = gql`
       width
       panes
       authProviders
+      settings
     }
   }
 `;
@@ -44,6 +46,7 @@ export const DASHBOARD_READ_QUERY = gql`
       width
       panes
       authProviders
+      settings
     }
   }
 `;

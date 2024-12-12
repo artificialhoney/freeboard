@@ -1037,6 +1037,14 @@ h2.title {
   display: flex;
 }
 
+.dashboard-control .form-label {
+  width: 30%;
+}
+
+.dashboard-control .form-value {
+  width: 70%;
+}
+
 .freeboard-control {
   width: 100%;
   display: flex;
@@ -1059,4 +1067,26 @@ h2.title {
 
 .icon-white {
   color: var(--icon-white-color);
+}
+
+.tab-navigator {
+  display: flex;
+  width: 100%;
+}
+
+.tab-navigator .menu {
+  width: 20%;
+  border-right: 1px solid var(--onoffswitch-switch-border);
+}
+
+.tab-navigator .board-toolbar {
+  width: 100%;
+}
+
+.tab-navigator .tabs {
+  width: 100%;
+}
+
+.monaco-editor {
+  min-height: 400px;
 }

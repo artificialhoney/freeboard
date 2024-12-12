@@ -2,45 +2,32 @@
 import { storeToRefs } from "pinia";
 import { useFreeboardStore } from "../stores/freeboard";
 import Form from "./Form.vue";
-import { MAX_COLUMNS, MIN_COLUMNS } from "../models/Dashboard";
-import { computed, getCurrentInstance, onMounted, ref, watch } from "vue";
+import { getCurrentInstance, onMounted, ref } from "vue";
 import DatasourcesDialogBox from "./DatasourcesDialogBox.vue";
 import AuthProvidersDialogBox from "./AuthProvidersDialogBox.vue";
+import SettingsDialogBox from "./SettingsDialogBox.vue";
+import createSettings from "../settings";
 
 const freeboardStore = useFreeboardStore();
 const { dashboard } = storeToRefs(freeboardStore);
 
-const fields = ref([
-  {
-    name: "title",
-    label: "Title",
-    type: "text",
-    required: true,
-  },
-  {
-    name: "columns",
-    label: "Columns",
-    type: "option",
-    required: true,
-    options: [...Array(MAX_COLUMNS).keys()]
-      .filter((i) => i >= MIN_COLUMNS - 1)
-      .map((i) => ({ value: i + 1, label: i + 1 })),
-  },
-]);
-
-const settings = ref({});
+const fields = ref(createSettings(dashboard.value)[0].fields);
+const settings = ref(dashboard.value);
 
 const form = ref(null);
 
-const applySettings = () => {
-  settings.value = {
-    columns: dashboard.value.columns,
-    title: dashboard.value.title,
-  };
+const openSettingsDialogBox = () => {
+  freeboardStore.createComponent(SettingsDialogBox, instance.appContext, {
+    onOk: (newSettings) => {
+      dashboard.value.settings = newSettings.settings;
+      settings.value = {
+        title: newSettings.title,
+        columns: newSettings.columns,
+      };
+      onChange(settings.value);
+    },
+  });
 };
-
-watch(dashboard, applySettings);
-onMounted(applySettings);
 
 const openDatasourcesDialogBox = () => {
   freeboardStore.createComponent(DatasourcesDialogBox, instance.appContext);
@@ -56,12 +43,15 @@ const onChange = (s) => {
 };
 
 const instance = getCurrentInstance();
-console.log(instance);
 </script>
 
 <template>
   <div class="dashboard-control">
     <ul class="board-toolbar vertical">
+      <li @click="() => openSettingsDialogBox()">
+        <i class="icon-white"><v-icon name="hi-solid-cog" /></i
+        ><label>Settings</label>
+      </li>
       <li @click="() => openDatasourcesDialogBox()">
         <i class="icon-white"><v-icon name="hi-database" /></i
         ><label>Datasources</label>
@@ -74,11 +64,13 @@ console.log(instance);
         ><label>Add Pane</label>
       </li>
     </ul>
-    <Form
-      ref="form"
-      :settings="dashboard"
-      :fields="fields"
-      @change="onChange"
-    />
+    <div>
+      <Form
+        ref="form"
+        :settings.sync="settings"
+        :fields="fields"
+        @change="onChange"
+      />
+    </div>
   </div>
 </template>

@@ -49,7 +49,7 @@ defineExpose({
     >
     <ul class="board-toolbar datasource-input-suffix">
       <li @click="() => openCodeEditor()">
-        <i class="icon-white"><v-icon name="hi-code"></v-icon></i
+        <i class="icon-white"><v-icon name="hi-variable"></v-icon></i
         ><label>CODE</label>
       </li>
     </ul>

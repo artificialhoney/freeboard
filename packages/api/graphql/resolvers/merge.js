@@ -9,6 +9,7 @@ export const transformDashboard = (u) => ({
   panes: u.panes,
   width: u.width,
   authProviders: u.authProviders,
+  settings: u.settings,
   createdAt: u.createdAt,
   updatedAt: u.updatedAt,
 });

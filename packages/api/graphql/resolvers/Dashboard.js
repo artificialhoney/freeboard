@@ -28,6 +28,7 @@ export default {
         panes: dashboard.panes,
         layout: dashboard.layout,
         authProviders: dashboard.authProviders,
+        settings: dashboard.settings,
       });
       try {
         return newDashboard.save().then(transformDashboard);
