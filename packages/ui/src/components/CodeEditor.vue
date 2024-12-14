@@ -1,6 +1,7 @@
 <script setup lang="js">
 import { VueMonacoEditor } from "@guolao/vue-monaco-editor";
 import { ref, shallowRef } from "vue";
+import TextButton from "./TextButton.vue";
 
 const { value, onOk } = defineProps({
   value: String,
@@ -18,22 +19,17 @@ const editor = shallowRef();
 const handleMount = (editorInstance) => (editor.value = editorInstance);
 </script>
 <template>
-  <div class="code-window">
-    <div class="code-window-header cm-s-ambiance">
+  <div class="code-editor">
+    <div class="code-editor__header">
       This javascript will be re-evaluated any time a datasource referenced here
       is updated, and the value you
-      <code><span class="cm-keyword">return</span></code> will be displayed in
-      the widget. You can assume this javascript is wrapped in a function of the
-      form
-      <code
-        ><span class="cm-keyword">function</span>(<span class="cm-def"
-          >datasources</span
-        >)</code
-      >
+      <code><span>return</span></code> will be displayed in the widget. You can
+      assume this javascript is wrapped in a function of the form
+      <code><span>function</span>(<span>datasources</span>)</code>
       where datasources is a collection of javascript objects (keyed by their
       name) corresponding to the most current data in a datasource.
     </div>
-    <div class="code-mirror-wrapper">
+    <div class="code-editor__content">
       <vue-monaco-editor
         v-model:value="code"
         theme="vs-dark"
@@ -42,14 +38,12 @@ const handleMount = (editorInstance) => (editor.value = editorInstance);
         @mount="handleMount"
       />
     </div>
-    <div class="code-window-footer">
-      <button
-        type="button"
-        class="dialog-cancel text-button"
-        @click="onClose(code)"
-      >
-        Close
-      </button>
+    <div class="code-editor__footer">
+      <TextButton @click="onClose(code)"> Close </TextButton>
     </div>
   </div>
 </template>
+
+<style lang="css" scoped>
+@import url("../assets/css/components/code-editor.css");
+</style>

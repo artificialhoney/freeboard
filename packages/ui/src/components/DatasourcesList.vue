@@ -5,6 +5,7 @@ import DatasourceDialogBox from "./DatasourceDialogBox.vue";
 import ConfirmDialogBox from "./ConfirmDialogBox.vue";
 import { Datasource } from "../models/Datasource";
 import { getCurrentInstance } from "vue";
+import TextButton from "./TextButton.vue";
 
 const freeboardStore = useFreeboardStore();
 const { dashboard } = storeToRefs(freeboardStore);
@@ -53,48 +54,60 @@ const instance = getCurrentInstance();
 </script>
 
 <template>
-  <div class="datasources">
-    <div class="datasource-list-container">
-      <table
-        class="table table-condensed sub-table"
-        id="datasources-list"
-        v-if="dashboard.datasources.length"
-      >
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Last Updated</th>
-            <th>&nbsp;</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="datasource in dashboard.datasources">
-            <td>
-              <span
-                class="text-button datasource-name"
-                @click="() => openDatasourceEditDialogBox(datasource)"
-                >{{ datasource.name }}</span
+  <div class="datasources-list">
+    <table class="datasources-list__table" v-if="dashboard.datasources.length">
+      <thead class="datasources-list__table__head">
+        <tr class="datasources-list__table__head__row">
+          <th class="datasources-list__table__head__row__cell">Name</th>
+          <th class="datasources-list__table__head__row__cell">Last Updated</th>
+          <th class="datasources-list__table__head__row__cell">&nbsp;</th>
+        </tr>
+      </thead>
+      <tbody class="datasources-list__table__body">
+        <tr
+          v-for="datasource in dashboard.datasources"
+          class="datasources-list__table__body__row"
+        >
+          <td class="datasources-list__table__body__row__cell">
+            <TextButton
+              @click="() => openDatasourceEditDialogBox(datasource)"
+              >{{ datasource.name }}</TextButton
+            >
+          </td>
+          <td class="datasources-list__table__body__row__cell">
+            {{ datasource.lastUpdated }}
+          </td>
+          <td class="datasources-list__table__body__row__cell">
+            <ul class="datasources-list__table__body__row__cell__board-toolbar">
+              <li
+                @click="() => datasource.updateNow()"
+                class="datasources-list__table__body__row__cell__board-toolbar__item"
               >
-            </td>
-            <td>{{ datasource.lastUpdated }}</td>
-            <td>
-              <ul class="board-toolbar">
-                <li @click="() => datasource.updateNow()">
-                  <i class="icon-white"><v-icon name="hi-refresh"></v-icon></i>
-                </li>
-                <li @click="() => openDatasourceDeleteDialogBox(datasource)">
-                  <i class="icon-white"><v-icon name="hi-trash"></v-icon></i>
-                </li>
-              </ul>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+                <i
+                  class="datasources-list__table__body__row__cell__board-toolbar__item__icon"
+                  ><v-icon name="hi-refresh"></v-icon
+                ></i>
+              </li>
+              <li
+                @click="() => openDatasourceDeleteDialogBox(datasource)"
+                class="datasources-list__table__body__row__cell__board-toolbar__item"
+              >
+                <i
+                  class="datasources-list__table__body__row__cell__board-toolbar__item__icon"
+                  ><v-icon name="hi-trash"></v-icon
+                ></i>
+              </li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="datasources-list__operations">
+      <TextButton @click="() => openDatasourceAddDialogBox()">ADD</TextButton>
     </div>
-    <span
-      class="text-button table-operation"
-      @click="() => openDatasourceAddDialogBox()"
-      >ADD</span
-    >
   </div>
 </template>
+
+<style lang="css" scoped>
+@import url("../assets/css/components/datasources-list.css");
+</style>

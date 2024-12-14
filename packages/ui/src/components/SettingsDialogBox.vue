@@ -29,7 +29,6 @@ const fields = computed(() => {
 const dialog = ref(null);
 
 const onDialogBoxOk = () => {
-  console.log(fields.value.map((f) => components.value[f.name].hasErrors()));
   if (fields.value.some((f) => components.value[f.name].hasErrors())) {
     return;
   }

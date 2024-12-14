@@ -18,6 +18,7 @@ defineExpose({
 
 <template>
   <input
+    class="input-form-element"
     ref="input"
     :type="props.secret ? 'password' : 'text'"
     :value="props.modelValue"
@@ -26,3 +27,7 @@ defineExpose({
     @focusout="onInput($event.target.value)"
   />
 </template>
+
+<style lang="css" scoped>
+@import url("../assets/css/components/input-form-element.css");
+</style>

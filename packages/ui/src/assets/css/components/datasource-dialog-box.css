@@ -1,0 +1,18 @@
+.datasource-dialog-box .datasource-dialog-box__form__row {
+  display: flex;
+  width: 100%;
+}
+
+.datasource-dialog-box .datasource-dialog-box__form__row__label {
+  text-align: right;
+  padding-right: 14px;
+  height: 42px;
+  padding-top: 4px;
+  width: 20%;
+}
+
+.datasource-dialog-box .datasource-dialog-box__form__row__value {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+}

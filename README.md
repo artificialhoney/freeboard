@@ -9,7 +9,6 @@ This Freeboard is a fork of [Jim Heisings damn-sexy dashboard app](https://githu
 - Extendable **HTTP-Proxy** to bypass CORS
 - **Monorepo** through `npm` workspaces
 - **Commit-Hooks** with `pre-commit`
-- **nunjucks** templating in widgets
 - **CSS-Variables** for all colors
 
 <img src="freeboard.png">

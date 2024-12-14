@@ -1,0 +1,27 @@
+.board {
+  overflow: visible;
+  padding-top: 10px;
+}
+
+.board .board__dash-logo {
+  display: block;
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+
+.board .board__grid {
+  max-width: 960px;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  top: 0;
+}
+
+@media screen and (max-width: 640px) {
+  .board .board__grid {
+    height: 100% !important;
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+}

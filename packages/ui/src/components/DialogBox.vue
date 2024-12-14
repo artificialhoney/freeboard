@@ -1,5 +1,6 @@
 <script setup lang="js">
 import { onMounted, ref } from "vue";
+import TextButton from "./TextButton.vue";
 
 const show = ref(false);
 
@@ -36,28 +37,27 @@ defineExpose({
 </script>
 <template>
   <Transition>
-    <div v-if="show" class="modal-overlay">
-      <div class="modal">
-        <header>
-          <h2 class="title">{{ header }}</h2>
+    <div v-if="show" class="dialog-box">
+      <div class="dialog-box__modal">
+        <header class="dialog-box__modal__header">
+          <h2>{{ header }}</h2>
         </header>
-        <section>
+        <section class="dialog-box__modal__content">
           <slot />
         </section>
-        <footer>
-          <button
-            :disabled="okDisabled"
-            v-if="ok"
-            class="text-button"
-            @click="onOk"
-          >
+        <footer class="dialog-box__modal__footer">
+          <TextButton :disabled="okDisabled" v-if="ok" @click="onOk">
             {{ ok }}
-          </button>
-          <button v-if="cancel" class="text-button" @click="onCancel">
+          </TextButton>
+          <TextButton v-if="cancel" @click="onCancel">
             {{ cancel }}
-          </button>
+          </TextButton>
         </footer>
       </div>
     </div>
   </Transition>
 </template>
+
+<style lang="css" scoped>
+@import url("../assets/css/components/dialog-box.css");
+</style>

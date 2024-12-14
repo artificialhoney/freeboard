@@ -32,19 +32,27 @@ defineExpose({
 });
 </script>
 <template>
-  <div class="calculated-value">
+  <div class="textarea-form-element">
     <textarea
       ref="textarea"
       :disabled="props.disabled"
       @change="onChange($event.target.value)"
-      class="calculated-value-input"
+      class="textarea-form-element__textarea"
       >{{ props.modelValue }}</textarea
     >
-    <ul class="board-toolbar datasource-input-suffix">
-      <li @click="() => openCodeEditor()">
-        <i class="icon-white"><v-icon name="hi-variable"></v-icon></i
+    <ul class="textarea-form-element__textarea__board-toolbar">
+      <li
+        @click="() => openCodeEditor()"
+        class="textarea-form-element__textarea__board-toolbar__item"
+      >
+        <i class="textarea-form-element__textarea__board-toolbar__item__icon"
+          ><v-icon name="hi-variable"></v-icon></i
         ><label>CODE</label>
       </li>
     </ul>
   </div>
 </template>
+
+<style lang="css" scoped>
+@import url("../assets/css/components/textarea-form-element.css");
+</style>

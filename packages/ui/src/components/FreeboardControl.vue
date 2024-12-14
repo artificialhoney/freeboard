@@ -38,19 +38,41 @@ const saveDashboard = async () => {
 </script>
 <template>
   <div class="freeboard-control">
-    <ul class="board-toolbar vertical">
-      <li @click="saveDashboard">
-        <i class="icon-white"><v-icon name="hi-cloud-upload" /></i
-        ><label>Save Freeboard</label>
+    <ul
+      class="freeboard-control__board-toolbar freeboard-control__board-toolbar"
+    >
+      <li @click="saveDashboard" class="freeboard-control__board-toolbar__item">
+        <i class="freeboard-control__board-toolbar__item__icon"
+          ><v-icon name="hi-cloud-upload" /></i
+        ><label class="freeboard-control__board-toolbar__item__label"
+          >Save Freeboard</label
+        >
       </li>
-      <li @click="() => freeboardStore.loadDashboardFromLocalFile()">
-        <i class="icon-white"><v-icon name="hi-download" /></i
-        ><label>Import Freeboard</label>
+      <li
+        @click="() => freeboardStore.loadDashboardFromLocalFile()"
+        class="freeboard-control__board-toolbar__item"
+      >
+        <i class="freeboard-control__board-toolbar__item__icon"
+          ><v-icon name="hi-download" /></i
+        ><label class="freeboard-control__board-toolbar__item__label"
+          >Import Freeboard</label
+        >
       </li>
-      <li @click="() => freeboardStore.exportDashboard()">
-        <i class="icon-white"><v-icon name="hi-upload" /></i>
-        <label>Export Freeboard</label>
+      <li
+        @click="() => freeboardStore.exportDashboard()"
+        class="freeboard-control__board-toolbar__item"
+      >
+        <i class="freeboard-control__board-toolbar__item__icon"
+          ><v-icon name="hi-upload"
+        /></i>
+        <label class="freeboard-control__board-toolbar__item__label"
+          >Export Freeboard</label
+        >
       </li>
     </ul>
   </div>
 </template>
+
+<style lang="css" scoped>
+@import url("../assets/css/components/freeboard-control.css");
+</style>

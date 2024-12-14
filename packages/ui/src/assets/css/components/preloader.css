@@ -1,4 +1,4 @@
-.wrapperloading {
+.preloader {
   position: absolute;
   height: 200px;
   width: 200px;
@@ -9,11 +9,14 @@
   z-index: 2000;
 }
 
-.wrapperloading .loading.up {
+.preloader .preloader__loading {
   position: absolute;
+  border-radius: 150px;
+}
+
+.preloader .preloader__loading--up {
   height: 200px;
   width: 200px;
-  border-radius: 150px;
   border: 3px solid var(--loading-up-border);
   border-top-color: var(--loading-up-border-top);
   border-left-color: var(--loading-up-border-left);
@@ -23,21 +26,18 @@
   animation: rotation 3s linear infinite;
 }
 
-.wrapperloading .loading.down {
-  position: absolute;
+.preloader .preloader__loading--down {
   height: 100px;
   width: 100px;
   top: 50%;
   margin-top: -50px;
   left: 50%;
   margin-left: -50px;
-  border-radius: 150px;
   border: 3px solid var(--loading-down-border);
   border-left-color: var(--loading-down-border-left);
   border-top-color: var(--loading-down-border-top);
   border-bottom-color: var(--loading-down-border-bottom);
   border-right-color: var(--loading-dorn-border-right);
-
   animation: rotation 1s linear infinite;
 }
 

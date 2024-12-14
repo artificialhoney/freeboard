@@ -50,30 +50,48 @@ const instance = getCurrentInstance();
 
 <template>
   <section class="widget">
-    <div class="sub-section">
-      <div ref="widgetRef" class="widget-output"></div>
+    <div class="widget__sub-section">
+      <div ref="widgetRef" class="widget__sub-section__widget-output"></div>
       <Transition>
-        <div class="sub-section-tools" v-if="isEditing">
-          <ul class="board-toolbar">
-            <li @click="() => widget.pane.moveWidgetUp(widget)">
-              <i class="icon-white"
-                ><v-icon name="hi-solid-chevron-up"></v-icon
-              ></i>
-            </li>
-            <li @click="() => widget.pane.moveWidgetDown(widget)">
-              <i class="icon-white"
-                ><v-icon name="hi-solid-chevron-down"></v-icon
-              ></i>
-            </li>
-            <li @click="() => openWidgetEditDialogBox(widget)">
-              <i class="icon-white"><v-icon name="hi-solid-cog"></v-icon></i>
-            </li>
-            <li @click="() => openWidgetDeleteDialogBox(widget)">
-              <i class="icon-white"><v-icon name="hi-trash"></v-icon></i>
-            </li>
-          </ul>
-        </div>
+        <ul class="widget__sub-section__board-toolbar" v-if="isEditing">
+          <li
+            @click="() => widget.pane.moveWidgetUp(widget)"
+            class="widget__sub-section__board-toolbar__item"
+          >
+            <i class="widget__sub-section__board-toolbar__item__icon"
+              ><v-icon name="hi-solid-chevron-up"></v-icon
+            ></i>
+          </li>
+          <li
+            @click="() => widget.pane.moveWidgetDown(widget)"
+            class="widget__sub-section__board-toolbar__item"
+          >
+            <i class="widget__sub-section__board-toolbar__item__icon"
+              ><v-icon name="hi-solid-chevron-down"></v-icon
+            ></i>
+          </li>
+          <li
+            @click="() => openWidgetEditDialogBox(widget)"
+            class="widget__sub-section__board-toolbar__item"
+          >
+            <i class="widget__sub-section__board-toolbar__item__icon"
+              ><v-icon name="hi-solid-cog"></v-icon
+            ></i>
+          </li>
+          <li
+            @click="() => openWidgetDeleteDialogBox(widget)"
+            class="widget__sub-section__board-toolbar__item"
+          >
+            <i class="widget__sub-section__board-toolbar__item__icon"
+              ><v-icon name="hi-trash"></v-icon
+            ></i>
+          </li>
+        </ul>
       </Transition>
     </div>
   </section>
 </template>
+
+<style lang="css" scoped>
+@import url("../assets/css/components/widget.css");
+</style>

@@ -44,18 +44,33 @@ const instance = getCurrentInstance();
 
 <template>
   <div :style="{ cursor: isEditing ? 'pointer' : 'default' }" class="pane">
-    <header>
+    <header class="pane__header">
       <h1>{{ pane.title }}</h1>
       <Transition>
-        <ul v-if="isEditing" class="board-toolbar pane-tools">
-          <li @click="() => openWidgetAddDialogBox(pane)">
-            <i class="icon-white"><v-icon name="hi-plus" /></i>
+        <ul v-if="isEditing" class="pane__header__board-toolbar">
+          <li
+            @click="() => openWidgetAddDialogBox(pane)"
+            class="pane__header__board-toolbar__item"
+          >
+            <i class="pane__header__board-toolbar__item__icon"
+              ><v-icon name="hi-plus"
+            /></i>
           </li>
-          <li @click="() => openPaneEditDialogBox(pane)">
-            <i class="icon-white"><v-icon name="hi-clipboard-list" /></i>
+          <li
+            @click="() => openPaneEditDialogBox(pane)"
+            class="pane__header__board-toolbar__item"
+          >
+            <i class="pane__header__board-toolbar__item__icon"
+              ><v-icon name="hi-clipboard-list"
+            /></i>
           </li>
-          <li @click="() => openPaneDeleteDialogBox(pane)">
-            <i class="icon-white"><v-icon name="hi-trash" /></i>
+          <li
+            @click="() => openPaneDeleteDialogBox(pane)"
+            class="pane__header__board-toolbar__item"
+          >
+            <i class="pane__header__board-toolbar__item__icon"
+              ><v-icon name="hi-trash"
+            /></i>
           </li>
         </ul>
       </Transition>
@@ -63,3 +78,7 @@ const instance = getCurrentInstance();
     <Widget v-for="widget in pane.widgets" :widget="widget" />
   </div>
 </template>
+
+<style lang="css" scoped>
+@import url("../assets/css/components/pane.css");
+</style>

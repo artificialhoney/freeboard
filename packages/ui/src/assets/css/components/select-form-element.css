@@ -1,0 +1,24 @@
+.select-form-element {
+  position: relative;
+  width: 100%;
+  border: 1px solid var(--styled-select-border);
+  background-color: var(--styled-select-background);
+  height: 30px;
+  padding: 4px 6px;
+  background-color: var(--select-background);
+}
+
+.select-form-element .select-form-element__select {
+  width: 100%;
+  position: absolute;
+}
+
+.select-form-element .select-form-element__icon {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+}

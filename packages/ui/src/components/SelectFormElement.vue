@@ -15,8 +15,12 @@ defineExpose({
 });
 </script>
 <template>
-  <div class="styled-select">
-    <select @change="onInput($event.target.value)" :disabled="props.disabled">
+  <div class="select-form-element">
+    <select
+      @change="onInput($event.target.value)"
+      :disabled="props.disabled"
+      class="select-form-element__select"
+    >
       <option value="" :selected="modelValue === ''" v-if="placeholder">
         {{ placeholder }}
       </option>
@@ -28,6 +32,12 @@ defineExpose({
         {{ option.label }}
       </option>
     </select>
-    <i class="icon-white"><v-icon name="hi-solid-chevron-down"></v-icon></i>
+    <i class="select-form-element__icon"
+      ><v-icon name="hi-solid-chevron-down"></v-icon
+    ></i>
   </div>
 </template>
+
+<style lang="css" scoped>
+@import url("../assets/css/components/select-form-element.css");
+</style>

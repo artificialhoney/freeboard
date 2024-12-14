@@ -1,19 +1,22 @@
 <script setup lang="js">
-import { ref, watch } from "vue";
 import { storeToRefs } from "pinia";
 import { GridLayout, GridItem } from "vue-grid-layout-v3";
 import { useFreeboardStore } from "../stores/freeboard";
-import PaneUI from "./Pane.vue";
+import Pane from "./Pane.vue";
 
 const freeboardStore = useFreeboardStore();
 const { dashboard, isEditing } = storeToRefs(freeboardStore);
 </script>
 
 <template>
-  <div class="board-content">
-    <img class="dash-logo" v-if="dashboard.image" :src="dashboard.image" />
+  <div class="board">
+    <img
+      class="board__dash-logo"
+      v-if="dashboard.image"
+      :src="dashboard.image"
+    />
     <GridLayout
-      :class="`grid responsive-column-width-${dashboard.width}`"
+      :class="`board__grid board__grid--${dashboard.width}`"
       v-model:layout="dashboard.layout"
       :col-num="dashboard.columns"
       :row-height="30"
@@ -33,8 +36,12 @@ const { dashboard, isEditing } = storeToRefs(freeboardStore);
         :i="pane.layout.i"
         :key="index"
       >
-        <PaneUI :pane="pane" />
+        <Pane :pane="pane" />
       </GridItem>
     </GridLayout>
   </div>
 </template>
+
+<style lang="css" scoped>
+@import url("../assets/css/components/board.css");
+</style>

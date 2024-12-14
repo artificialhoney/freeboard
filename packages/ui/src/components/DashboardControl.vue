@@ -16,9 +16,15 @@ const settings = ref({});
 
 const form = ref(null);
 
-watch(dashboard, (d) => {
-  settings.value = d;
-});
+watch(
+  dashboard,
+  (d) => {
+    settings.value = d;
+  },
+  {
+    immediate: true,
+  },
+);
 
 const openSettingsDialogBox = () => {
   freeboardStore.createComponent(SettingsDialogBox, instance.appContext, {
@@ -54,24 +60,51 @@ const instance = getCurrentInstance();
 
 <template>
   <div class="dashboard-control">
-    <ul class="board-toolbar vertical">
-      <li @click="() => openSettingsDialogBox()">
-        <i class="icon-white"><v-icon name="hi-solid-cog" /></i
-        ><label>Settings</label>
+    <ul
+      class="dashboard-control__board-toolbar dashboard-control__board-toolbar"
+    >
+      <li
+        @click="() => openSettingsDialogBox()"
+        class="dashboard-control__board-toolbar__item"
+      >
+        <i class="dashboard-control__board-toolbar__item__icon"
+          ><v-icon name="hi-solid-cog" /></i
+        ><label class="dashboard-control__board-toolbar__item__label"
+          >Settings</label
+        >
       </li>
-      <li @click="() => openDatasourcesDialogBox()">
-        <i class="icon-white"><v-icon name="hi-database" /></i
-        ><label>Datasources</label>
+      <li
+        @click="() => openDatasourcesDialogBox()"
+        class="dashboard-control__board-toolbar__item"
+      >
+        <i class="dashboard-control__board-toolbar__item__icon"
+          ><v-icon name="hi-database" /></i
+        ><label class="dashboard-control__board-toolbar__item__label"
+          >Datasources</label
+        >
       </li>
-      <li @click="() => openAuthProvidersDialogBox()">
-        <i class="icon-white"><v-icon name="hi-eye" /></i><label>Auth</label>
+      <li
+        @click="() => openAuthProvidersDialogBox()"
+        class="dashboard-control__board-toolbar__item"
+      >
+        <i class="dashboard-control__board-toolbar__item__icon"
+          ><v-icon name="hi-eye" /></i
+        ><label class="dashboard-control__board-toolbar__item__label"
+          >Auth</label
+        >
       </li>
-      <li class="add-pane" @click="() => dashboard.createPane()">
-        <i class="icon-white"><v-icon name="hi-plus-circle" /></i
-        ><label>Add Pane</label>
+      <li
+        @click="() => dashboard.createPane()"
+        class="dashboard-control__board-toolbar__item"
+      >
+        <i class="dashboard-control__board-toolbar__item__icon"
+          ><v-icon name="hi-plus-circle" /></i
+        ><label class="dashboard-control__board-toolbar__item__label"
+          >Add Pane</label
+        >
       </li>
     </ul>
-    <div>
+    <div class="dashboard-control__form">
       <Form
         ref="form"
         :settings="settings"
@@ -81,3 +114,7 @@ const instance = getCurrentInstance();
     </div>
   </div>
 </template>
+
+<style lang="css" scoped>
+@import url("../assets/css/components/dashboard-control.css");
+</style>

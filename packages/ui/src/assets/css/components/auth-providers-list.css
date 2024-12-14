@@ -1,0 +1,27 @@
+.auth-providers-list .auth-providers-list__table {
+  max-width: 100%;
+  background-color: transparent;
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.auth-providers-list .auth-providers-list__table__head__row__cell,
+.auth-providers-list .auth-providers-list__table__body__row__cell {
+  padding: 8px;
+  line-height: 20px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: solid 1px var(--form-table-value-subtable-border);
+}
+
+.auth-providers-list .auth-providers-list__table__head__row__cell {
+  font-weight: bold;
+  vertical-align: bottom;
+}
+
+.auth-providers-list
+  .auth-providers-list__table__body__row__cell__board-toolbar {
+  display: flex;
+}

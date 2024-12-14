@@ -19,16 +19,30 @@ onMounted(() => (index.value = 0));
 </script>
 <template>
   <div class="tab-navigator">
-    <div class="menu">
-      <ul class="board-toolbar vertical">
-        <li v-for="(field, i) in fields" @click="() => (index = i)">
-          <i class="icon-white"><v-icon :name="field.icon" /></i
-          ><label>{{ field.label }}</label>
+    <div class="tab-navigator__menu">
+      <ul class="tab-navigator__menu__board-toolbar">
+        <li
+          v-for="(field, i) in fields"
+          @click="() => (index = i)"
+          class="tab-navigator__menu__board-toolbar__item"
+          :class="{
+            'tab-navigator__menu__board-toolbar__item--active': index === i,
+          }"
+        >
+          <i class="tab-navigator__menu__board-toolbar__item__icon"
+            ><v-icon :name="field.icon" /></i
+          ><label class="tab-navigator__menu__board-toolbar__item__label">{{
+            field.label
+          }}</label>
         </li>
       </ul>
     </div>
-    <div ref="tabs" class="tabs">
+    <div ref="tabs" class="tab-navigator__tabs">
       <slot></slot>
     </div>
   </div>
 </template>
+
+<style lang="css" scoped>
+@import url("../assets/css/components/tab-navigator.css");
+</style>

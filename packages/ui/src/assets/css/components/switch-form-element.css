@@ -1,0 +1,76 @@
+.switch-form-element {
+  position: relative;
+  width: 78px;
+}
+
+.switch-form-element .switch-form-element__checkbox {
+  display: none;
+}
+
+.switch-form-element .switch-form-element__label {
+  display: block;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid var(--onoffswitch-label-border);
+  border-radius: 0px;
+}
+
+.switch-form-element .switch-form-element__label__inner {
+  width: 200%;
+  margin-left: -100%;
+  transition: margin 0.3s ease-in 0s;
+}
+
+.switch-form-element .switch-form-element__label__inner__on,
+.switch-form-element .switch-form-element__label__inner__off {
+  float: left;
+  width: 50%;
+  height: 29px;
+  padding: 0;
+  line-height: 29px;
+  font-size: 17px;
+  color: white;
+
+  box-sizing: border-box;
+}
+
+.switch-form-element .switch-form-element__label__inner__on {
+  padding-left: 6px;
+  background-color: var(--onoffswitch-on-background);
+  color: var(--onoffswitch-on-background);
+}
+
+.switch-form-element .switch-form-element__label__inner__off {
+  padding-right: 6px;
+  background-color: var(--onoffswitch-off-background);
+  color: var(--onoffswitch-off-color);
+  text-align: right;
+}
+
+.switch-form-element .switch-form-element__label__switch {
+  width: 21px;
+  margin: 4px;
+  background: var(--onoffswitch-switch-background);
+  border: 1px solid var(--onoffswitch-switch-border);
+  border-radius: 0px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 47px;
+  transition: all 0.3s ease-in 0s;
+}
+
+.switch-form-element
+  .switch-form-element__checkbox:checked
+  + .switch-form-element__label
+  .switch-form-element__label__inner {
+  margin-left: 0;
+}
+
+.switch-form-element
+  .switch-form-element__checkbox:checked
+  + .switch-form-element__label
+  .switch-form-element__label__switch {
+  right: 0px;
+  background-color: var(--onoffswitch-checked-background);
+}

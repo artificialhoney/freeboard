@@ -7,7 +7,7 @@ const emit = defineEmits(["update:modelValue"]);
 const errors = ref([]);
 const input = ref(null);
 
-const id = `onoffswitch-${new Date().getTime()}`;
+const id = `switch-${new Date().getTime()}`;
 
 const onChange = (value) => {
   emit("update:modelValue", value);
@@ -29,22 +29,26 @@ defineExpose({
 });
 </script>
 <template>
-  <div class="onoffswitch">
+  <div class="switch-form-element">
     <input
       :id="id"
       ref="input"
       type="checkbox"
-      name="onoffswitch"
-      class="onoffswitch-checkbox"
+      name="switch"
+      class="switch-form-element__checkbox"
       :disabled="props.disabled"
       @change="onChange($event.target.checked)"
     />
-    <label class="onoffswitch-label" :for="id">
-      <div class="onoffswitch-inner">
-        <span class="on">YES</span>
-        <span class="off">NO</span>
+    <label class="switch-form-element__label" :for="id">
+      <div class="switch-form-element__label__inner">
+        <span class="switch-form-element__label__inner__on">YES</span>
+        <span class="switch-form-element__label__inner__off">NO</span>
       </div>
-      <div class="onoffswitch-switch"></div>
+      <div class="switch-form-element__label__switch"></div>
     </label>
   </div>
 </template>
+
+<style lang="css" scoped>
+@import url("../assets/css/components/switch-form-element.css");
+</style>

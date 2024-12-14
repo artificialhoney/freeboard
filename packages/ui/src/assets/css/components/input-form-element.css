@@ -1,0 +1,28 @@
+.input-form-element {
+  display: inline-block;
+  height: 20px;
+  padding: 4px 6px;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--uneditable-input-color);
+  vertical-align: middle;
+  width: 100%;
+  background-color: var(--input-background);
+  border: 1px solid var(--input-border);
+  box-shadow: inset 0 1px 1px var(--input-shadow);
+  transition:
+    border linear 0.2s,
+    box-shadow linear 0.2s;
+}
+
+.input-form-element:focus {
+  border-color: var(--input-focus-border);
+  outline: 0;
+  box-shadow:
+    inset 0 1px 1px var(--input-focus-shadow1),
+    0 0 8px var(--input-focus-shadow2);
+}
+
+.input-form-element::placeholder {
+  color: var(--input-placeholder-color);
+}

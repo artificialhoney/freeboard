@@ -30,7 +30,7 @@ defineExpose({
 
 <template>
   <vue-monaco-editor
-    class="monaco-editor"
+    class="code-editor-form-element"
     v-model:value="code"
     theme="vs-dark"
     :options="MONACO_EDITOR_OPTIONS"
@@ -38,3 +38,7 @@ defineExpose({
     @mount="handleMount"
   />
 </template>
+
+<style lang="css" scoped>
+@import url("../assets/css/components/code-editor-form-element.css");
+</style>

@@ -1,0 +1,24 @@
+.textarea-form-element {
+  display: flex;
+}
+
+.textarea-form-element .textarea-form-element__textarea {
+  max-width: 400px;
+  white-space: nowrap;
+  overflow: auto;
+  z-index: 3000;
+  background-color: var(--input-background);
+  border: 1px solid var(--input-border);
+  box-shadow: inset 0 1px 1px var(--input-shadow);
+  transition:
+    border linear 0.2s,
+    box-shadow linear 0.2s;
+}
+
+.textarea-form-element .textarea-form-element__textarea:focus {
+  border-color: var(--input-focus-border);
+  outline: 0;
+  box-shadow:
+    inset 0 1px 1px var(--input-focus-shadow1),
+    0 0 8px var(--input-focus-shadow2);
+}

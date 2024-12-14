@@ -1,4 +1,4 @@
-.modal-overlay {
+.dialog-box {
   position: absolute;
   z-index: 100;
   top: 0px;
@@ -11,7 +11,7 @@
   justify-content: center;
 }
 
-.modal {
+.dialog-box .dialog-box__modal {
   position: absolute;
   background-color: var(--modal-background);
   width: 900px;
@@ -26,56 +26,52 @@
   width: 100%;
 }
 
-.modal header {
+.dialog-box .dialog-box__modal__header {
   background-color: var(--modal-header-background);
   height: 40px;
   margin: 0;
   padding: 0 10px 0 10px;
   color: var(--modal-header-color);
   text-transform: uppercase;
+  font-family: "Helvetica-Neue", "Helvetica", "Arial", sans-serif;
+  font-style: normal;
+  color: var(--title-color);
+  display: flex;
+  align-items: center;
 }
 
-.modal footer {
+.dialog-box .dialog-box__modal__content {
+  padding: 25px;
+  padding-bottom: 55px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.dialog-box .dialog-box__modal__footer {
   background-color: var(--modal-footer-background);
   height: 40px;
   margin: 0;
   color: var(--modal-footer-color);
   text-transform: uppercase;
-  clear: both;
-}
-
-.modal footer {
   text-align: right;
 }
 
-.modal footer .text-button {
-  line-height: 40px;
-  padding-left: 15px;
-  padding-right: 15px;
-  display: inline-block;
-}
-
-.modal section {
-  padding: 25px;
-  padding-bottom: 55px;
-  height: 100%;
-}
-
 @media screen and (max-width: 960px) {
-  .modal {
+  .dialog-box .dialog-box__modal {
     width: 100%;
     top: 0px;
     left: 0px;
   }
 
-  .modal section {
+  .dialog-box .dialog-box__modal__content {
     padding-bottom: 10px;
     padding-top: 10px;
   }
 }
 
 @media screen and (max-width: 640px) {
-  .modal {
+  .dialog-box .dialog-box__modal {
     height: 100%;
   }
 }

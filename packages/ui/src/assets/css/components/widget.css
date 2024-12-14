@@ -1,0 +1,25 @@
+.widget {
+  height: 100%;
+}
+
+.widget .widget__sub-section {
+  padding: 0;
+  border-bottom: solid 1px var(--sub-section-border);
+  display: flex;
+  min-height: 30px;
+  height: 100%;
+}
+
+.widget .widget__sub-section__widget-output {
+  padding: 5px 10px 5px 10px;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.widget .widget__sub-section__board-toolbar {
+  display: flex;
+  gap: 5px;
+  position: absolute;
+  right: 0;
+}

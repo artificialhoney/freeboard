@@ -1,0 +1,23 @@
+.toggle-header-button {
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  width: 50px;
+  background-color: var(--toggle-header-background);
+  text-align: center;
+  cursor: pointer;
+}
+
+.toggle-header-button .toggle-header-button__icon {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 5px 0;
+  align-items: center;
+  justify-content: center;
+  color: var(--icon-white-color);
+}
+
+.toggle-header-button .toggle-header-button__icon__svg {
+  height: 18px;
+}

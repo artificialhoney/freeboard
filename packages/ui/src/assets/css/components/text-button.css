@@ -1,0 +1,46 @@
+.text-button {
+  line-height: 40px;
+  padding-left: 15px;
+  padding-right: 15px;
+  display: inline-block;
+  color: var(--text-button-color);
+  cursor: pointer;
+  text-transform: uppercase;
+  background: none;
+  border: none;
+}
+
+.text-button:hover,
+.text-button:focus {
+  color: var(--text-button-color);
+  text-decoration: none;
+}
+
+.text-button::before,
+.text-button::after {
+  display: inline-block;
+  opacity: 0;
+  transition:
+    transform 0.3s,
+    opacity 0.2s;
+}
+
+.text-button::before {
+  margin-right: 5px;
+  content: "[";
+  transform: translateX(10px);
+}
+
+.text-button::after {
+  margin-left: 5px;
+  content: "]";
+  transform: translateX(-10px);
+}
+
+.text-button:hover::before,
+.text-button:hover::after,
+.text-button:focus::before,
+.text-button:focus::after {
+  opacity: 1;
+  transform: translateX(0px);
+}

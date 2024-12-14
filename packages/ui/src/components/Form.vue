@@ -23,6 +23,9 @@ const components = ref({});
 
 const applySettings = (s) => {
   const m = {};
+  if (!s) {
+    return;
+  }
   fields.value.forEach((f) => {
     m[f.name] = s[f.name] !== undefined ? s[f.name] : f.default;
   });
@@ -158,12 +161,15 @@ const onUpdate = () => {
 
 <template>
   <form class="form" action="">
-    <div class="form-row" v-for="field in props.fields.map(fieldToFormElement)">
-      <div class="form-label" v-if="!hideLabels">
-        <label class="control-label">{{ field.label }}</label>
+    <div
+      class="form__row"
+      v-for="field in props.fields.map(fieldToFormElement)"
+    >
+      <div class="form__row__label" v-if="!hideLabels">
+        <label>{{ field.label }}</label>
       </div>
-      <div class="form-value">
-        <div class="input-container">
+      <div class="form__row__value">
+        <div class="form__row__value__container">
           <component
             :ref="(el) => storeComponentRef(field.name, el)"
             :is="field.component"
@@ -178,17 +184,23 @@ const onUpdate = () => {
           ></component>
         </div>
         <div
-          class="validation-error"
+          class="form__row__value__error"
           v-for="error in errors[field.name]"
           v-if="errors[field.name]"
         >
           {{ error }}
         </div>
-        <div class="setting-description" v-if="field.description">
+        <div class="form__row__value__description" v-if="field.description">
           {{ field.description }}
         </div>
       </div>
-      <div class="input-suffix" v-if="field.suffix">{{ field.suffix }}</div>
+      <div class="form__row__suffix" v-if="field.suffix">
+        {{ field.suffix }}
+      </div>
     </div>
   </form>
 </template>
+
+<style lang="css" scoped>
+@import url("../assets/css/components/form.css");
+</style>

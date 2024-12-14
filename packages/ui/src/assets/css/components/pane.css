@@ -1,0 +1,22 @@
+.pane {
+  background: var(--pane-background);
+  height: 100%;
+  overflow: hidden;
+}
+
+.pane .pane__header {
+  background-color: var(--pane-header-background);
+  height: 30px;
+  margin: 0;
+  padding: 0 10px 0 10px;
+  color: var(--pane-header-color);
+  text-transform: uppercase;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pane .pane__header__board-toolbar {
+  display: flex;
+  gap: 10px;
+}

@@ -55,6 +55,7 @@ const onDialogBoxOk = async () => {
 <template>
   <div class="login">
     <DialogBox
+      class="login__dialog-box"
       ref="dialog"
       header="Login"
       ok="Login"
@@ -64,3 +65,7 @@ const onDialogBoxOk = async () => {
     </DialogBox>
   </div>
 </template>
+
+<style lang="css" scoped>
+@import url("../assets/css/components/login.css");
+</style>

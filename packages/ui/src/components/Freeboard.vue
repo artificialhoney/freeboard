@@ -73,10 +73,14 @@ showLoadingIndicator.value = false;
 
 <template>
   <Transition>
-    <div class="app-container">
+    <div class="freeboard">
       <Preloader v-if="showLoadingIndicator" />
       <Header v-if="freeboardStore.isLoggedIn() && !showLoadingIndicator" />
       <Board v-if="!showLoadingIndicator" />
     </div>
   </Transition>
 </template>
+
+<style lang="css" scoped>
+@import url("../assets/css/components/freeboard.css");
+</style>

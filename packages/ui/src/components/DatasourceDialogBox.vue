@@ -65,6 +65,7 @@ const onDialogBoxOk = () => {
 
 <template>
   <DialogBox
+    class="datasource-dialog-box"
     :header="header"
     ok="Save"
     ref="dialog"
@@ -72,11 +73,11 @@ const onDialogBoxOk = () => {
     @close="onClose"
     @ok="() => onDialogBoxOk()"
   >
-    <div class="form-row">
-      <div class="form-label">
-        <label class="control-label">Type</label>
+    <div class="datasource-dialog-box__form__row">
+      <div class="datasource-dialog-box__form__row__label">
+        <label>Type</label>
       </div>
-      <div class="form-value">
+      <div class="datasource-dialog-box__form__row__value">
         <SelectFormElement
           v-model="typeRef"
           :options="datasourcePluginsOptions"
@@ -87,3 +88,7 @@ const onDialogBoxOk = () => {
     <Form ref="form" :settings="settings" :fields="fields" v-if="typeRef" />
   </DialogBox>
 </template>
+
+<style lang="css" scoped>
+@import url("../assets/css/components/datasource-dialog-box.css");
+</style>

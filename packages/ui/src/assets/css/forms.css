@@ -166,33 +166,6 @@ input[type="color"],
   background-color: var(--styled-select-background);
 }
 
-.styled-select select {
-  width: 100%;
-  position: absolute;
-}
-
-.styled-select i {
-  position: absolute;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  pointer-events: none;
-  display: flex;
-  align-items: center;
-}
-
-.styled-select {
-  width: 100%;
-  height: 20px;
-  padding: 4px 6px;
-  background-color: var(--select-background);
-}
-
-input.small,
-textarea.small {
-  width: 133px;
-}
-
 textarea {
   height: auto;
 }
@@ -254,15 +227,6 @@ textarea:-moz-placeholder {
   color: var(--input-placeholder-color);
 }
 
-.form {
-  width: 100%;
-}
-
-.form-row {
-  display: flex;
-  width: 100%;
-}
-
 .form-value input[type="checkbox"] {
   margin-top: 8px;
 }
@@ -277,16 +241,6 @@ textarea:-moz-placeholder {
   height: 42px;
   padding-top: 4px;
   width: 20%;
-}
-
-.form-value {
-  width: 60%;
-  display: flex;
-  flex-direction: column;
-}
-
-.form-value .input-container {
-  display: flex;
 }
 
 input.table-row-value {
@@ -331,26 +285,4 @@ td.form-table-value > input[type="checkbox"] {
 
 .table-row-operation > i {
   cursor: pointer;
-}
-
-.calculated-value {
-  display: flex;
-}
-
-textarea.calculated-value-input {
-  max-width: 400px;
-  white-space: nowrap;
-  overflow: auto;
-  z-index: 3000;
-}
-
-.input-suffix {
-  display: inline-block;
-  height: 22px;
-  padding: 4px 15px;
-  line-height: 23px;
-  vertical-align: middle;
-  text-transform: uppercase;
-  font-size: 11px;
-  min-width: 16px;
 }
