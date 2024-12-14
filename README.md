@@ -25,6 +25,8 @@ npm install
 
 ## Usage
 
+**Login:** admin@freeboard / freeboard
+
 ### Docker-Compose
 
 ```bash
