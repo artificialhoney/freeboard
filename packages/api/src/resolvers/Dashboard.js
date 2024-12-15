@@ -10,7 +10,7 @@ export default {
       const res = await Dashboard.findOne({ _id });
 
       if (res && res.published) {
-        return { ...transformDashboard(res), user: res.user._id };
+        return { ...transformDashboard(res), user: context.user._id };
       } else if (!res.published) {
         ensureThatUserIsLogged(context);
         if (context.user._id === res.user) {
