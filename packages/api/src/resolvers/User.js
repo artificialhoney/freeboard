@@ -1,5 +1,5 @@
 import { createGraphQLError } from "graphql-yoga";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import User from "../models/User.js";
 import {
   createAuthToken,

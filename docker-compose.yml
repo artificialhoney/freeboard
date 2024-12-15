@@ -1,18 +1,27 @@
-include:
-  - ./packages/api/docker-compose.yml
-  - ./packages/proxy/docker-compose.yml
 services:
   ui:
-    image: nginx
+    image: ghcr.io/artificialhoney/freeboard-ui:dev
     restart: unless-stopped
     container_name: ui
-    volumes:
-      - ./packages/ui/dist:/usr/share/nginx/html/
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
     ports:
       - 8088:80
     networks:
       - freeboard
+  api:
+    restart: unless-stopped
+    container_name: api
+    image: ghcr.io/artificialhoney/freeboard-api:dev
+    environment:
+      - MONGO_URL=${FREEBOARD_MONGO_URL:-mongodb://root:unsecure@localhost:27017}
+    networks:
+      - freeboard
+  proxy:
+    restart: unless-stopped
+    container_name: proxy
+    image: ghcr.io/artificialhoney/freeboard-proxy:dev
+    networks:
+      - freeboard
+
 networks:
   freeboard:
     name: freeboard
