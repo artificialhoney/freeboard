@@ -63,12 +63,13 @@ const onDialogBoxOk = () => {
     cancel="Cancel"
     @close="onClose"
     @ok="() => onDialogBoxOk()"
+    class="widget-dialog-box"
   >
-    <div class="form-row">
-      <div class="form-label">
-        <label class="control-label">Type</label>
+    <div class="widget-dialog-box__form__row">
+      <div class="widget-dialog-box__form__row__label">
+        <label>Type</label>
       </div>
-      <div class="form-value">
+      <div class="widget-dialog-box__form__row__value">
         <SelectFormElement
           v-model="typeRef"
           :options="widgetPluginsOptions"
@@ -79,3 +80,7 @@ const onDialogBoxOk = () => {
     <Form ref="form" :settings="settings" :fields="fields" v-if="typeRef" />
   </DialogBox>
 </template>
+
+<style lang="css" scoped>
+@import url("../assets/css/components/widget-dialog-box.css");
+</style>

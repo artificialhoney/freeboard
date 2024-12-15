@@ -65,8 +65,8 @@ freeboardStore.loadDatasourcePlugin(JSONDatasource);
 freeboardStore.loadDatasourcePlugin(ClockDatasource);
 freeboardStore.loadWidgetPlugin(TemplateWidget);
 
-freeboardStore.toggleAllowEdit();
-freeboardStore.toggleIsEditing();
+freeboardStore.allowEdit = freeboardStore.isLoggedIn();
+freeboardStore.isEditing = freeboardStore.isLoggedIn();
 
 showLoadingIndicator.value = false;
 </script>

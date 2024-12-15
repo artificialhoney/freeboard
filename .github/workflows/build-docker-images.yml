@@ -1,7 +1,7 @@
 name: Build & publish docker images
 on:
   workflow_dispatch:
-  push: { branches: ["dev-docker"] }
+  push: { branches: ["dev"] }
 
 env:
   REGISTRY: ghcr.io

@@ -40,12 +40,12 @@ defineExpose({
       class="textarea-form-element__textarea"
       >{{ props.modelValue }}</textarea
     >
-    <ul class="textarea-form-element__textarea__board-toolbar">
+    <ul class="textarea-form-element__board-toolbar">
       <li
         @click="() => openCodeEditor()"
-        class="textarea-form-element__textarea__board-toolbar__item"
+        class="textarea-form-element__board-toolbar__item"
       >
-        <i class="textarea-form-element__textarea__board-toolbar__item__icon"
+        <i class="textarea-form-element__board-toolbar__item__icon"
           ><v-icon name="hi-variable"></v-icon></i
         ><label>CODE</label>
       </li>
