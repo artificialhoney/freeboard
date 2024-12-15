@@ -17,6 +17,18 @@
   top: 0;
 }
 
+.board .board__grid--md {
+  max-width: 960px;
+}
+
+.board .board__grid--lg {
+  max-width: 1280px;
+}
+
+.board .board__grid--xl {
+  max-width: 1536px;
+}
+
 @media screen and (max-width: 640px) {
   .board .board__grid {
     height: 100% !important;

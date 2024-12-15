@@ -1,11 +1,11 @@
 {
   "name": "@freeboard/proxy",
   "version": "0.1.0",
-  "main": "index.js",
+  "main": "src/index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon index.js",
-    "docker:dev": "node index.js"
+    "dev": "nodemon src/index.js",
+    "start": "node src/index.js"
   },
   "private": true,
   "dependencies": {

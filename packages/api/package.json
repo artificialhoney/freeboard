@@ -1,11 +1,11 @@
 {
   "name": "@freeboard/api",
   "version": "0.1.0",
-  "main": "index.js",
+  "main": "src/index.js",
   "type": "module",
   "scripts": {
     "dev": "nodemon src/index.js",
-    "docker:dev": "node src/index.js"
+    "start": "node src/index.js"
   },
   "private": true,
   "dependencies": {
@@ -24,13 +24,5 @@
     "nodemon": "^3.1.7",
     "shortid": "^2.2.16",
     "uuid": "^11.0.3"
-  },
-  "jest": {
-    "setupFiles": [
-      "<rootDir>/config/tests/jest.config"
-    ],
-    "transform": {
-      "^.+\\.js$": "babel-jest"
-    }
   }
 }

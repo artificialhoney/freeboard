@@ -3,4 +3,4 @@ WORKDIR /usr/app
 COPY ./ /usr/app
 RUN npm install
 EXPOSE 8001
-CMD [ "npm", "run", "docker:dev" ]
+CMD [ "npm", "run", "start" ]
