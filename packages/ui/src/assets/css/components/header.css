@@ -6,8 +6,8 @@
 
 .header .header__admin-bar {
   width: 100%;
-  background-color: var(--admin-bar-background);
-  box-shadow: 0 0 5px var(--admin-bar-shadow);
+  background-color: var(--color-shade-2);
+  box-shadow: 0 0 5px var(--color-shadow);
 }
 
 .header .header__admin-bar__admin-menu {
@@ -24,7 +24,7 @@
   font-family: "Helvetica-Neue", "Helvetica", "Arial", sans-serif;
   vertical-align: baseline;
   font-style: normal;
-  color: var(--title-color);
+  color: var(--color-foreground);
   font-size: 1.7rem;
   font-weight: 800;
   margin-bottom: 20px;

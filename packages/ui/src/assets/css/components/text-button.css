@@ -3,7 +3,7 @@
   padding-left: 15px;
   padding-right: 15px;
   display: inline-block;
-  color: var(--text-button-color);
+  color: var(--color-primary);
   cursor: pointer;
   text-transform: uppercase;
   background: none;
@@ -12,7 +12,7 @@
 
 .text-button:hover,
 .text-button:focus {
-  color: var(--text-button-color);
+  color: var(--color-primary);
   text-decoration: none;
 }
 

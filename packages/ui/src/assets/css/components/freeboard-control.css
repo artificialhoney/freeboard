@@ -15,20 +15,19 @@
 
 .freeboard-control .freeboard-control__board-toolbar__item {
   display: flex;
-  color: var(--board-toolbar-li-color);
+  color: var(--color-primary);
   cursor: pointer;
   margin: 0px 0px 0px 5px;
-  background-color: var(--board-toolbar-li-background);
   padding: 4px;
 }
 
 .freeboard-control .freeboard-control__board-toolbar__item:hover {
-  background-color: var(--board-toolbar-li-hover-background);
+  background-color: var(--color-shade-5);
   transition: 250ms linear;
 }
 
 .freeboard-control .freeboard-control__board-toolbar__item__icon {
-  color: var(--icon-white-color);
+  color: var(--color-foreground);
 }
 
 .freeboard-control .freeboard-control__board-toolbar__item__label {

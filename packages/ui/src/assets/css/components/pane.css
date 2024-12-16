@@ -1,15 +1,15 @@
 .pane {
-  background: var(--pane-background);
+  background: var(--color-shade-0);
   height: 100%;
   overflow: hidden;
 }
 
 .pane .pane__header {
-  background-color: var(--pane-header-background);
+  background-color: var(--color-shade-1);
   height: 30px;
   margin: 0;
   padding: 0 10px 0 10px;
-  color: var(--pane-header-color);
+  color: var(--color-shade-8);
   text-transform: uppercase;
   display: flex;
   justify-content: space-between;

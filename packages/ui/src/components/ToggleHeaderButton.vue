@@ -8,10 +8,7 @@ const { isEditing } = storeToRefs(freeboardStore);
 </script>
 
 <template>
-  <div
-    class="toggle-header-button"
-    @click="() => freeboardStore.toggleIsEditing()"
-  >
+  <div class="toggle-header-button" @click="() => (isEditing = !isEditing)">
     <i class="toggle-header-button__icon"
       ><v-icon
         class="toggle-header-button__icon__svg"

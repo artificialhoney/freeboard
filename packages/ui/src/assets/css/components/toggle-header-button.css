@@ -3,7 +3,7 @@
   left: 0;
   right: 0;
   width: 50px;
-  background-color: var(--toggle-header-background);
+  background-color: var(--color-shade-2);
   text-align: center;
   cursor: pointer;
 }
@@ -15,7 +15,7 @@
   padding: 5px 0;
   align-items: center;
   justify-content: center;
-  color: var(--icon-white-color);
+  color: var(--color-foreground);
 }
 
 .toggle-header-button .toggle-header-button__icon__svg {

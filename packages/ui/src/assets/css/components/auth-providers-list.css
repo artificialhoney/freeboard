@@ -13,7 +13,7 @@
   line-height: 20px;
   text-align: left;
   vertical-align: top;
-  border-bottom: solid 1px var(--form-table-value-subtable-border);
+  border-bottom: solid 1px var(--color-shade-4);
 }
 
 .auth-providers-list .auth-providers-list__table__head__row__cell {

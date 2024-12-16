@@ -39,5 +39,5 @@
 }
 
 .column-toolbar .column-toolbar__board-toolbar__item__icon {
-  color: var(--icon-white-color);
+  color: var(--color-foreground);
 }

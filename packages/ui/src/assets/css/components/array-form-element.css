@@ -1,5 +1,5 @@
 .array-form-element {
-  border-bottom: solid 1px var(--form-table-value-subtable-border);
+  border-bottom: solid 1px var(--color-shade-4);
   width: 100%;
 }
 
@@ -14,7 +14,7 @@
 
 .array-form-element .array-form-element__table__head__row,
 .array-form-element .array-form-element__table__body__row {
-  border-bottom: solid 1px var(--form-table-value-subtable-border);
+  border-bottom: solid 1px var(--color-shade-4);
 }
 
 .array-form-element .array-form-element__table__body__row {

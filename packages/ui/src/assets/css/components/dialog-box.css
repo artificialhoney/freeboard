@@ -5,15 +5,16 @@
   left: 0px;
   height: 100%;
   width: 100%;
-  background: var(--modal-overlay-background);
+  background-color: var(--color-overlay);
   display: flex;
   align-items: center;
   justify-content: center;
+  color: var(--color-shade-8);
 }
 
 .dialog-box .dialog-box__modal {
   position: absolute;
-  background-color: var(--modal-background);
+  background-color: var(--color-shade-0);
   width: 900px;
   margin: auto;
   display: flex;
@@ -27,15 +28,15 @@
 }
 
 .dialog-box .dialog-box__modal__header {
-  background-color: var(--modal-header-background);
+  background-color: var(--color-shade-1);
   height: 40px;
   margin: 0;
   padding: 0 10px 0 10px;
-  color: var(--modal-header-color);
+  color: var(--color-shade-8);
   text-transform: uppercase;
   font-family: "Helvetica-Neue", "Helvetica", "Arial", sans-serif;
   font-style: normal;
-  color: var(--title-color);
+  color: var(--color-foreground);
   display: flex;
   align-items: center;
 }
@@ -49,10 +50,10 @@
 }
 
 .dialog-box .dialog-box__modal__footer {
-  background-color: var(--modal-footer-background);
+  background-color: var(--color-shade-1);
   height: 40px;
   margin: 0;
-  color: var(--modal-footer-color);
+  color: var(--color-shade-8);
   text-transform: uppercase;
   text-align: right;
 }

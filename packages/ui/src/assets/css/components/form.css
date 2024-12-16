@@ -15,6 +15,7 @@
   height: 42px;
   padding-top: 4px;
   width: 20%;
+  color: var(--color-shade-8);
 }
 
 .form .form__row__value {
@@ -30,7 +31,7 @@
 .form .form__row__value__error {
   margin-top: 7px;
   margin-bottom: 7px;
-  color: var(--validation-error-color);
+  color: var(--color-error);
   font-size: 13px;
 }
 

@@ -17,11 +17,11 @@
 .preloader .preloader__loading--up {
   height: 200px;
   width: 200px;
-  border: 3px solid var(--loading-up-border);
-  border-top-color: var(--loading-up-border-top);
-  border-left-color: var(--loading-up-border-left);
-  border-right-color: var(--loading-up-border-right);
-  border-bottom-color: var(--loading-up-border-bottom);
+  border: 3px solid var(--color-shade-10);
+  border-top-color: var(--color-shade-10);
+  border-left-color: var(--color-shade-6);
+  border-right-color: var(--color-shade-6);
+  border-bottom-color: var(--color-shade-10);
 
   animation: rotation 3s linear infinite;
 }
@@ -33,11 +33,11 @@
   margin-top: -50px;
   left: 50%;
   margin-left: -50px;
-  border: 3px solid var(--loading-down-border);
-  border-left-color: var(--loading-down-border-left);
-  border-top-color: var(--loading-down-border-top);
-  border-bottom-color: var(--loading-down-border-bottom);
-  border-right-color: var(--loading-dorn-border-right);
+  border: 3px solid var(--color-shade-10);
+  border-left-color: var(--color-shade-10);
+  border-top-color: var(--color-shade-6);
+  border-bottom-color: var(--color-shade-6);
+  border-right-color: var(--color-shade-10);
   animation: rotation 1s linear infinite;
 }
 
