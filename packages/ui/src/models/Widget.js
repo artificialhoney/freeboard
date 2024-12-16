@@ -147,12 +147,12 @@ export class Widget {
           }
 
           // If there is no return, add one
-          if (
-            (script.match(/;/g) || []).length <= 1 &&
-            script.indexOf("return") == -1
-          ) {
-            script = "return " + script;
-          }
+          // if (
+          //   (script.match(/;/g) || []).length <= 1 &&
+          //   script.indexOf("return") == -1
+          // ) {
+          //   script = "return " + script;
+          // }
 
           let valueFunction;
 

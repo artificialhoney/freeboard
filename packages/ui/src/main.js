@@ -36,6 +36,7 @@ import { createPinia, storeToRefs } from "pinia";
 import router from "./router";
 import { useFreeboardStore } from "./stores/freeboard";
 import { SSELink } from "./sse";
+import { createHead } from "@unhead/vue";
 
 addIcons(
   HiDatabase,
@@ -58,6 +59,8 @@ addIcons(
   HiSolidHome,
   HiSolidArchive,
 );
+
+const head = createHead();
 
 const pinia = createPinia();
 
@@ -105,6 +108,7 @@ const app = createApp({
 })
   .use(pinia)
   .use(router)
+  .use(head)
   .use(VueMonacoEditorPlugin, { monaco })
   .component("v-icon", OhVueIcon)
   .mount("#app");
