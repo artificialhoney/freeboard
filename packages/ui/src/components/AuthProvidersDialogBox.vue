@@ -8,7 +8,11 @@ const { onClose } = defineProps({
 </script>
 
 <template>
-  <DialogBox header="Auth" cancel="Cancel" @close="onClose">
+  <DialogBox
+    header="Auth"
+    :cancel="$t('dialogBox.buttonCancel')"
+    @close="onClose"
+  >
     <AuthProvidersList />
   </DialogBox>
 </template>

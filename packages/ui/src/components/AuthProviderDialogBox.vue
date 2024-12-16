@@ -5,6 +5,9 @@ import Form from "./Form.vue";
 import SelectFormElement from "./SelectFormElement.vue";
 import { useFreeboardStore } from "../stores/freeboard";
 import { storeToRefs } from "pinia";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const freeboardStore = useFreeboardStore();
 
@@ -33,7 +36,7 @@ watch(
     const data = [
       {
         name: "name",
-        label: "Name",
+        label: t("form.labelName"),
         type: "text",
         required: true,
       },
@@ -67,21 +70,21 @@ const onDialogBoxOk = () => {
   <DialogBox
     :header="header"
     ref="dialog"
-    ok="Save"
-    cancel="Cancel"
+    :ok="$t('dialogBox.buttonOk')"
+    :cancel="$t('dialogBox.buttonCancel')"
     @close="onClose"
     @ok="onDialogBoxOk"
     class="auth-provider-dialog-box"
   >
     <div class="auth-provider-dialog-box__form__row">
       <div class="auth-provider-dialog-box__form__row__label">
-        <label>Type</label>
+        <label>{{ $t("authProviderDialogBox.labelType") }}</label>
       </div>
       <div class="auth-provider-dialog-box__form__row__value">
         <SelectFormElement
           v-model="typeRef"
           :options="authPluginsOptions"
-          placeholder="Select an auth type..."
+          :placeholder="$t('authProviderDialogBox.placeholderType')"
         />
       </div>
     </div>

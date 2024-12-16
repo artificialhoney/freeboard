@@ -5,6 +5,9 @@ import Form from "./Form.vue";
 import SelectFormElement from "./SelectFormElement.vue";
 import { useFreeboardStore } from "../stores/freeboard";
 import { storeToRefs } from "pinia";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const freeboardStore = useFreeboardStore();
 
@@ -33,7 +36,7 @@ watch(
     const data = [
       {
         name: "name",
-        label: "Name",
+        label: t("form.labelName"),
         type: "text",
         required: true,
       },
@@ -67,21 +70,21 @@ const onDialogBoxOk = () => {
   <DialogBox
     class="datasource-dialog-box"
     :header="header"
-    ok="Save"
+    :ok="$t('dialogBox.buttonOk')"
+    :cancel="$t('dialogBox.buttonCancel')"
     ref="dialog"
-    cancel="Cancel"
     @close="onClose"
     @ok="() => onDialogBoxOk()"
   >
     <div class="datasource-dialog-box__form__row">
       <div class="datasource-dialog-box__form__row__label">
-        <label>Type</label>
+        <label>{{ $t("datasourceDialogBox.labelType") }}</label>
       </div>
       <div class="datasource-dialog-box__form__row__value">
         <SelectFormElement
           v-model="typeRef"
           :options="datasourcePluginsOptions"
-          placeholder="Select a datasource type..."
+          :placeholder="$t('datasourceDialogBox.placeholderType')"
         />
       </div>
     </div>

@@ -1,12 +1,12 @@
 export class ClockDatasource {
   static typeName = "clock";
   static label = "Clock";
-  static fields = [
+  static fields = (dashboard, t) => [
     {
       name: "refresh",
-      label: "Refresh Every",
+      label: t("form.labelRefresh"),
       type: "number",
-      suffix: "seconds",
+      suffix: t("form.suffixRefresh"),
       default: 1,
     },
   ];

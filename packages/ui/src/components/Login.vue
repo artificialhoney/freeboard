@@ -6,6 +6,9 @@ import { USER_AUTH_MUTATION } from "../gql";
 import { useMutation } from "@vue/apollo-composable";
 import { useFreeboardStore } from "../stores/freeboard";
 import router from "../router";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const freeboardStore = useFreeboardStore();
 
@@ -21,14 +24,14 @@ watch(
     fields.value = [
       {
         name: "email",
-        label: "Email",
+        label: t("form.labelEmail"),
         type: "text",
         required: true,
         disabled: l,
       },
       {
         name: "password",
-        label: "Password",
+        label: t("form.labelPassword"),
         type: "password",
         required: true,
         disabled: l,
@@ -58,7 +61,7 @@ const onDialogBoxOk = async () => {
       class="login__dialog-box"
       ref="dialog"
       header="Login"
-      ok="Login"
+      :ok="$t('login.buttonOk')"
       @ok="() => onDialogBoxOk()"
     >
       <Form ref="form" :fields="fields" />

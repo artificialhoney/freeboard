@@ -1,9 +1,9 @@
 import { MAX_COLUMNS, MIN_COLUMNS } from "./models/Dashboard";
 
-export default (dashboard) => {
+export default (dashboard, t) => {
   return [
     {
-      label: "General",
+      label: t("form.labelGeneral"),
       icon: "hi-solid-home",
       name: "general",
       settings: {
@@ -13,13 +13,13 @@ export default (dashboard) => {
       fields: [
         {
           name: "title",
-          label: "Title",
+          label: t("form.labelTitle"),
           type: "text",
           required: true,
         },
         {
           name: "columns",
-          label: "Columns",
+          label: t("form.labelColumns"),
           type: "option",
           required: true,
           options: [...Array(MAX_COLUMNS).keys()]
@@ -28,13 +28,13 @@ export default (dashboard) => {
         },
         {
           name: "published",
-          label: "Published",
+          label: t("form.labelPublished"),
           type: "boolean",
         },
       ],
     },
     {
-      label: "Style",
+      label: t("form.labelStyle"),
       icon: "hi-code",
       name: "style",
       settings: {
@@ -43,14 +43,14 @@ export default (dashboard) => {
       fields: [
         {
           name: "style",
-          label: "Style",
+          label: t("form.labelStyle"),
           type: "code",
           language: "css",
         },
       ],
     },
     {
-      label: "Script",
+      label: t("form.labelScript"),
       icon: "hi-variable",
       name: "script",
       settings: {
@@ -59,14 +59,14 @@ export default (dashboard) => {
       fields: [
         {
           name: "script",
-          label: "Script",
+          label: t("form.labelScript"),
           type: "code",
           language: "javascript",
         },
       ],
     },
     {
-      label: "Resources",
+      label: t("form.labelResources"),
       icon: "hi-solid-archive",
       name: "resources",
       settings: {
@@ -75,29 +75,29 @@ export default (dashboard) => {
       fields: [
         {
           name: "resources",
-          label: "Resources",
+          label: t("form.labelResources"),
           type: "array",
           settings: [
             {
               name: "type",
-              label: "Type",
+              label: t("form.labelType"),
               type: "option",
               required: true,
               default: "script",
               options: [
                 {
-                  label: "Script",
+                  label: t("form.labelScript"),
                   value: "script",
                 },
                 {
-                  label: "Stylesheet",
+                  label: t("form.labelStylesheet"),
                   value: "style",
                 },
               ],
             },
             {
               name: "url",
-              label: "URL",
+              label: t("form.labelUrl"),
               type: "text",
             },
           ],

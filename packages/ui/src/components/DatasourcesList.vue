@@ -6,13 +6,16 @@ import ConfirmDialogBox from "./ConfirmDialogBox.vue";
 import { Datasource } from "../models/Datasource";
 import { getCurrentInstance } from "vue";
 import TextButton from "./TextButton.vue";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const freeboardStore = useFreeboardStore();
 const { dashboard } = storeToRefs(freeboardStore);
 
 const openDatasourceEditDialogBox = (datasource) => {
   freeboardStore.createComponent(DatasourceDialogBox, instance.appContext, {
-    header: "Edit Datasource",
+    header: t("datasourcesList.titleEdit"),
     settings: { ...datasource.settings, name: datasource.name },
     type: datasource.type,
     onOk: (newSettings) => {
@@ -26,7 +29,7 @@ const openDatasourceEditDialogBox = (datasource) => {
 
 const openDatasourceDeleteDialogBox = (datasource) => {
   freeboardStore.createComponent(ConfirmDialogBox, instance.appContext, {
-    title: "Datasource",
+    title: t("datasourcesList.titleDelete"),
     onOk: () => {
       dashboard.value.deleteDatasource(datasource);
     },
@@ -35,7 +38,7 @@ const openDatasourceDeleteDialogBox = (datasource) => {
 
 const openDatasourceAddDialogBox = () => {
   freeboardStore.createComponent(DatasourceDialogBox, instance.appContext, {
-    header: "Add Datasource",
+    header: t("datasourcesList.titleAdd"),
     onOk: (newSettings) => {
       const newViewModel = new Datasource();
 
@@ -58,8 +61,12 @@ const instance = getCurrentInstance();
     <table class="datasources-list__table" v-if="dashboard.datasources.length">
       <thead class="datasources-list__table__head">
         <tr class="datasources-list__table__head__row">
-          <th class="datasources-list__table__head__row__cell">Name</th>
-          <th class="datasources-list__table__head__row__cell">Last Updated</th>
+          <th class="datasources-list__table__head__row__cell">
+            {{ t("datasourcesList.labelName") }}
+          </th>
+          <th class="datasources-list__table__head__row__cell">
+            {{ t("datasourcesList.labelLastUpdated") }}
+          </th>
           <th class="datasources-list__table__head__row__cell">&nbsp;</th>
         </tr>
       </thead>
@@ -103,7 +110,9 @@ const instance = getCurrentInstance();
       </tbody>
     </table>
     <div class="datasources-list__operations">
-      <TextButton @click="() => openDatasourceAddDialogBox()">ADD</TextButton>
+      <TextButton @click="() => openDatasourceAddDialogBox()">{{
+        t("datasourcesList.buttonAdd")
+      }}</TextButton>
     </div>
   </div>
 </template>

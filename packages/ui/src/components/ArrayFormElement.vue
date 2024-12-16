@@ -88,7 +88,9 @@ defineExpose({
       </tbody>
     </table>
     <div class="array-form-element__operations">
-      <TextButton @click="onSettingAdd()">ADD</TextButton>
+      <TextButton @click="onSettingAdd()">{{
+        $t("arrayFormElement.buttonAdd")
+      }}</TextButton>
     </div>
   </div>
 </template>

@@ -47,7 +47,7 @@ defineExpose({
       >
         <i class="textarea-form-element__board-toolbar__item__icon"
           ><v-icon name="hi-variable"></v-icon></i
-        ><label>CODE</label>
+        ><label>{{ $t("textareaFormElement.labelCode") }}</label>
       </li>
     </ul>
   </div>

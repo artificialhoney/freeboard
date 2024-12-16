@@ -5,67 +5,65 @@ import proxy from "../proxy";
 export class JSONDatasource {
   static typeName = "json";
   static label = "JSON";
-  static fields = (dashboard) => {
+  static fields = (dashboard, t) => {
     return [
       {
         name: "url",
-        label: "URL",
+        label: t("form.labelUrl"),
         type: "text",
         required: true,
       },
       {
         name: "useProxy",
-        label: "Use Proxy",
-        description:
-          "A direct JSON connection will be tried first, if that fails, a JSONP connection will be tried. If that fails, you can use the Proxy.",
+        label: t("form.labelUseProxy"),
+        description: t("form.descriptionUseProxy"),
         type: "boolean",
         default: true,
       },
       {
         name: "refresh",
-        label: "Refresh Every",
+        label: t("form.labelRefresh"),
         type: "number",
-        suffix: "seconds",
+        suffix: t("form.suffixRefresh"),
         default: 5,
         required: true,
       },
       {
         name: "method",
-        label: "Method",
+        label: t("form.labelMethod"),
         type: "option",
         default: "GET",
         required: true,
         options: [
           {
-            label: "GET",
+            label: t("form.labelMethodGET"),
             value: "GET",
           },
           {
-            label: "POST",
+            label: t("form.labelMethodPOST"),
             value: "POST",
           },
           {
-            label: "PUT",
+            label: t("form.labelMethodPUT"),
             value: "PUT",
           },
           {
-            label: "DELETE",
+            label: t("form.labelMethodDELETE"),
             value: "DELETE",
           },
         ],
       },
       {
         name: "body",
-        label: "Body",
+        label: t("form.labelBody"),
         type: "text",
-        description:
-          "The body of the request. Normally only used if method is POST",
+        description: t("form.descriptionBody"),
       },
       {
         name: "authProvider",
-        label: "Auth",
+        label: t("form.labelAuthProvider"),
         type: "option",
-        placeholder: "Select an auth provider",
+        placeholder: t("form.placeholderAuthProvider"),
         options: dashboard.authProviders.map((a) => {
           return {
             value: a.name,

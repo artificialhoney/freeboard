@@ -2,12 +2,12 @@ export class TemplateWidget {
   static typeName = "template";
   static label = "Template";
   static fillSize = true;
-  static fields = [
+  static fields = (dashboard, t) => [
     {
       name: "template",
-      label: "Template",
+      label: t("form.labelTemplate"),
       type: "calculated",
-      description: "Can be a HTML template, or javascript that outputs HTML.",
+      description: t("form.descriptionTemplate"),
     },
   ];
 

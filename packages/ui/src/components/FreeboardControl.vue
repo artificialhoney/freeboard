@@ -7,7 +7,7 @@ import { useRouter } from "vue-router";
 import { watch } from "vue";
 
 const freeboardStore = useFreeboardStore();
-const { dashboard } = storeToRefs(freeboardStore);
+const { dashboard, isSaved } = storeToRefs(freeboardStore);
 
 const { mutate: createDashboard, error: createError } = useMutation(
   DASHBOARD_CREATE_MUTATION,
@@ -49,9 +49,9 @@ const saveDashboard = async () => {
       >
         <i class="freeboard-control__board-toolbar__item__icon"
           ><v-icon name="hi-cloud-upload" /></i
-        ><label class="freeboard-control__board-toolbar__item__label"
-          >Save Freeboard</label
-        >
+        ><label class="freeboard-control__board-toolbar__item__label">{{
+          $t(`freeboardControl.label${isSaved ? "Update" : "Save"}`)
+        }}</label>
       </li>
       <li
         @click="() => freeboardStore.loadDashboardFromLocalFile()"
@@ -59,9 +59,9 @@ const saveDashboard = async () => {
       >
         <i class="freeboard-control__board-toolbar__item__icon"
           ><v-icon name="hi-download" /></i
-        ><label class="freeboard-control__board-toolbar__item__label"
-          >Import Freeboard</label
-        >
+        ><label class="freeboard-control__board-toolbar__item__label">{{
+          $t("freeboardControl.labelImport")
+        }}</label>
       </li>
       <li
         @click="() => freeboardStore.exportDashboard()"
@@ -70,9 +70,9 @@ const saveDashboard = async () => {
         <i class="freeboard-control__board-toolbar__item__icon"
           ><v-icon name="hi-upload"
         /></i>
-        <label class="freeboard-control__board-toolbar__item__label"
-          >Export Freeboard</label
-        >
+        <label class="freeboard-control__board-toolbar__item__label">{{
+          $t("freeboardControl.labelExport")
+        }}</label>
       </li>
     </ul>
   </div>

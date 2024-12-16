@@ -20,15 +20,10 @@ const handleMount = (editorInstance) => (editor.value = editorInstance);
 </script>
 <template>
   <div class="code-editor">
-    <div class="code-editor__header">
-      This javascript will be re-evaluated any time a datasource referenced here
-      is updated, and the value you
-      <code><span>return</span></code> will be displayed in the widget. You can
-      assume this javascript is wrapped in a function of the form
-      <code><span>function</span>(<span>datasources</span>)</code>
-      where datasources is a collection of javascript objects (keyed by their
-      name) corresponding to the most current data in a datasource.
-    </div>
+    <div
+      class="code-editor__header"
+      :v-html="$t('codeEditor.descriptionHeader')"
+    ></div>
     <div class="code-editor__content">
       <vue-monaco-editor
         v-model:value="code"
@@ -39,7 +34,9 @@ const handleMount = (editorInstance) => (editor.value = editorInstance);
       />
     </div>
     <div class="code-editor__footer">
-      <TextButton @click="onClose(code)"> Close </TextButton>
+      <TextButton @click="onClose(code)">{{
+        $t("codeEditor.buttonClose")
+      }}</TextButton>
     </div>
   </div>
 </template>

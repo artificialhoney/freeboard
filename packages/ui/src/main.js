@@ -37,6 +37,8 @@ import router from "./router";
 import { useFreeboardStore } from "./stores/freeboard";
 import { SSELink } from "./sse";
 import { createHead } from "@unhead/vue";
+import { createI18n } from "vue-i18n";
+import { en } from "./i18n/en";
 
 addIcons(
   HiDatabase,
@@ -59,6 +61,14 @@ addIcons(
   HiSolidHome,
   HiSolidArchive,
 );
+
+const i18n = createI18n({
+  locale: "en",
+  fallbackLocale: "en",
+  messages: {
+    en,
+  },
+});
 
 const head = createHead();
 
@@ -108,6 +118,7 @@ const app = createApp({
 })
   .use(pinia)
   .use(router)
+  .use(i18n)
   .use(head)
   .use(VueMonacoEditorPlugin, { monaco })
   .component("v-icon", OhVueIcon)

@@ -59,21 +59,21 @@ const onDialogBoxOk = () => {
   <DialogBox
     :header="header"
     ref="dialog"
-    ok="Save"
-    cancel="Cancel"
+    :ok="$t('dialogBox.buttonOk')"
+    :cancel="$t('dialogBox.buttonCancel')"
     @close="onClose"
     @ok="() => onDialogBoxOk()"
     class="widget-dialog-box"
   >
     <div class="widget-dialog-box__form__row">
       <div class="widget-dialog-box__form__row__label">
-        <label>Type</label>
+        <label>{{ $("widgetDialogBox.labelType") }}</label>
       </div>
       <div class="widget-dialog-box__form__row__value">
         <SelectFormElement
           v-model="typeRef"
           :options="widgetPluginsOptions"
-          placeholder="Select a widget type..."
+          :placeholder="$('widgetDialogBox.placeholderType')"
         />
       </div>
     </div>

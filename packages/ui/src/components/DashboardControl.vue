@@ -7,11 +7,14 @@ import DatasourcesDialogBox from "./DatasourcesDialogBox.vue";
 import AuthProvidersDialogBox from "./AuthProvidersDialogBox.vue";
 import SettingsDialogBox from "./SettingsDialogBox.vue";
 import createSettings from "../settings";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const freeboardStore = useFreeboardStore();
 const { dashboard } = storeToRefs(freeboardStore);
 
-const fields = ref(createSettings(dashboard.value)[0].fields);
+const fields = ref(createSettings(dashboard.value, t)[0].fields);
 const settings = ref({});
 
 const form = ref(null);
@@ -69,9 +72,9 @@ const instance = getCurrentInstance();
       >
         <i class="dashboard-control__board-toolbar__item__icon"
           ><v-icon name="hi-solid-cog" /></i
-        ><label class="dashboard-control__board-toolbar__item__label"
-          >Settings</label
-        >
+        ><label class="dashboard-control__board-toolbar__item__label">{{
+          $t("dashboardControl.labelSettings")
+        }}</label>
       </li>
       <li
         @click="() => openDatasourcesDialogBox()"
@@ -79,9 +82,9 @@ const instance = getCurrentInstance();
       >
         <i class="dashboard-control__board-toolbar__item__icon"
           ><v-icon name="hi-database" /></i
-        ><label class="dashboard-control__board-toolbar__item__label"
-          >Datasources</label
-        >
+        ><label class="dashboard-control__board-toolbar__item__label">{{
+          $t("dashboardControl.labelDatasources")
+        }}</label>
       </li>
       <li
         @click="() => openAuthProvidersDialogBox()"
@@ -89,9 +92,9 @@ const instance = getCurrentInstance();
       >
         <i class="dashboard-control__board-toolbar__item__icon"
           ><v-icon name="hi-eye" /></i
-        ><label class="dashboard-control__board-toolbar__item__label"
-          >Auth</label
-        >
+        ><label class="dashboard-control__board-toolbar__item__label">{{
+          $t("dashboardControl.labelAuth")
+        }}</label>
       </li>
       <li
         @click="() => dashboard.createPane()"
@@ -99,9 +102,9 @@ const instance = getCurrentInstance();
       >
         <i class="dashboard-control__board-toolbar__item__icon"
           ><v-icon name="hi-plus-circle" /></i
-        ><label class="dashboard-control__board-toolbar__item__label"
-          >Add Pane</label
-        >
+        ><label class="dashboard-control__board-toolbar__item__label">{{
+          $t("dashboardControl.labelAddPane")
+        }}</label>
       </li>
     </ul>
     <div class="dashboard-control__form">

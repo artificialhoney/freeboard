@@ -41,8 +41,12 @@ defineExpose({
     />
     <label class="switch-form-element__label" :for="id">
       <div class="switch-form-element__label__inner">
-        <span class="switch-form-element__label__inner__on">YES</span>
-        <span class="switch-form-element__label__inner__off">NO</span>
+        <span class="switch-form-element__label__inner__on">{{
+          $t("switchFormElement.labelOn")
+        }}</span>
+        <span class="switch-form-element__label__inner__off">{{
+          $t("switchFormElement.labelOff")
+        }}</span>
       </div>
       <div class="switch-form-element__label__switch"></div>
     </label>

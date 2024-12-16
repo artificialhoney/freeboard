@@ -6,6 +6,9 @@ import { useFreeboardStore } from "../stores/freeboard";
 import { storeToRefs } from "pinia";
 import TabNavigator from "./TabNavigator.vue";
 import createSettings from "../settings";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const freeboardStore = useFreeboardStore();
 
@@ -23,7 +26,7 @@ const { onClose, onOk } = defineProps({
 });
 
 const fields = computed(() => {
-  return createSettings(dashboard.value);
+  return createSettings(dashboard.value, t);
 });
 
 const dialog = ref(null);
@@ -51,10 +54,10 @@ const onDialogBoxOk = () => {
 
 <template>
   <DialogBox
-    header="Settings"
+    :header="$t('dialogBox.titleSettings')"
     ref="dialog"
-    ok="Save"
-    cancel="Cancel"
+    :ok="$t('dialogBox.buttonOk')"
+    :cancel="$t('dialogBox.buttonCancel')"
     @close="onClose"
     @ok="onDialogBoxOk"
   >

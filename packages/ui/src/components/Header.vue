@@ -17,7 +17,7 @@ const { allowEdit, isEditing, dashboard } = storeToRefs(freeboardStore);
         <div class="header__admin-bar__admin-menu">
           <h1 class="header__admin-bar__admin-menu__board-logo">
             <i class="ra ra-feather-wing ra-2x"></i>
-            Freeboard
+            {{ $t("header.title") }}
           </h1>
           <div class="header__admin-bar__admin-menu__board-tools">
             <div

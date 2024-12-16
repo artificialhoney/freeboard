@@ -4,6 +4,9 @@ import { useFreeboardStore } from "../stores/freeboard";
 import WidgetDialogBox from "./WidgetDialogBox.vue";
 import { getCurrentInstance, onMounted, onUpdated, ref, watch } from "vue";
 import ConfirmDialogBox from "./ConfirmDialogBox.vue";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const freeboardStore = useFreeboardStore();
 const { isEditing, dashboard } = storeToRefs(freeboardStore);
@@ -12,7 +15,7 @@ const widgetRef = ref(null);
 
 const openWidgetEditDialogBox = (widget) => {
   freeboardStore.createComponent(WidgetDialogBox, instance.appContext, {
-    header: "Edit Widget",
+    header: t("widget.titleEdit"),
     settings: widget.settings,
     type: widget.type,
     onOk: (newSettings) => {
@@ -25,7 +28,7 @@ const openWidgetEditDialogBox = (widget) => {
 
 const openWidgetDeleteDialogBox = (widget) => {
   freeboardStore.createComponent(ConfirmDialogBox, instance.appContext, {
-    title: "Widget",
+    title: t("widget.titleDelete"),
     onOk: () => {
       dashboard.value.deleteWidget(widget.pane, widget);
     },

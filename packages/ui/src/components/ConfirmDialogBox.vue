@@ -17,13 +17,13 @@ const onDialogBoxOk = () => {
 </script>
 <template>
   <DialogBox
-    header="Confirm"
-    ok="OK"
-    cancel="Cancel"
+    :header="$t('dialogBox.titleConfirm')"
+    :ok="$t('dialogBox.buttonOk')"
+    :cancel="$t('dialogBox.buttonCancel')"
     @close="onClose"
     @ok="onDialogBoxOk"
     ref="dialog"
   >
-    <p>Are you sure you want to delete this "{{ title }}"?</p>
+    <p>Are you sure you want to {{ title }}?</p>
   </DialogBox>
 </template>

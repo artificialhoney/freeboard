@@ -6,13 +6,15 @@ import ConfirmDialogBox from "./ConfirmDialogBox.vue";
 import { AuthProvider } from "../models/AuthProvider";
 import { getCurrentInstance } from "vue";
 import TextButton from "./TextButton.vue";
+import { useI18n } from "vue-i18n";
 
+const { t } = useI18n();
 const freeboardStore = useFreeboardStore();
 const { dashboard } = storeToRefs(freeboardStore);
 
 const openAuthProviderEditDialogBox = (authprovider) => {
   freeboardStore.createComponent(AuthProviderDialogBox, instance.appContext, {
-    header: "Edit AuthProvider",
+    header: t("authProvidersList.titleEdit"),
     settings: { ...authprovider.settings, name: authprovider.name },
     type: authprovider.type,
     onOk: (newSettings) => {
@@ -26,7 +28,7 @@ const openAuthProviderEditDialogBox = (authprovider) => {
 
 const openAuthProviderDeleteDialogBox = (authprovider) => {
   freeboardStore.createComponent(ConfirmDialogBox, instance.appContext, {
-    title: "AuthProvider",
+    title: t("authProvidersList.titleDelete"),
     onOk: () => {
       dashboard.value.deleteAuthProvider(authprovider);
     },
@@ -35,7 +37,7 @@ const openAuthProviderDeleteDialogBox = (authprovider) => {
 
 const openAuthProviderAddDialogBox = () => {
   freeboardStore.createComponent(AuthProviderDialogBox, instance.appContext, {
-    header: "Add AuthProvider",
+    header: t("authProvidersList.titleAdd"),
     onOk: (newSettings) => {
       const newViewModel = new AuthProvider();
 
@@ -61,7 +63,9 @@ const instance = getCurrentInstance();
     >
       <thead class="auth-providers-list__table__head">
         <tr class="auth-providers-list__table__head__row">
-          <th class="auth-providers-list__table__head__row__cell">Name</th>
+          <th class="auth-providers-list__table__head__row__cell">
+            {{ $t("authProvidersList.labelName") }}
+          </th>
           <th>&nbsp;</th>
         </tr>
       </thead>
@@ -94,7 +98,9 @@ const instance = getCurrentInstance();
       </tbody>
     </table>
     <div class="auth-providers-list__operations">
-      <TextButton @click="() => openAuthProviderAddDialogBox()">ADD</TextButton>
+      <TextButton @click="() => openAuthProviderAddDialogBox()">{{
+        $t("authProvidersList.buttonAdd")
+      }}</TextButton>
     </div>
   </div>
 </template>

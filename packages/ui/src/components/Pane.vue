@@ -7,13 +7,16 @@ import WidgetDialogBox from "./WidgetDialogBox.vue";
 import Widget from "./Widget.vue";
 import { Widget as _Widget } from "../models/Widget";
 import { getCurrentInstance } from "vue";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const freeboardStore = useFreeboardStore();
 const { isEditing, dashboard } = storeToRefs(freeboardStore);
 
 const openPaneEditDialogBox = (pane) => {
   freeboardStore.createComponent(PaneDialogBox, instance.appContext, {
-    header: "Edit Pane",
+    header: t("pane.titleEdit"),
     onOk: (newSettings) => {
       pane.title = newSettings.settings.name;
     },
@@ -23,14 +26,14 @@ const openPaneEditDialogBox = (pane) => {
 
 const openPaneDeleteDialogBox = (pane) => {
   freeboardStore.createComponent(ConfirmDialogBox, instance.appContext, {
-    title: "Pane",
+    title: t("pane.titleDelete"),
     onOk: () => dashboard.value.deletePane(pane),
   });
 };
 
 const openWidgetAddDialogBox = (pane) => {
   freeboardStore.createComponent(WidgetDialogBox, instance.appContext, {
-    header: "Add Widget",
+    header: t("pane.titleAdd"),
     onOk: (newSettings) => {
       const newViewModel = new _Widget(newSettings.settings, newSettings.type);
       dashboard.value.addWidget(pane, newViewModel);

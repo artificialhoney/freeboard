@@ -2,6 +2,9 @@
 import { computed, onMounted, ref } from "vue";
 import DialogBox from "./DialogBox.vue";
 import Form from "./Form.vue";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const form = ref(null);
 const fields = ref([]);
@@ -17,7 +20,7 @@ onMounted(() => {
   const data = [
     {
       name: "name",
-      label: "Name",
+      label: t("form.labelName"),
       type: "text",
     },
   ];
@@ -40,8 +43,8 @@ const onDialogBoxOk = () => {
   <DialogBox
     :header="header"
     ref="dialog"
-    ok="Save"
-    cancel="Cancel"
+    :ok="$t('dialogBox.buttonOk')"
+    :cancel="$t('dialogBox.buttonCancel')"
     @close="onClose"
     @ok="() => onDialogBoxOk()"
   >
