@@ -6,9 +6,7 @@ import { transformDashboard } from "./merge.js";
 
 const pubSub = createPubSub();
 
-const getDashboard = async (_id, context) => {
-  const res = await Dashboard.findOne({ _id });
-
+const getDashboard = (res, context) => {
   if (res) {
     if (context.user) {
       const { user, ...result } = transformDashboard(res);
@@ -32,7 +30,7 @@ const getDashboard = async (_id, context) => {
 export default {
   Query: {
     dashboard: async (parent, { _id }, context, info) => {
-      return getDashboard(_id, context);
+      return getDashboard(await Dashboard.findOne({ _id }), context);
     },
     dashboards: async (parent, args, context, info) => {
       ensureThatUserIsLogged(context);
@@ -71,7 +69,7 @@ export default {
     updateDashboard: async (parent, { _id, dashboard }, context, info) => {
       ensureThatUserIsLogged(context);
 
-      const res = await Dashboard.findOne({ _id, user: context.user._id });
+      const res = await Dashboard.findOne({ _id });
 
       if (res) {
         return Dashboard.findByIdAndUpdate(
@@ -79,7 +77,7 @@ export default {
           { $set: { ...dashboard } },
           { new: true },
         )
-          .then(transformDashboard)
+          .then((d) => getDashboard(d, context))
           .then((d) => {
             pubSub.publish(`dashboard:${d._id}`, { dashboard: d });
             return d;

@@ -24,14 +24,16 @@ watch([createError, updateError], () => {
 });
 
 const saveDashboard = async () => {
+  const { isSaved } = storeToRefs(freeboardStore);
   const d = dashboard.value.serialize();
   const id = d._id;
   delete d._id;
-  const { isSaved } = storeToRefs(freeboardStore);
   if (isSaved.value && dashboard.value.isOwner) {
     updateDashboard({ id, dashboard: d });
   } else {
     const result = await createDashboard({ dashboard: d });
+    isSaved.value = true;
+    dashboard.value._id = result.data.createDashboard._id;
     router.push(`/${result.data.createDashboard._id}`);
   }
 };

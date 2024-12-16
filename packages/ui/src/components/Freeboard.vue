@@ -23,7 +23,8 @@ const idRef = ref(id);
 
 const freeboardStore = useFreeboardStore();
 
-const { showLoadingIndicator } = storeToRefs(freeboardStore);
+const { showLoadingIndicator, isEditing, isSaved } =
+  storeToRefs(freeboardStore);
 
 const router = useRouter();
 
@@ -36,7 +37,7 @@ const { onResult } = useSubscription(
     context: {
       apiName: "stream",
     },
-    enabled: true,
+    enabled: !!idRef.value,
   },
 );
 
@@ -62,12 +63,12 @@ const handleResult = (newResult) => {
   showLoadingIndicator.value = false;
   const dashboard = newResult.dashboard;
   if (!dashboard && idRef.value) {
-    freeboardStore.toggleIsEditing();
+    isEditing.value = true;
     router.push("/");
   } else if (dashboard) {
     idRef.value = dashboard._id;
     freeboardStore.loadDashboard(dashboard);
-    freeboardStore.setIsSaved(true);
+    isSaved.value = true;
   }
 };
 

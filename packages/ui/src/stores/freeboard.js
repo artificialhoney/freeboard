@@ -44,18 +44,6 @@ export const useFreeboardStore = defineStore("freeboard", {
     isLoggedIn() {
       return !!this.token;
     },
-    setIsSaved(isSaved) {
-      this.isSaved = isSaved;
-    },
-    toggleLoadingIndicator() {
-      this.showLoadingIndicator = !this.showLoadingIndicator;
-    },
-    toggleAllowEdit() {
-      this.allowEdit = !this.allowEdit;
-    },
-    toggleIsEditing() {
-      this.isEditing = !this.isEditing;
-    },
     loadAuthPlugin(plugin) {
       if (plugin.label === undefined) {
         plugin.label = plugin.typeName;

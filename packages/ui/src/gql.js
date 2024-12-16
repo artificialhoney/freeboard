@@ -65,6 +65,7 @@ export const DASHBOARD_UPDATE_SUBSCRIPTION = gql`
       panes
       authProviders
       settings
+      user
     }
   }
 `;
