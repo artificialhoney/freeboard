@@ -52,6 +52,23 @@ export const DASHBOARD_READ_QUERY = gql`
   }
 `;
 
+export const DASHBOARD_UPDATE_SUBSCRIPTION = gql`
+  subscription onDashboardUpdated($id: ID!) {
+    dashboard(_id: $id) {
+      _id
+      title
+      published
+      image
+      datasources
+      columns
+      width
+      panes
+      authProviders
+      settings
+    }
+  }
+`;
+
 export const USER_AUTH_MUTATION = gql`
   mutation UserAuth($email: String!, $password: String!) {
     authUser(email: $email, password: $password) {

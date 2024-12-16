@@ -5,8 +5,8 @@ import Header from "./Header.vue";
 import Board from "./Board.vue";
 import { useFreeboardStore } from "../stores/freeboard";
 import { useRouter } from "vue-router";
-import { useQuery } from "@vue/apollo-composable";
-import { DASHBOARD_READ_QUERY } from "../gql";
+import { useQuery, useSubscription } from "@vue/apollo-composable";
+import { DASHBOARD_READ_QUERY, DASHBOARD_UPDATE_SUBSCRIPTION } from "../gql";
 import { storeToRefs } from "pinia";
 import Preloader from "./Preloader.vue";
 import { ClockDatasource } from "../datasources/ClockDatasource";
@@ -27,6 +27,19 @@ const { showLoadingIndicator } = storeToRefs(freeboardStore);
 
 const router = useRouter();
 
+const { onResult } = useSubscription(
+  DASHBOARD_UPDATE_SUBSCRIPTION,
+  () => ({
+    id: idRef.value,
+  }),
+  {
+    context: {
+      apiName: "stream",
+    },
+    enabled: true,
+  },
+);
+
 const { result, loading, error } = useQuery(
   DASHBOARD_READ_QUERY,
   {
@@ -45,7 +58,7 @@ watch(loading, (l) => {
   showLoadingIndicator.value = l;
 });
 
-watch(result, (newResult) => {
+const handleResult = (newResult) => {
   showLoadingIndicator.value = false;
   const dashboard = newResult.dashboard;
   if (!dashboard && idRef.value) {
@@ -56,7 +69,10 @@ watch(result, (newResult) => {
     freeboardStore.loadDashboard(dashboard);
     freeboardStore.setIsSaved(true);
   }
-});
+};
+
+watch(result, handleResult);
+onResult((result) => handleResult(result.data));
 
 freeboardStore.loadSettingsFromLocalStorage();
 freeboardStore.loadAuthPlugin(HeaderAuthProvider);

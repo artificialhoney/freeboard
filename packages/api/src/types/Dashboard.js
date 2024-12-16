@@ -28,12 +28,7 @@ export default `
   }
 
   type Subscription {
-    dashboard: DashboardSubscriptionPayload!
-  }
-
-  type DashboardSubscriptionPayload {
-    mutation: MutationType!
-    dashboard: Dashboard!
+    dashboard(_id: ID!): Dashboard
   }
 
   input CreateDashboardInput {
@@ -62,11 +57,5 @@ export default `
     authProviders: [Object]
     settings: Object
     user: String
-  }
-
-  enum MutationType {
-    CREATED
-    DELETED
-    UPDATED
   }
 `;

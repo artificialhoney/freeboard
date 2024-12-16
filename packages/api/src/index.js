@@ -1,6 +1,7 @@
 import { createServer } from "http";
 import { createYoga } from "graphql-yoga";
 import mongoose from "mongoose";
+import { useGraphQLSSE } from "@graphql-yoga/plugin-graphql-sse";
 
 import schema from "./gql.js";
 import { setContext } from "./context.js";
@@ -29,6 +30,7 @@ const server = createServer(
     landingPage: false,
     schema,
     context: setContext,
+    plugins: [useGraphQLSSE()],
   }),
 );
 

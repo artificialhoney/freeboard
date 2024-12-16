@@ -1,6 +1,11 @@
 import { createApp, provide, h } from "vue";
 import { DefaultApolloClient } from "@vue/apollo-composable";
-import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client/core";
+import {
+  ApolloClient,
+  ApolloLink,
+  HttpLink,
+  InMemoryCache,
+} from "@apollo/client/core";
 import App from "./App.vue";
 import monaco from "./monaco";
 import { install as VueMonacoEditorPlugin } from "@guolao/vue-monaco-editor";
@@ -30,6 +35,7 @@ import {
 import { createPinia, storeToRefs } from "pinia";
 import router from "./router";
 import { useFreeboardStore } from "./stores/freeboard";
+import { SSELink } from "./sse";
 
 addIcons(
   HiDatabase,
@@ -68,7 +74,7 @@ const getHeaders = () => {
   return headers;
 };
 
-const link = new HttpLink({
+const httpLink = new HttpLink({
   uri: `/graphql`,
   fetch: (uri, options) => {
     options.headers = getHeaders();
@@ -76,9 +82,18 @@ const link = new HttpLink({
   },
 });
 
+const sseLink = new SSELink({
+  url: `/graphql`,
+  headers: getHeaders,
+});
+
 const apolloClient = new ApolloClient({
   cache,
-  link,
+  link: ApolloLink.split(
+    (operation) => operation.getContext().apiName === "stream",
+    sseLink,
+    httpLink,
+  ),
 });
 
 const app = createApp({

@@ -41,7 +41,10 @@ const saveDashboard = async () => {
     <ul
       class="freeboard-control__board-toolbar freeboard-control__board-toolbar"
     >
-      <li @click="saveDashboard" class="freeboard-control__board-toolbar__item">
+      <li
+        @click="() => saveDashboard()"
+        class="freeboard-control__board-toolbar__item"
+      >
         <i class="freeboard-control__board-toolbar__item__icon"
           ><v-icon name="hi-cloud-upload" /></i
         ><label class="freeboard-control__board-toolbar__item__label"

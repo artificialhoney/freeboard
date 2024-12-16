@@ -1,32 +1,38 @@
-import { createGraphQLError } from "graphql-yoga";
+import { createGraphQLError, createPubSub } from "graphql-yoga";
 import { ensureThatUserIsLogged } from "../auth.js";
 import Dashboard from "../models/Dashboard.js";
 
 import { transformDashboard } from "./merge.js";
 
-export default {
-  Query: {
-    dashboard: async (parent, { _id }, context, info) => {
-      const res = await Dashboard.findOne({ _id });
+const pubSub = createPubSub();
 
-      if (res) {
-        if (context.user) {
-          const { user, ...result } = transformDashboard(res);
-          if (user === context.user._id) {
-            return result;
-          } else {
-            return { ...result, user };
-          }
-        } else {
-          if (res.published) {
-            return transformDashboard(res);
-          } else {
-            createGraphQLError("Dashboard not found");
-          }
-        }
+const getDashboard = async (_id, context) => {
+  const res = await Dashboard.findOne({ _id });
+
+  if (res) {
+    if (context.user) {
+      const { user, ...result } = transformDashboard(res);
+      if (user === context.user._id) {
+        return result;
+      } else {
+        return { ...result, user };
+      }
+    } else {
+      if (res.published) {
+        return transformDashboard(res);
       } else {
         createGraphQLError("Dashboard not found");
       }
+    }
+  } else {
+    createGraphQLError("Dashboard not found");
+  }
+};
+
+export default {
+  Query: {
+    dashboard: async (parent, { _id }, context, info) => {
+      return getDashboard(_id, context);
     },
     dashboards: async (parent, args, context, info) => {
       ensureThatUserIsLogged(context);
@@ -72,7 +78,12 @@ export default {
           _id,
           { $set: { ...dashboard } },
           { new: true },
-        ).then(transformDashboard);
+        )
+          .then(transformDashboard)
+          .then((d) => {
+            pubSub.publish(`dashboard:${d._id}`, { dashboard: d });
+            return d;
+          });
       } else {
         createGraphQLError("Dashboard not found");
       }
@@ -91,8 +102,8 @@ export default {
   },
   Subscription: {
     dashboard: {
-      subscribe: (parent, args, { pubsub }) => {
-        //return pubsub.asyncIterator(channel)
+      subscribe: (_, args, context) => {
+        return pubSub.subscribe(`dashboard:${args._id}`);
       },
     },
   },
