@@ -15,29 +15,24 @@ export class ClockDatasource {
     newInstanceCallback(new ClockDatasource(settings, updateCallback));
   }
 
-  timer;
+  updateTimer;
   currentSettings;
   updateCallback;
 
   constructor(settings, updateCallback) {
     this.currentSettings = settings;
     this.updateCallback = updateCallback;
-    this.updateTimer();
+    this.updateRefresh(this.currentSettings.refresh * 1000);
   }
 
-  stopTimer() {
-    if (this.timer) {
-      clearTimeout(this.timer);
-      this.timer = null;
+  updateRefresh(refreshTime) {
+    if (this.updateTimer) {
+      clearInterval(this.updateTimer);
     }
-  }
 
-  updateTimer() {
-    this.stopTimer();
-    this.timer = setInterval(
-      () => this.updateNow(),
-      this.currentSettings.refresh * 1000,
-    );
+    this.updateTimer = setInterval(() => {
+      this.updateNow();
+    }, refreshTime);
   }
 
   updateNow() {
@@ -47,11 +42,13 @@ export class ClockDatasource {
   }
 
   onDispose() {
-    this.stopTimer();
+    clearInterval(this.updateTimer);
+    this.updateTimer = null;
   }
 
   onSettingsChanged(newSettings) {
     this.currentSettings = newSettings;
-    this.updateTimer();
+    this.updateRefresh(this.currentSettings.refresh * 1000);
+    this.updateNow();
   }
 }

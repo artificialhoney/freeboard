@@ -3,7 +3,7 @@
   width: 100%;
   border: 1px solid var(--styled-select-border);
   background-color: var(--styled-select-background);
-  height: 30px;
+  height: 20px;
   padding: 4px 6px;
   background-color: var(--select-background);
 }
