@@ -9,14 +9,20 @@ export default {
     dashboard: async (parent, { _id }, context, info) => {
       const res = await Dashboard.findOne({ _id });
 
-      if (res && res.published) {
-        return { ...transformDashboard(res), user: context.user._id };
-      } else if (!res.published) {
-        ensureThatUserIsLogged(context);
-        if (context.user._id === res.user) {
-          return transformDashboard(res);
+      if (res) {
+        if (context.user) {
+          const { user, ...result } = transformDashboard(res);
+          if (user === context.user._id) {
+            return result;
+          } else {
+            return { ...result, user };
+          }
         } else {
-          createGraphQLError("Dashboard not found");
+          if (res.published) {
+            return transformDashboard(res);
+          } else {
+            createGraphQLError("Dashboard not found");
+          }
         }
       } else {
         createGraphQLError("Dashboard not found");
