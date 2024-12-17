@@ -51,6 +51,7 @@ export const en = {
     labelClientId: "Client Id",
     labelClientSecret: "Client Secret",
     labelScope: "Scope",
+    labelEmail: "Email",
     labelUsername: "Username",
     labelPassword: "Password",
     labelColumn3: "3",

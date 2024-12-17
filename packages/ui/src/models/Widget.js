@@ -120,7 +120,6 @@ export class Widget {
 
   updateCalculatedSettings() {
     const freeboardStore = useFreeboardStore();
-    const { widgetPlugins } = storeToRefs(freeboardStore);
 
     this.datasourceRefreshNotifications = {};
     this.calculatedSettingScripts = {};
@@ -130,7 +129,7 @@ export class Widget {
     }
 
     // Check for any calculated settings
-    let settingsDefs = widgetPlugins.value[this.type].fields;
+    let settingsDefs = freeboardStore.getWidgetPluginFields(this.type);
     let datasourceRegex = new RegExp(
       "datasources.([\\w_-]+)|datasources\\[['\"]([^'\"]+)",
       "g",
