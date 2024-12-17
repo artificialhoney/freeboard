@@ -7,6 +7,9 @@ services:
       - 8088:80
     networks:
       - freeboard
+    depends_on:
+      - api
+      - proxy
   api:
     restart: unless-stopped
     container_name: api
