@@ -1,5 +1,6 @@
 @import "./reset.css";
-@import "./variables.css";
+@import "./themes/light.css";
+@import "./themes/dark.css";
 @import "./vue.css";
 @import "~/rpg-awesome/css/rpg-awesome.min.css";
 

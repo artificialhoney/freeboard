@@ -46,6 +46,23 @@ export const en = {
     buttonCancel: "Cancel",
   },
   form: {
+    labelHeader: "Header",
+    labelValue: "Value",
+    labelClientId: "Client Id",
+    labelClientSecret: "Client Secret",
+    labelScope: "Scope",
+    labelUsername: "Username",
+    labelPassword: "Password",
+    labelColumn3: "3",
+    labelColumn4: "4",
+    labelColumn5: "5",
+    labelColumn6: "6",
+    labelColumn7: "7",
+    labelColumn8: "8",
+    labelColumn9: "9",
+    labelColumn10: "10",
+    labelColumn11: "11",
+    labelColumn12: "12",
     labelTitle: "Title",
     labelType: "Type",
     labelGeneral: "General",
@@ -67,6 +84,10 @@ export const en = {
     labelMethodDELETE: "DELETE",
     labelBody: "Body",
     labelAuthProvider: "Auth provider",
+    labelTheme: "Theme",
+    labelThemeAuto: "Auto",
+    labelThemeDark: "Dark",
+    labelThemeLight: "Light",
     descriptionBody:
       "The body of the request. Normally only used if method is POST",
     descriptionUseProxy:
@@ -106,6 +127,6 @@ export const en = {
   },
   widgetDialogBox: {
     labelType: "Type",
-    placeholderType: "Select an widget type...",
+    placeholderType: "Select a widget type...",
   },
 };

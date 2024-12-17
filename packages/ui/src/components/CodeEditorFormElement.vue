@@ -1,9 +1,14 @@
 <script setup lang="js">
 import { VueMonacoEditor } from "@guolao/vue-monaco-editor";
 import { ref, shallowRef, watch } from "vue";
+import { useFreeboardStore } from "../stores/freeboard";
+import { storeToRefs } from "pinia";
 
 const props = defineProps(["modelValue", "validators", "language"]);
 const emit = defineEmits(["update:modelValue"]);
+
+const freeboardStore = useFreeboardStore();
+const { dashboard } = storeToRefs(freeboardStore);
 
 const errors = ref([]);
 
@@ -32,7 +37,7 @@ defineExpose({
   <vue-monaco-editor
     class="code-editor-form-element"
     v-model:value="code"
-    theme="vs-dark"
+    :theme="`vs-${dashboard.settings.theme === 'dark' ? 'dark' : 'light'}`"
     :options="MONACO_EDITOR_OPTIONS"
     :language="props.language"
     @mount="handleMount"

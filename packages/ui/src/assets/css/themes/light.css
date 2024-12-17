@@ -1,0 +1,41 @@
+body.light {
+  --color-primary: #eef2f8;
+  --color-accent: #0066ff;
+  --color-secondary: #802b00;
+  --color-error: #aa7575;
+  --color-foreground: #b9cae3;
+  --color-background: #cbd7ea;
+
+  --color-shade-0: #517ab8;
+  --color-shade-1: #6287bf;
+  --color-shade-2: #7495c6;
+  --color-shade-3: #85a2cd;
+  --color-shade-4: #97afd4;
+  --color-shade-5: #a8bddc;
+  --color-shade-6: #b9cae3;
+  --color-shade-7: #cbd7ea;
+  --color-shade-8: #dce4f1;
+  --color-shade-9: #eef2f8;
+  --color-shade-10: #ffffff;
+
+  --color-overlay: rgba(0, 0, 0, 0.8);
+  --color-shadow: rgba(0, 0, 0, 0.075);
+  --color-highlight: rgba(0, 102, 255, 0.8);
+}
+
+body.light .column-toolbar .column-toolbar__board-toolbar__item__icon {
+  color: var(--color-shade-0) !important;
+}
+
+body.light .header__admin-bar__admin-menu__board-logo {
+  color: var(--color-primary) !important;
+}
+
+body.light .header__admin-bar__admin-menu__board-logo .ra {
+  fill: var(--color-accent) !important;
+}
+
+body.light .freeboard-control__board-toolbar__item__icon,
+body.light .dashboard-control__board-toolbar__item__icon {
+  color: var(--color-accent) !important;
+}

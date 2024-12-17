@@ -1,9 +1,9 @@
 import { MAX_COLUMNS, MIN_COLUMNS } from "./models/Dashboard";
 
-export default (dashboard, t) => {
+export default (dashboard) => {
   return [
     {
-      label: t("form.labelGeneral"),
+      label: "form.labelGeneral",
       icon: "hi-solid-home",
       name: "general",
       settings: {
@@ -13,28 +13,59 @@ export default (dashboard, t) => {
       fields: [
         {
           name: "title",
-          label: t("form.labelTitle"),
+          label: "form.labelTitle",
           type: "text",
           required: true,
         },
         {
           name: "columns",
-          label: t("form.labelColumns"),
+          label: "form.labelColumns",
           type: "option",
           required: true,
           options: [...Array(MAX_COLUMNS).keys()]
             .filter((i) => i >= MIN_COLUMNS - 1)
-            .map((i) => ({ value: i + 1, label: i + 1 })),
+            .map((i) => ({ value: i + 1, label: `form.labelColumn${i + 1}` })),
         },
         {
           name: "published",
-          label: t("form.labelPublished"),
+          label: "form.labelPublished",
           type: "boolean",
         },
       ],
     },
     {
-      label: t("form.labelStyle"),
+      label: "form.labelTheme",
+      icon: "hi-pencil-alt",
+      name: "theme",
+      settings: {
+        theme: dashboard.settings.theme,
+      },
+      fields: [
+        {
+          name: "theme",
+          label: "form.labelTheme",
+          type: "option",
+          default: "auto",
+          required: true,
+          options: [
+            {
+              label: "form.labelThemeAuto",
+              value: "auto",
+            },
+            {
+              label: "form.labelThemeLight",
+              value: "light",
+            },
+            {
+              label: "form.labelThemeDark",
+              value: "dark",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      label: "form.labelStyle",
       icon: "hi-code",
       name: "style",
       settings: {
@@ -43,14 +74,14 @@ export default (dashboard, t) => {
       fields: [
         {
           name: "style",
-          label: t("form.labelStyle"),
+          label: "form.labelStyle",
           type: "code",
           language: "css",
         },
       ],
     },
     {
-      label: t("form.labelScript"),
+      label: "form.labelScript",
       icon: "hi-variable",
       name: "script",
       settings: {
@@ -59,14 +90,14 @@ export default (dashboard, t) => {
       fields: [
         {
           name: "script",
-          label: t("form.labelScript"),
+          label: "form.labelScript",
           type: "code",
           language: "javascript",
         },
       ],
     },
     {
-      label: t("form.labelResources"),
+      label: "form.labelResources",
       icon: "hi-solid-archive",
       name: "resources",
       settings: {
@@ -75,29 +106,29 @@ export default (dashboard, t) => {
       fields: [
         {
           name: "resources",
-          label: t("form.labelResources"),
+          label: "form.labelResources",
           type: "array",
           settings: [
             {
               name: "type",
-              label: t("form.labelType"),
+              label: "form.labelType",
               type: "option",
               required: true,
               default: "script",
               options: [
                 {
-                  label: t("form.labelScript"),
+                  label: "form.labelScript",
                   value: "script",
                 },
                 {
-                  label: t("form.labelStylesheet"),
+                  label: "form.labelStylesheet",
                   value: "style",
                 },
               ],
             },
             {
               name: "url",
-              label: t("form.labelUrl"),
+              label: "form.labelUrl",
               type: "text",
             },
           ],

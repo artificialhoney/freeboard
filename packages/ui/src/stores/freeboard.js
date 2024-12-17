@@ -2,6 +2,7 @@ import { defineStore, storeToRefs } from "pinia";
 import renderComponent from "../render";
 import { Dashboard } from "../models/Dashboard";
 import { useI18n } from "vue-i18n";
+import { usePreferredColorScheme } from "@vueuse/core";
 
 export const useFreeboardStore = defineStore("freeboard", {
   state: () => ({
@@ -143,11 +144,24 @@ export const useFreeboardStore = defineStore("freeboard", {
       this.assets = assets;
       this.showLoadingIndicator = false;
     },
+    loadDashboardTheme() {
+      let cssClass;
+      if (this.dashboard.settings.theme === "auto") {
+        const colorScheme = usePreferredColorScheme();
+        cssClass = colorScheme.value === "dark" ? "dark" : "light";
+      } else if (this.dashboard.settings.theme === "dark") {
+        cssClass = "dark";
+      } else {
+        cssClass = "light";
+      }
+      document.body.className = cssClass;
+    },
     loadDashboard(dashboardData) {
       this.showLoadingIndicator = true;
       this.dashboard = new Dashboard();
       this.dashboard.deserialize(dashboardData);
       this.loadDashboardAssets();
+      this.loadDashboardTheme();
       this.showLoadingIndicator = false;
     },
     loadDashboardFromLocalFile() {
@@ -212,28 +226,25 @@ export const useFreeboardStore = defineStore("freeboard", {
       });
     },
     getAuthPluginFields(typeName) {
-      const { t } = useI18n();
       const authProvider = this.authPlugins[typeName];
       if (typeof authProvider.fields === "function") {
-        return authProvider.fields(this.dashboard, t);
+        return authProvider.fields(this.dashboard);
       } else {
         return authProvider.fields;
       }
     },
     getDatasourcePluginFields(typeName) {
-      const { t } = useI18n();
       const datasource = this.datasourcePlugins[typeName];
       if (typeof datasource.fields === "function") {
-        return datasource.fields(this.dashboard, t);
+        return datasource.fields(this.dashboard);
       } else {
         return datasource.fields;
       }
     },
     getWidgetPluginFields(typeName) {
-      const { t } = useI18n();
       const widget = this.widgetPlugins[typeName];
       if (typeof widget.fields === "function") {
-        return widget.fields(this.dashboard, t);
+        return widget.fields(this.dashboard);
       } else {
         return widget.fields;
       }

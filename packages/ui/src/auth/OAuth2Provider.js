@@ -9,35 +9,35 @@ export class OAuth2Provider {
   static fields = [
     {
       name: "url",
-      label: "URL",
+      label: "form.labelUrl",
       type: "text",
       required: true,
     },
     {
       name: "client_id",
-      label: "Client id",
+      label: "form.labelClientId",
       type: "text",
       required: true,
     },
     {
       name: "client_secret",
-      label: "Client secret",
+      label: "form.labelClientSecret",
       type: "password",
       required: true,
     },
     {
       name: "scope",
-      label: "Scope",
+      label: "form.labelScope",
       type: "text",
     },
     {
       name: "username",
-      label: "Username",
+      label: "form.labelUsername",
       type: "text",
     },
     {
       name: "password",
-      label: "Password",
+      label: "form.labelPassword",
       type: "password",
     },
   ];

@@ -15,7 +15,9 @@ export class Dashboard {
   datasources = [];
   panes = [];
   authProviders = [];
-  settings = {};
+  settings = {
+    theme: "auto",
+  };
   isOwner = true;
 
   get layout() {

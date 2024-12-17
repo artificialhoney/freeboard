@@ -1,6 +1,5 @@
 <script setup>
-import { onMounted, ref, watch } from "vue";
-
+import { ref, watch } from "vue";
 import Header from "./Header.vue";
 import Board from "./Board.vue";
 import { useFreeboardStore } from "../stores/freeboard";
@@ -14,14 +13,25 @@ import { JSONDatasource } from "../datasources/JSONDatasource";
 import { TemplateWidget } from "../widgets/TemplateWidget";
 import { HeaderAuthProvider } from "../auth/HeaderAuthProvider";
 import { OAuth2Provider } from "../auth/OAuth2Provider";
+import { usePreferredColorScheme } from "@vueuse/core";
+
+const freeboardStore = useFreeboardStore();
+
+const cssClass = usePreferredColorScheme();
+
+watch(
+  cssClass,
+  () => {
+    freeboardStore.loadDashboardTheme();
+  },
+  { immediate: true },
+);
 
 const { id } = defineProps({
   id: String,
 });
 
 const idRef = ref(id);
-
-const freeboardStore = useFreeboardStore();
 
 const { showLoadingIndicator, isEditing, isSaved } =
   storeToRefs(freeboardStore);

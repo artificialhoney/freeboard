@@ -2,6 +2,11 @@
 import { VueMonacoEditor } from "@guolao/vue-monaco-editor";
 import { ref, shallowRef } from "vue";
 import TextButton from "./TextButton.vue";
+import { storeToRefs } from "pinia";
+import { useFreeboardStore } from "../stores/freeboard";
+
+const freeboardStore = useFreeboardStore();
+const { dashboard } = storeToRefs(freeboardStore);
 
 const { value, onOk } = defineProps({
   value: String,
@@ -27,7 +32,7 @@ const handleMount = (editorInstance) => (editor.value = editorInstance);
     <div class="code-editor__content">
       <vue-monaco-editor
         v-model:value="code"
-        theme="vs-dark"
+        :theme="`vs-${dashboard.settings.theme === 'dark' ? 'dark' : 'light'}`"
         :options="MONACO_EDITOR_OPTIONS"
         language="javascript"
         @mount="handleMount"

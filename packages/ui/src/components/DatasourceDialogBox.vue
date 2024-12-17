@@ -5,9 +5,6 @@ import Form from "./Form.vue";
 import SelectFormElement from "./SelectFormElement.vue";
 import { useFreeboardStore } from "../stores/freeboard";
 import { storeToRefs } from "pinia";
-import { useI18n } from "vue-i18n";
-
-const { t } = useI18n();
 
 const freeboardStore = useFreeboardStore();
 
@@ -36,7 +33,7 @@ watch(
     const data = [
       {
         name: "name",
-        label: t("form.labelName"),
+        label: "form.labelName",
         type: "text",
         required: true,
       },

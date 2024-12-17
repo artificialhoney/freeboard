@@ -4,13 +4,13 @@ export class HeaderAuthProvider {
   static fields = [
     {
       name: "header",
-      label: "Header",
+      label: "form.labelHeader",
       type: "text",
       required: true,
     },
     {
       name: "value",
-      label: "Value",
+      label: "form.labelValue",
       type: "text",
       required: true,
     },

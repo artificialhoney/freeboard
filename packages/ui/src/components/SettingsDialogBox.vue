@@ -26,7 +26,7 @@ const { onClose, onOk } = defineProps({
 });
 
 const fields = computed(() => {
-  return createSettings(dashboard.value, t);
+  return createSettings(dashboard.value);
 });
 
 const dialog = ref(null);

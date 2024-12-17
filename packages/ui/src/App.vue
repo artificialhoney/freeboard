@@ -5,6 +5,7 @@ import { RouterView } from "vue-router";
 import { useHead } from "@unhead/vue";
 import { useFreeboardStore } from "./stores/freeboard";
 import { storeToRefs } from "pinia";
+import { watch } from "vue";
 
 const freeboardStore = useFreeboardStore();
 const { dashboard } = storeToRefs(freeboardStore);

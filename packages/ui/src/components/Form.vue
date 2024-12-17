@@ -1,5 +1,14 @@
 <script setup lang="js">
-import { computed, onMounted, onUpdated, ref, shallowRef, watch } from "vue";
+import {
+  computed,
+  markRaw,
+  onMounted,
+  onUpdated,
+  ref,
+  shallowRef,
+  toRef,
+  watch,
+} from "vue";
 import InputFormElement from "./InputFormElement.vue";
 import {
   validateInteger,
@@ -11,6 +20,9 @@ import SelectFormElement from "./SelectFormElement.vue";
 import TextareaFormElement from "./TextareaFormElement.vue";
 import ArrayFormElement from "./ArrayFormElement.vue";
 import CodeEditorFormElement from "./CodeEditorFormElement.vue";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const { hideLabels, settings, ...props } = defineProps({
   fields: Array,
@@ -23,7 +35,7 @@ const components = ref({});
 
 const applySettings = (s) => {
   const m = {};
-  if (!s) {
+  if (!s || !fields.value) {
     return;
   }
   fields.value.forEach((f) => {
@@ -88,12 +100,30 @@ const validateField = (key) => {
   }
 };
 
-const inputFormElementRef = shallowRef(InputFormElement);
-const switchFormElementRef = shallowRef(SwitchFormElement);
-const selectFormElementRef = shallowRef(SelectFormElement);
-const textareaFormElementRef = shallowRef(TextareaFormElement);
-const arrayFormElementRef = shallowRef(ArrayFormElement);
-const codeEditorFormElementRef = shallowRef(CodeEditorFormElement);
+const inputFormElementRef = markRaw(InputFormElement);
+const switchFormElementRef = markRaw(SwitchFormElement);
+const selectFormElementRef = markRaw(SelectFormElement);
+const textareaFormElementRef = markRaw(TextareaFormElement);
+const arrayFormElementRef = markRaw(ArrayFormElement);
+const codeEditorFormElementRef = markRaw(CodeEditorFormElement);
+
+const translateField = (field) => {
+  if (field.label) {
+    field.label = t(field.label);
+  }
+
+  if (field.description) {
+    field.description = t(field.description);
+  }
+
+  if (field.suffix) {
+    field.suffix = t(field.suffix);
+  }
+
+  if (field.placeholder) {
+    field.placeholder = t(field.placeholder);
+  }
+};
 
 const fieldToFormElement = (field) => {
   const validators = [];
@@ -104,44 +134,55 @@ const fieldToFormElement = (field) => {
     } else {
       validators.push(validateNumber);
     }
-    type = inputFormElementRef.value;
+    type = inputFormElementRef;
   } else if (field.type === "text") {
     if (field.required) {
       validators.push(validateRequired);
     }
-    type = inputFormElementRef.value;
+    type = inputFormElementRef;
   } else if (field.type === "integer") {
     if (field.required) {
       validators.push(validateRequired, validateInteger);
     } else {
       validators.push(validateInteger);
     }
-    type = inputFormElementRef.value;
+    type = inputFormElementRef;
   } else if (field.type === "boolean") {
-    type = switchFormElementRef.value;
+    type = switchFormElementRef;
   } else if (field.type === "option") {
-    type = selectFormElementRef.value;
+    type = selectFormElementRef;
   } else if (field.type === "calculated") {
     if (field.required) {
       validators.push(validateRequired);
     }
-    type = textareaFormElementRef.value;
+    type = textareaFormElementRef;
   } else if (field.type === "array") {
     if (field.required) {
       validators.push(validateRequired);
     }
-    type = arrayFormElementRef.value;
+    type = arrayFormElementRef;
   } else if (field.type === "password") {
     if (field.required) {
       validators.push(validateRequired);
     }
-    type = inputFormElementRef.value;
+    type = inputFormElementRef;
   } else if (field.type === "code") {
     if (field.required) {
       validators.push(validateRequired);
     }
-    type = codeEditorFormElementRef.value;
+    type = codeEditorFormElementRef;
   }
+
+  if (field.settings) {
+    field.settings.forEach(translateField);
+  }
+
+  if (field.options) {
+    field.options.forEach(translateField);
+  }
+
+  translateField(field);
+
   return { ...field, component: type, validators };
 };
 
@@ -151,8 +192,13 @@ defineExpose({
 });
 
 const emit = defineEmits(["change"]);
+const fields = ref(null);
 
-const fields = ref(props.fields.map(fieldToFormElement));
+const f = toRef(props, "fields");
+
+watch(f, () => (fields.value = f.value.map(fieldToFormElement)), {
+  immediate: true,
+});
 
 const onUpdate = () => {
   emit("change", getValue());
@@ -161,10 +207,7 @@ const onUpdate = () => {
 
 <template>
   <form class="form" action="">
-    <div
-      class="form__row"
-      v-for="field in props.fields.map(fieldToFormElement)"
-    >
+    <div class="form__row" v-for="field in fields">
       <div class="form__row__label" v-if="!hideLabels">
         <label>{{ field.label }}</label>
       </div>

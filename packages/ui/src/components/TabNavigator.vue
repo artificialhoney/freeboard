@@ -32,7 +32,7 @@ onMounted(() => (index.value = 0));
           <i class="tab-navigator__menu__board-toolbar__item__icon"
             ><v-icon :name="field.icon" /></i
           ><label class="tab-navigator__menu__board-toolbar__item__label">{{
-            field.label
+            $t(field.label)
           }}</label>
         </li>
       </ul>
