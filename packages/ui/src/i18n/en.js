@@ -16,10 +16,10 @@ export const en = {
   codeEditor: {
     buttonClose: "Close",
     descriptionHeader: `
-    This javascript will be re-evaluated any time a datasource referenced herebis updated,
+    <p>This javascript will be re-evaluated any time a datasource referenced herebis updated,
     and the value you <code><span>return</span></code> will be displayed in the widget.
     You can assume this javascript is wrapped in a function of the form <code><span>function</span>(<span>datasources</span>)</code>
-    where datasources is a collection of javascript objects (keyed by their name) corresponding to the most current data in a datasource.`,
+    where datasources is a collection of javascript objects (keyed by their name) corresponding to the most current data in a datasource.</p>`,
   },
   dashboardControl: {
     labelSettings: "Settings",

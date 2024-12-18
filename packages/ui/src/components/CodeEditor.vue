@@ -4,7 +4,9 @@ import { ref, shallowRef } from "vue";
 import TextButton from "./TextButton.vue";
 import { storeToRefs } from "pinia";
 import { useFreeboardStore } from "../stores/freeboard";
+import { useI18n } from "vue-i18n";
 
+const { t } = useI18n();
 const freeboardStore = useFreeboardStore();
 const { dashboard } = storeToRefs(freeboardStore);
 
@@ -22,13 +24,11 @@ const MONACO_EDITOR_OPTIONS = {
 const code = ref(value);
 const editor = shallowRef();
 const handleMount = (editorInstance) => (editor.value = editorInstance);
+const desc = t("codeEditor.descriptionHeader");
 </script>
 <template>
   <div class="code-editor">
-    <div
-      class="code-editor__header"
-      :v-html="$t('codeEditor.descriptionHeader')"
-    ></div>
+    <div class="code-editor__header" v-html="desc"></div>
     <div class="code-editor__content">
       <vue-monaco-editor
         v-model:value="code"
