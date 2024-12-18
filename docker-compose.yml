@@ -4,7 +4,7 @@ services:
     restart: unless-stopped
     container_name: freeboard-ui
     ports:
-      - 8088:80
+      - 8080:80
     networks:
       - freeboard
     depends_on:
