@@ -67,13 +67,13 @@ const onDialogBoxOk = () => {
   >
     <div class="widget-dialog-box__form__row">
       <div class="widget-dialog-box__form__row__label">
-        <label>{{ $("widgetDialogBox.labelType") }}</label>
+        <label>{{ $t("widgetDialogBox.labelType") }}</label>
       </div>
       <div class="widget-dialog-box__form__row__value">
         <SelectFormElement
           v-model="typeRef"
           :options="widgetPluginsOptions"
-          :placeholder="$('widgetDialogBox.placeholderType')"
+          :placeholder="$t('widgetDialogBox.placeholderType')"
         />
       </div>
     </div>
