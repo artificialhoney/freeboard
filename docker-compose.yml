@@ -1,26 +1,26 @@
 services:
-  ui:
+  freeboard-ui:
     image: ghcr.io/artificialhoney/freeboard-ui:dev
     restart: unless-stopped
-    container_name: ui
+    container_name: freeboard-ui
     ports:
       - 8088:80
     networks:
       - freeboard
     depends_on:
-      - api
-      - proxy
-  api:
+      - freeboard-api
+      - freeboard-proxy
+  freeboard-api:
     restart: unless-stopped
-    container_name: api
+    container_name: freeboard-api
     image: ghcr.io/artificialhoney/freeboard-api:dev
     environment:
       - MONGO_URL=${FREEBOARD_MONGO_URL:-mongodb://root:unsecure@localhost:27017}
     networks:
       - freeboard
-  proxy:
+  freeboard-proxy:
     restart: unless-stopped
-    container_name: proxy
+    container_name: freeboard-proxy
     image: ghcr.io/artificialhoney/freeboard-proxy:dev
     networks:
       - freeboard
