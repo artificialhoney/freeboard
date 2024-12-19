@@ -1,0 +1,7 @@
+services:
+  cables:
+    restart: unless-stopped
+    container_name: cables
+    image: ghcr.io/artificialhoney/cables:v1.0.0-dev
+    ports:
+      - 9090:80

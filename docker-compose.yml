@@ -24,7 +24,6 @@ services:
     image: ghcr.io/artificialhoney/freeboard-proxy:dev
     networks:
       - freeboard
-
 networks:
   freeboard:
     name: freeboard
