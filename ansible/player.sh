@@ -2,9 +2,7 @@
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-. $SCRIPT_DIR/.env.player
-
-until curl --output /dev/null --silent --head --fail http://localhost:8080; do
+until curl --output /dev/null --silent --head --fail $FREEBOARD_PLAYER_URL; do
     printf '.'
     sleep 5
 done
