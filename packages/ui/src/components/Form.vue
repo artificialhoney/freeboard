@@ -34,8 +34,8 @@ const components = ref({});
 
 const getValue = () => {
   const value = {};
-  Object.keys(model.value).forEach((key) => {
-    value[key] = model.value[key];
+  fields.value.forEach((field) => {
+    value[field.name] = field.model;
   });
   return value;
 };
@@ -163,7 +163,9 @@ const fieldToFormElement = (field) => {
 
   translateField(field);
 
-  field.model = ref(settings[field.name] || field.default)
+  const value = field.model ? field.model : settings[field.name] || field.default;
+
+  field.model = ref(value)
 
   return { ...field, component: type, validators };
 };

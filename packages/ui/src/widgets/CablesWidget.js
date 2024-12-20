@@ -1,4 +1,5 @@
 import * as patch from "../assets/cables/Trippy_Donut2.json"
+import * as docOpsAll from "../assets/cables/doc_ops_all.json"
 import Talker from "talker.js";
 
 export class CablesWidget {
@@ -41,12 +42,15 @@ export class CablesWidget {
 
     this.iframeElement = document.createElement("iframe");
     this.iframeElement.allow =
-      "clipboard-read;clipboard-write;geolocation;camera;microphone;midi;usb;serial;xr-spatial-tracking;ambient-light-sensor;bluetooth";
+      "clipboard-read;clipboard-write;geolocation;camera;microphone;midi;usb;serial;xr-spatial-tracking;bluetooth";
     this.iframeElement.allowfullscreen = "true";
     this.iframeElement.webkitallowfullscreen = "true";
     this.iframeElement.mozallowfullscreen = "true";
     this.iframeElement.style =
       "width: 100%; height: 100%; border: 0px;";
+    this.iframeElement.onload = () => {
+      this.createEditor();
+    }
 
     this.fullscreenButton = document.createElement("button");
     this.fullscreenButton.textContent = 'Fullscreen';
@@ -67,8 +71,6 @@ export class CablesWidget {
     this.widgetElement.appendChild(this.iframeElement);
 
     this.onSettingsChanged(settings);
-
-    this.createEditor();
   }
 
   render(element) {
@@ -86,9 +88,10 @@ export class CablesWidget {
 
   createEditor() {
     this.editor = new CablesEditor(this.iframeElement, {
-      isTrustedPatch: false,
-      urlCables: "https://cables.gl",
-      urlSandbox: "https://sandbox.cables.gl",
+      isTrustedPatch: true,
+      // platformClass: "PlatformCommunity",
+      urlCables: "//cables",
+      urlSandbox: "http://localhost:5173/cables",
       user: {
         id: null,
         isAdmin: false,
@@ -106,56 +109,9 @@ export class CablesWidget {
       env: "live",
       patchId: "58b9547dc8746fd079db66a9",
       patchVersion: "",
-      socketcluster: {
-        token:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uIjoiZWRxZHlQZzltQkM2OUNxbHFGM3NTTzVUb0FIV0RDSnEiLCJjaGFubmVscyI6WyJwYXRjaGNoYW5uZWxfNThiOTU0N2RjODc0NmZkMDc5ZGI2NmE5X2xpdmUvaW5mbyIsInBhdGNoY2hhbm5lbF81OGI5NTQ3ZGM4NzQ2ZmQwNzlkYjY2YTlfbGl2ZS9jb250cm9sIiwicGF0Y2hjaGFubmVsXzU4Yjk1NDdkYzg3NDZmZDA3OWRiNjZhOV9saXZlL2NoYXQiLCJwYXRjaGNoYW5uZWxfNThiOTU0N2RjODc0NmZkMDc5ZGI2NmE5X2xpdmUvdWkiXSwiaWF0IjoxNzM0NjkwNDkwfQ.pWYOez21y_4n8XmNmIi3_ukp86DiC9V0ESFNDBVZZGo",
-        patchChannel: "patchchannel_58b9547dc8746fd079db66a9_live",
-        userChannel: "",
-        userPatchChannel: "",
-        multiplayerCapable: true,
-        enableTracking: true,
-        enabled: true,
-        hostname: "sc.cables.gl",
-        port: 443,
-        secure: true,
-      },
-      remoteClient: 0,
-      buildInfo: {
-        core: {
-          timestamp: 1734525263816,
-          created: "2024-12-18T12:34:23.816Z",
-          git: {
-            branch: "master",
-            commit: "20b730583e0a440aa00951d2b66a7e8f3d7db458",
-            date: "1734433453",
-            message: "docs",
-          },
-          relative: "2 days ago",
-        },
-        api: {
-          timestamp: 1734602209352,
-          created: "2024-12-19T09:56:49.352Z",
-          git: {
-            branch: "master",
-            commit: "b417f61695447a69fc91ad0a308183b07771e8a5",
-            date: "1734602156",
-            message: "iframe",
-          },
-          relative: "a day ago",
-        },
-        ui: {
-          timestamp: 1734525271134,
-          created: "2024-12-18T12:34:31.134Z",
-          git: {
-            branch: "master",
-            commit: "15e5cd7a7259d6da4077e33c8a7e3f8274789546",
-            date: "1734429017",
-            message: "default ops",
-          },
-          relative: "2 days ago",
-        },
-        updateWarning: true,
-      },
+      socketcluster: { },
+      remoteClient: false,
+      buildInfo: {},
     });
   }
 }
@@ -591,6 +547,7 @@ class CablesEditor {
     this._talker.addEventListener("getOpDocsAll", (data, next) => {
       let url = "doc/ops/all?nc=" + String(Date.now()).substr(-6);
       url += "&p=" + this._patchId;
+      next(null, docOpsAll);
       console.log(
         url,
         (r) => {
