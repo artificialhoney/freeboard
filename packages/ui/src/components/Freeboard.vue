@@ -14,6 +14,7 @@ import { TemplateWidget } from "../widgets/TemplateWidget";
 import { HeaderAuthProvider } from "../auth/HeaderAuthProvider";
 import { OAuth2Provider } from "../auth/OAuth2Provider";
 import { usePreferredColorScheme } from "@vueuse/core";
+import { CablesWidget } from "../widgets/CablesWidget";
 
 const freeboardStore = useFreeboardStore();
 
@@ -91,6 +92,7 @@ freeboardStore.loadAuthPlugin(OAuth2Provider);
 freeboardStore.loadDatasourcePlugin(JSONDatasource);
 freeboardStore.loadDatasourcePlugin(ClockDatasource);
 freeboardStore.loadWidgetPlugin(TemplateWidget);
+freeboardStore.loadWidgetPlugin(CablesWidget);
 
 freeboardStore.allowEdit = freeboardStore.isLoggedIn();
 freeboardStore.isEditing = freeboardStore.isLoggedIn();

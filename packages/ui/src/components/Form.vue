@@ -1,11 +1,9 @@
 <script setup lang="js">
 import {
-  computed,
   markRaw,
   onMounted,
-  onUpdated,
+  reactive,
   ref,
-  shallowRef,
   toRef,
   watch,
 } from "vue";
@@ -24,31 +22,37 @@ import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();
 
-const { hideLabels, settings, ...props } = defineProps({
+const { hideLabels, ...props } = defineProps({
   fields: Array,
   settings: Object,
   hideLabels: Boolean,
 });
 
+const settings = reactive({ ...props.settings });
+
 const model = ref({});
 const components = ref({});
 
-const applySettings = (s) => {
+const applySettings = (s, init) => {
   const m = {};
-  if (!s || !fields.value) {
+  if (!s) {
     return;
   }
   fields.value.forEach((f) => {
-    m[f.name] = s[f.name] !== undefined ? s[f.name] : f.default;
+    if (init) {
+      m[f.name] = ref(f.default);
+    } else {
+      m[f.name] = ref([f.name]);
+    }
   });
   model.value = m;
 };
 
 watch(
-  () => settings,
-  () => applySettings(settings),
+  settings,
+  () => applySettings(settings, true),
 );
-onMounted(() => applySettings(settings));
+onMounted(() => applySettings(settings, true));
 
 const getValue = () => {
   const value = {};

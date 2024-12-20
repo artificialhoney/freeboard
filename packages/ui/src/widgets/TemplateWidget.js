@@ -1,7 +1,6 @@
 export class TemplateWidget {
   static typeName = "template";
   static label = "Template";
-  static fillSize = true;
   static fields = () => [
     {
       name: "template",
@@ -15,20 +14,20 @@ export class TemplateWidget {
     newInstanceCallback(new TemplateWidget(settings));
   }
 
-  templateElement;
+  widgetElement;
   currentSettings;
 
   constructor(settings) {
     this.currentSettings = settings;
-    this.templateElement = document.createElement("div");
-    this.templateElement.className = "template-widget";
-    this.templateElement.style.width = "100%";
-    this.templateElement.style.height = "100%";
+    this.widgetElement = document.createElement("div");
+    this.widgetElement.className = "template-widget";
+    this.widgetElement.style.width = "100%";
+    this.widgetElement.style.height = "100%";
     this.onSettingsChanged(settings);
   }
 
   render(element) {
-    element.appendChild(this.templateElement);
+    element.appendChild(this.widgetElement);
   }
 
   onSettingsChanged(newSettings) {
@@ -39,10 +38,10 @@ export class TemplateWidget {
     if (settingName !== "template") {
       return;
     }
-    this.templateElement.innerHTML = newValue;
+    this.widgetElement.innerHTML = newValue;
   }
 
   onDispose() {
-    this.templateElement.remove();
+    this.widgetElement.remove();
   }
 }

@@ -1,7 +1,6 @@
 .pane {
-  background: var(--color-shade-0);
+  background: var(--color-shade-5);
   height: 100%;
-  overflow: hidden;
 }
 
 .pane .pane__header {
