@@ -46,6 +46,7 @@ export const en = {
     buttonCancel: "Cancel",
   },
   form: {
+    labelPatch: "Patch",
     labelHeader: "Header",
     labelValue: "Value",
     labelClientId: "Client Id",

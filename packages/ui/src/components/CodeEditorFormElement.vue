@@ -1,6 +1,6 @@
 <script setup lang="js">
 import { VueMonacoEditor } from "@guolao/vue-monaco-editor";
-import { ref, shallowRef, watch } from "vue";
+import { onMounted, ref, shallowRef, watch } from "vue";
 import { useFreeboardStore } from "../stores/freeboard";
 import { storeToRefs } from "pinia";
 
@@ -20,7 +20,10 @@ const MONACO_EDITOR_OPTIONS = {
 
 const code = ref(props.modelValue);
 const editor = shallowRef();
-const handleMount = (editorInstance) => (editor.value = editorInstance);
+const handleMount = (editorInstance) => {
+  editor.value = editorInstance;
+  code.value = props.modelValue;
+}
 
 watch(code, (value) => onChange(value));
 

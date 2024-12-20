@@ -7,6 +7,7 @@ export class TemplateWidget {
       label: "form.labelTemplate",
       type: "calculated",
       description: "form.descriptionTemplate",
+      language: "javascript"
     },
   ];
 

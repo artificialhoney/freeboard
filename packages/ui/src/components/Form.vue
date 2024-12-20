@@ -15,7 +15,6 @@ import {
 } from "../validators";
 import SwitchFormElement from "./SwitchFormElement.vue";
 import SelectFormElement from "./SelectFormElement.vue";
-import TextareaFormElement from "./TextareaFormElement.vue";
 import ArrayFormElement from "./ArrayFormElement.vue";
 import CodeEditorFormElement from "./CodeEditorFormElement.vue";
 import { useI18n } from "vue-i18n";
@@ -33,27 +32,6 @@ const settings = reactive({ ...props.settings });
 const model = ref({});
 const components = ref({});
 
-const applySettings = (s, init) => {
-  const m = {};
-  if (!s) {
-    return;
-  }
-  fields.value.forEach((f) => {
-    if (init) {
-      m[f.name] = ref(f.default);
-    } else {
-      m[f.name] = ref([f.name]);
-    }
-  });
-  model.value = m;
-};
-
-watch(
-  settings,
-  () => applySettings(settings, true),
-);
-onMounted(() => applySettings(settings, true));
-
 const getValue = () => {
   const value = {};
   Object.keys(model.value).forEach((key) => {
@@ -69,7 +47,6 @@ const storeComponentRef = (name, el) => {
 const errors = ref({});
 
 const hasErrors = () => {
-  let value = false;
   const e = {};
   Object.keys(components.value).forEach((key) => {
     const result = validateField(key);
@@ -107,7 +84,6 @@ const validateField = (key) => {
 const inputFormElementRef = markRaw(InputFormElement);
 const switchFormElementRef = markRaw(SwitchFormElement);
 const selectFormElementRef = markRaw(SelectFormElement);
-const textareaFormElementRef = markRaw(TextareaFormElement);
 const arrayFormElementRef = markRaw(ArrayFormElement);
 const codeEditorFormElementRef = markRaw(CodeEditorFormElement);
 
@@ -159,7 +135,7 @@ const fieldToFormElement = (field) => {
     if (field.required) {
       validators.push(validateRequired);
     }
-    type = textareaFormElementRef;
+    type = codeEditorFormElementRef;
   } else if (field.type === "array") {
     if (field.required) {
       validators.push(validateRequired);
@@ -186,6 +162,8 @@ const fieldToFormElement = (field) => {
   }
 
   translateField(field);
+
+  field.model = ref(settings[field.name] || field.default)
 
   return { ...field, component: type, validators };
 };
@@ -221,7 +199,7 @@ const onUpdate = () => {
             :ref="(el) => storeComponentRef(field.name, el)"
             :is="field.component"
             :disabled="field.disabled"
-            v-model="model[field.name]"
+            v-model="field.model"
             :validators="field.validators"
             :options="field.options || field.settings"
             :placeholder="field.placeholder"

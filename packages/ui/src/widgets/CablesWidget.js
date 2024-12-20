@@ -1,3 +1,4 @@
+import * as patch from "../assets/cables/Trippy_Donut2.json"
 import Talker from "talker.js";
 
 export class CablesWidget {
@@ -9,6 +10,13 @@ export class CablesWidget {
       label: "form.labelUrl",
       type: "text",
       default: "http://localhost:9090",
+    },
+    {
+      name: "patch",
+      label: "form.labelPatch",
+      type: "code",
+      default: JSON.stringify(patch, null, 2),
+      language: "json"
     },
   ];
 
