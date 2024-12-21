@@ -53,8 +53,8 @@ const handler = (clientReq, clientRes) => {
   });
 };
 
-app.post("/", handler);
-app.get("/", handler);
+app.post("/proxy", handler);
+app.get("/proxy", handler);
 
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Proxy listening on port ${PORT}`);

@@ -1,5 +1,3 @@
-import * as http from "http";
-import * as https from "https";
 import express from "express";
 import session from "express-session";
 import grant from "grant";

@@ -10,6 +10,13 @@ services:
     depends_on:
       - freeboard-api
       - freeboard-proxy
+      - freeboard-oauth
+  freeboard-oauth:
+    restart: unless-stopped
+    container_name: freeboard-oauth
+    image: ghcr.io/artificialhoney/freeboard-oauth:dev
+    networks:
+      - freeboard
   freeboard-api:
     restart: unless-stopped
     container_name: freeboard-api
