@@ -93,13 +93,13 @@ export class BaseWidget {
   ];
 
   static template({style, script, html, resources}) {
-    const res = resources.map((r) => {
+    const res = resources?.map((r) => {
       if (r.type === "style") {
         return `<link rel="stylesheet" type="text/css href="${r.url}"></link>`;
       } else {
         return `<script src="${r.url}"></script>`;
       }
-    });
+    }) || [];
     return `
 <!DOCTYPE html>
 <html lang="en">
@@ -117,7 +117,7 @@ export class BaseWidget {
   }
 
   static newInstance(settings, newInstanceCallback) {
-    newInstanceCallback(new TemplateWidget(settings));
+    newInstanceCallback(new BaseWidget(settings));
   }
 
   iframeElement;
@@ -157,7 +157,7 @@ export class BaseWidget {
   }
 
   processDatasourceUpdate(datasource) {
-    this.iframeElement.contentWindow.postMessage({
+    this.iframeElement.contentWindow?.postMessage({
       type: "datasource:update",
       datasource: datasource.title,
       ...datasource.latestData,

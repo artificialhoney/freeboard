@@ -27,7 +27,7 @@ const storeComponentRef = (name, el) => {
   components.value[name] = el;
 };
 
-const typeRef = ref(null);
+const typeRef = ref(datasource ? datasource.type : null);
 
 const fields = ref([]);
 
@@ -92,7 +92,7 @@ const onDialogBoxOk = () => {
       }
     });
   });
-  onOk({ ...result, settings: s });
+  onOk({ ...result, settings: s, type: typeRef.value  });
   dialog.value.closeModal();
 };
 </script>

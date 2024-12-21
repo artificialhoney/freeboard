@@ -22,10 +22,10 @@ const openWidgetEditDialogBox = () => {
     header: t("widget.titleEdit"),
     widget: widget,
     onOk: (newSettings) => {
-      w.settings = newSettings.settings;
-      w.type = newSettings.type;
-      w.title = newSettings.title;
-      w.enabled = newSettings.enabled;
+      widget.settings = newSettings.settings;
+      widget.type = newSettings.type;
+      widget.title = newSettings.title;
+      widget.enabled = newSettings.enabled;
       render();
     },
   });

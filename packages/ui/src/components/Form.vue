@@ -102,6 +102,14 @@ const translateField = (field) => {
   if (field.placeholder) {
     field.placeholder = t(field.placeholder);
   }
+
+  if (field.settings) {
+    field.settings.forEach(translateField);
+  }
+
+  if (field.options) {
+    field.options.forEach(translateField);
+  }
 };
 
 const fieldToFormElement = (field) => {
@@ -151,16 +159,6 @@ const fieldToFormElement = (field) => {
     }
     type = codeEditorFormElementRef;
   }
-
-  if (field.settings) {
-    field.settings.forEach(translateField);
-  }
-
-  if (field.options) {
-    field.options.forEach(translateField);
-  }
-
-  translateField(field);
 
   const value = field.model ? field.model : settings[field.name] || field.default;
 

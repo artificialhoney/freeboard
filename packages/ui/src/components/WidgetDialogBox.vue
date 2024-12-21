@@ -19,7 +19,7 @@ const { header, onClose, onOk, widget } = defineProps({
   widget: Object,
 });
 
-const typeRef = ref(null);
+const typeRef = ref(widget ? widget.type : null);
 
 const fields = ref([]);
 const components = ref({});
@@ -89,7 +89,7 @@ const onDialogBoxOk = () => {
       }
     });
   });
-  onOk({ ...result, settings: s });
+  onOk({ ...result, settings: s, type: typeRef.value });
   dialog.value.closeModal();
 };
 </script>

@@ -17,8 +17,8 @@ const openAuthProviderEditDialogBox = (authprovider) => {
     header: t("authProvidersList.titleEdit"),
     authprovider,
     onOk: (newSettings) => {
-      authprovider.name = newSettings.settings.name;
-      delete newSettings.settings.name;
+      authprovider.title = newSettings.title;
+      authprovider.enabled = newSettings.enabled;
       authprovider.settings = newSettings.settings;
       authprovider.type = newSettings.type;
     },
@@ -39,13 +39,10 @@ const openAuthProviderAddDialogBox = () => {
     header: t("authProvidersList.titleAdd"),
     onOk: (newSettings) => {
       const newViewModel = new AuthProvider();
-
-      newViewModel.name = newSettings.settings.name;
-      delete newSettings.settings.name;
-
+      newViewModel.title = newSettings.title;
+      newViewModel.enabled = newSettings.enabled;
       newViewModel.settings = newSettings.settings;
       newViewModel.type = newSettings.type;
-
       dashboard.value.addAuthProvider(newViewModel);
     },
   });

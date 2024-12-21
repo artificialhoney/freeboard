@@ -35,7 +35,11 @@ const openWidgetAddDialogBox = (pane) => {
   freeboardStore.createComponent(WidgetDialogBox, instance.appContext, {
     header: t("pane.titleAdd"),
     onOk: (newSettings) => {
-      const newViewModel = new _Widget(newSettings.settings, newSettings.type);
+      const newViewModel = new _Widget();
+      newViewModel.settings = newSettings.settings;
+      newViewModel.type = newSettings.type;
+      newViewModel.title = newSettings.title;
+      newViewModel.enabled = newSettings.enabled;
       dashboard.value.addWidget(pane, newViewModel);
     },
   });

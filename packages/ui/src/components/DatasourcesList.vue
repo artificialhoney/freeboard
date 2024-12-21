@@ -18,8 +18,8 @@ const openDatasourceEditDialogBox = (datasource) => {
     header: t("datasourcesList.titleEdit"),
     datasource,
     onOk: (newSettings) => {
-      datasource.name = newSettings.settings.name;
-      delete newSettings.settings.name;
+      datasource.title = newSettings.title;
+      datasource.enabled = newSettings.enabled;
       datasource.settings = newSettings.settings;
       datasource.type = newSettings.type;
     },
@@ -40,10 +40,8 @@ const openDatasourceAddDialogBox = () => {
     header: t("datasourcesList.titleAdd"),
     onOk: (newSettings) => {
       const newViewModel = new Datasource();
-
-      newViewModel.name = newSettings.settings.name;
-      delete newSettings.settings.name;
-
+      newViewModel.title = newSettings.title;
+      newViewModel.enabled = newSettings.enabled;
       newViewModel.settings = newSettings.settings;
       newViewModel.type = newSettings.type;
 
@@ -77,7 +75,7 @@ const instance = getCurrentInstance();
           <td class="datasources-list__table__body__row__cell">
             <TextButton
               @click="() => openDatasourceEditDialogBox(datasource)"
-              >{{ datasource.name }}</TextButton
+              >{{ datasource.title }}</TextButton
             >
           </td>
           <td class="datasources-list__table__body__row__cell">
