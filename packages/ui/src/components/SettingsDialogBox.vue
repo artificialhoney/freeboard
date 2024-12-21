@@ -6,9 +6,6 @@ import { useFreeboardStore } from "../stores/freeboard";
 import { storeToRefs } from "pinia";
 import TabNavigator from "./TabNavigator.vue";
 import createSettings from "../settings";
-import { useI18n } from "vue-i18n";
-
-const { t } = useI18n();
 
 const freeboardStore = useFreeboardStore();
 
@@ -62,12 +59,13 @@ const onDialogBoxOk = () => {
     @ok="onDialogBoxOk"
   >
     <TabNavigator :fields="fields">
-      <Form
-        :ref="(el) => storeComponentRef(field.name, el)"
-        :settings="field.settings"
-        :fields="field.fields"
-        v-for="field in fields"
-      />
+      <template v-slot:[field.name] v-for="field in fields">
+        <Form
+          :ref="(el) => storeComponentRef(field.name, el)"
+          :settings="field.settings"
+          :fields="field.fields"
+        />
+      </template>
     </TabNavigator>
   </DialogBox>
 </template>

@@ -31,6 +31,8 @@ import {
   HiSolidHome,
   HiSolidArchive,
   HiPencilAlt,
+  HiBeaker,
+  HiSolidBriefcase
 } from "oh-vue-icons/icons";
 
 import { createPinia, storeToRefs } from "pinia";
@@ -62,6 +64,8 @@ addIcons(
   HiSolidHome,
   HiSolidArchive,
   HiPencilAlt,
+  HiBeaker,
+  HiSolidBriefcase
 );
 
 const i18n = createI18n({

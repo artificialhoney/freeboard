@@ -6,42 +6,32 @@ const EXPIRES_IN_PROPERTY_NAME = "expires_in";
 export class OAuth2Provider {
   static typeName = "oauth2";
   static label = "OAuth2";
-  static fields = [
+  static fields = (authProvider, dashboard, general) => [
     {
-      name: "url",
-      label: "form.labelUrl",
-      type: "text",
-      required: true,
-    },
-    {
-      name: "client_id",
-      label: "form.labelClientId",
-      type: "text",
-      required: true,
-    },
-    {
-      name: "client_secret",
-      label: "form.labelClientSecret",
-      type: "password",
-      required: true,
-    },
-    {
-      name: "scope",
-      label: "form.labelScope",
-      type: "text",
-    },
-    {
-      name: "username",
-      label: "form.labelUsername",
-      type: "text",
-    },
-    {
-      name: "password",
-      label: "form.labelPassword",
-      type: "password",
+      ...general,
+      settings: {
+        ...general.settings,
+        service: authProvider?.settings.service,
+        body: authProvider?.settings.body,
+      },
+      fields: [
+        ...general.fields,
+        {
+          name: "service",
+          label: "form.labelService",
+          type: "text",
+          required: true,
+        },
+        {
+          name: "body",
+          label: "form.labelBody",
+          type: "code",
+          required: true,
+          language: 'json'
+        }
+      ],
     },
   ];
-
   currentSettings = null;
   tokenProperties = null;
 

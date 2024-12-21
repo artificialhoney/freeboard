@@ -225,28 +225,27 @@ export const useFreeboardStore = defineStore("freeboard", {
         },
       });
     },
-    getAuthPluginFields(typeName) {
-      const authProvider = this.authPlugins[typeName];
-      if (typeof authProvider.fields === "function") {
-        return authProvider.fields(this.dashboard);
+    getAuthPluginFields(authProvider) {
+      const a = this.authPlugins[authProvider.typeName];
+      if (typeof a.fields === "function") {
+        return a.fields(authProvider, this.dashboard);
       } else {
-        return authProvider.fields;
+        return a.fields;
       }
     },
-    getDatasourcePluginFields(typeName) {
-      const datasource = this.datasourcePlugins[typeName];
-      if (typeof datasource.fields === "function") {
-        return datasource.fields(this.dashboard);
+    getDatasourcePluginFields(datasource) {
+      const d = this.datasourcePlugins[datasource.typeName];
+      if (typeof d.fields === "function") {
+        return d.fields(datasource, this.dashboard);
       } else {
-        return datasource.fields;
+        return d.fields;
       }
     },
-    getWidgetPluginFields(typeName) {
-      const widget = this.widgetPlugins[typeName];
-      if (typeof widget.fields === "function") {
-        return widget.fields(this.dashboard);
+    getWidgetPluginFields(widget) {
+      if (typeof widget.constructor.fields === "function") {
+        return widget.constructor.fields(widget, this.dashboard);
       } else {
-        return widget.fields;
+        widget.constructor.fields;
       }
     },
   },

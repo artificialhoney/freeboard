@@ -10,11 +10,10 @@ import { storeToRefs } from "pinia";
 import Preloader from "./Preloader.vue";
 import { ClockDatasource } from "../datasources/ClockDatasource";
 import { JSONDatasource } from "../datasources/JSONDatasource";
-import { TemplateWidget } from "../widgets/TemplateWidget";
 import { HeaderAuthProvider } from "../auth/HeaderAuthProvider";
 import { OAuth2Provider } from "../auth/OAuth2Provider";
 import { usePreferredColorScheme } from "@vueuse/core";
-import { CablesWidget } from "../widgets/CablesWidget";
+import { BaseWidget } from "../widgets/BaseWidget";
 
 const freeboardStore = useFreeboardStore();
 
@@ -91,8 +90,7 @@ freeboardStore.loadAuthPlugin(HeaderAuthProvider);
 freeboardStore.loadAuthPlugin(OAuth2Provider);
 freeboardStore.loadDatasourcePlugin(JSONDatasource);
 freeboardStore.loadDatasourcePlugin(ClockDatasource);
-freeboardStore.loadWidgetPlugin(TemplateWidget);
-freeboardStore.loadWidgetPlugin(CablesWidget);
+freeboardStore.loadWidgetPlugin(BaseWidget);
 
 freeboardStore.allowEdit = freeboardStore.isLoggedIn();
 freeboardStore.isEditing = freeboardStore.isLoggedIn();

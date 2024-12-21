@@ -1,18 +1,29 @@
 export class HeaderAuthProvider {
   static typeName = "header";
   static label = "Header";
-  static fields = [
+  static fields = (authProvider, dashboard, general) => [
     {
-      name: "header",
-      label: "form.labelHeader",
-      type: "text",
-      required: true,
-    },
-    {
-      name: "value",
-      label: "form.labelValue",
-      type: "text",
-      required: true,
+      ...general,
+      settings: {
+        ...general.settings,
+        header: authProvider?.settings.header,
+        value: authProvider?.settings.value,
+      },
+      fields: [
+        ...general.fields,
+        {
+          name: "header",
+          label: "form.labelHeader",
+          type: "text",
+          required: true,
+        },
+        {
+          name: "value",
+          label: "form.labelValue",
+          type: "text",
+          required: true,
+        },
+      ],
     },
   ];
 

@@ -3,9 +3,8 @@ import { useFreeboardStore } from "../stores/freeboard";
 
 export class Widget {
   shouldRender = true;
-  datasourceRefreshNotifications = {};
-  calculatedSettingScripts = {};
-  fillSize = 0;
+  enabled = true;
+  title = null;
   pane = null;
   _type = null;
   _settings = null;
@@ -26,7 +25,6 @@ export class Widget {
       const widgetType = widgetPlugins.value[newValue];
 
       widgetType.newInstance(this.settings, (widgetInstance) => {
-        this.fillSize = widgetType.fillSize;
         this.widgetInstance = widgetInstance;
         this.shouldRender = true;
       });
@@ -46,8 +44,6 @@ export class Widget {
       this.widgetInstance.onSettingsChanged(newValue);
     }
 
-    this.updateCalculatedSettings();
-    // this._heightUpdate.valueHasMutated();
     this._settings = newValue;
   }
 
@@ -65,134 +61,6 @@ export class Widget {
     }
   }
 
-  processDatasourceUpdate() {
-    const key =
-      this.datasourceRefreshNotifications &&
-      Object.keys(this.datasourceRefreshNotifications)[0];
-    if (!key) {
-      return;
-    }
-    const refreshSettingNames = this.datasourceRefreshNotifications[key];
-    if (Array.isArray(refreshSettingNames)) {
-      refreshSettingNames.forEach((settingName) => {
-        this.processCalculatedSetting(settingName);
-      });
-    }
-  }
-
-  callValueFunction(theFunction) {
-    const freeboardStore = useFreeboardStore();
-    const { dashboard } = storeToRefs(freeboardStore);
-    return theFunction.call(undefined, dashboard.value.datasources);
-  }
-
-  processCalculatedSetting(settingName) {
-    if (typeof this.calculatedSettingScripts[settingName] === "function") {
-      let returnValue = undefined;
-
-      try {
-        returnValue = this.callValueFunction(
-          this.calculatedSettingScripts[settingName],
-        );
-      } catch (e) {
-        console.error(e);
-        let rawValue = this.settings[settingName];
-
-        // If there is a reference error and the value just contains letters and numbers, then
-        if (e instanceof ReferenceError && /^\w+$/.test(rawValue)) {
-          returnValue = rawValue;
-        }
-      }
-      if (
-        this.widgetInstance !== undefined &&
-        typeof this.widgetInstance.onCalculatedValueChanged === "function" &&
-        returnValue !== undefined
-      ) {
-        try {
-          this.widgetInstance.onCalculatedValueChanged(
-            settingName,
-            returnValue,
-          );
-        } catch (e) {}
-      }
-    }
-  }
-
-  updateCalculatedSettings() {
-    const freeboardStore = useFreeboardStore();
-
-    this.datasourceRefreshNotifications = {};
-    this.calculatedSettingScripts = {};
-
-    if (this.type == null) {
-      return;
-    }
-
-    // Check for any calculated settings
-    let settingsDefs = freeboardStore.getWidgetPluginFields(this.type);
-    let datasourceRegex = new RegExp(
-      "datasources.([\\w_-]+)|datasources\\[['\"]([^'\"]+)",
-      "g",
-    );
-    const currentSettings = this.settings;
-
-    settingsDefs.forEach((settingDef) => {
-      if (settingDef.type == "calculated") {
-        let script = currentSettings[settingDef.name];
-
-        if (script !== undefined) {
-          if (Array.isArray(script)) {
-            script = "[" + script.join(",") + "]";
-          }
-
-          // If there is no return, add one
-          // if (
-          //   (script.match(/;/g) || []).length <= 1 &&
-          //   script.indexOf("return") == -1
-          // ) {
-          //   script = "return " + script;
-          // }
-
-          let valueFunction;
-
-          try {
-            valueFunction = new Function("datasources", script);
-          } catch (e) {
-            const literalText = currentSettings[settingDef.name]
-              .replace(/"/g, '\\"')
-              .replace(/[\r\n]/g, " \\\n");
-
-            valueFunction = new Function(
-              "datasources",
-              `return '${literalText}';`,
-            );
-          }
-
-          this.calculatedSettingScripts[settingDef.name] = valueFunction;
-          this.processCalculatedSetting(settingDef.name);
-
-          // Are there any datasources we need to be subscribed to?
-          let matches;
-
-          while ((matches = datasourceRegex.exec(script))) {
-            let dsName = matches[1] || matches[2];
-            let refreshSettingNames =
-              this.datasourceRefreshNotifications[dsName];
-
-            if (refreshSettingNames === undefined) {
-              refreshSettingNames = [];
-              this.datasourceRefreshNotifications[dsName] = refreshSettingNames;
-            }
-
-            if (refreshSettingNames.indexOf(settingDef.name) === -1) {
-              // Only subscribe to this notification once.
-              refreshSettingNames.push(settingDef.name);
-            }
-          }
-        }
-      }
-    });
-  }
   render(element) {
     this.shouldRender = false;
     if (
@@ -200,7 +68,6 @@ export class Widget {
       typeof this.widgetInstance.render === "function"
     ) {
       this.widgetInstance.render(element);
-      this.updateCalculatedSettings();
     }
   }
 
@@ -208,14 +75,27 @@ export class Widget {
 
   serialize() {
     return {
+      title: this.title,
       type: this.type,
       settings: this.settings,
+      enabled: this.enabled
     };
   }
 
   deserialize(object) {
     this.title = object.title;
-    this.settings = object.settings;
     this.type = object.type;
+    this.settings = object.settings;
+    this.enabled = object.enabled;
+  }
+
+
+  processDatasourceUpdate(datasource) {
+    if (
+      this.widgetInstance !== undefined &&
+      typeof this.widgetInstance.processDatasourceUpdate === "function"
+    ) {
+      this.widgetInstance.processDatasourceUpdate(datasource);
+    }
   }
 }

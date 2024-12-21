@@ -42,7 +42,7 @@ defineExpose({
     v-model:value="code"
     :theme="`vs-${dashboard.settings.theme === 'dark' ? 'dark' : 'light'}`"
     :options="MONACO_EDITOR_OPTIONS"
-    :language="props.language"
+    :language="typeof props.language === 'Function' ? props.language() : props.language"
     @mount="handleMount"
   />
 </template>

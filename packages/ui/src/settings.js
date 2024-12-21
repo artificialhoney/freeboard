@@ -66,7 +66,7 @@ export default (dashboard) => {
     },
     {
       label: "form.labelStyle",
-      icon: "hi-code",
+      icon: "hi-beaker",
       name: "style",
       settings: {
         style: dashboard.settings.style,

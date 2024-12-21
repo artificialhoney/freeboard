@@ -5,74 +5,105 @@ import proxy from "../proxy";
 export class JSONDatasource {
   static typeName = "json";
   static label = "JSON";
-  static fields = (dashboard) => {
-    return [
-      {
-        name: "url",
-        label: "form.labelUrl",
-        type: "text",
-        required: true,
+  static fields = (datasource, dashboard, general) => [
+    {
+      ...general,
+      settings: {
+        ...general.settings,
+        url: datasource?.settings.url,
+        refresh: datasource?.settings.refresh,
+        useProxy: datasource?.settings.useProxy,
       },
-      {
-        name: "useProxy",
-        label: "form.labelUseProxy",
-        description: "form.descriptionUseProxy",
-        type: "boolean",
-        default: true,
+      fields: [
+        ...general.fields,
+        {
+          name: "url",
+          label: "form.labelUrl",
+          type: "text",
+          required: true,
+        },
+        {
+          name: "useProxy",
+          label: "form.labelUseProxy",
+          type: "boolean",
+          default: true,
+        },
+        {
+          name: "refresh",
+          label: "form.labelRefresh",
+          type: "number",
+          suffix: "form.suffixRefresh",
+          default: 5,
+          required: true,
+        },
+      ]
+    },
+    {
+      label: "form.labelHTTP",
+      icon: "hi-solid-briefcase",
+      name: "http",
+      settings: {
+        method: datasource?.settings.method,
+        body: datasource?.settings.body
       },
-      {
-        name: "refresh",
-        label: "form.labelRefresh",
-        type: "number",
-        suffix: "form.suffixRefresh",
-        default: 5,
-        required: true,
+      fields: [
+        {
+          name: "method",
+          label: "form.labelMethod",
+          type: "option",
+          default: "GET",
+          required: true,
+          options: [
+            {
+              label: "form.labelMethodGET",
+              value: "GET",
+            },
+            {
+              label: "form.labelMethodPOST",
+              value: "POST",
+            },
+            {
+              label: "form.labelMethodPUT",
+              value: "PUT",
+            },
+            {
+              label: "form.labelMethodDELETE",
+              value: "DELETE",
+            },
+          ],
+        },
+        {
+          name: "body",
+          label: "form.labelBody",
+          type: "code",
+          description: "form.descriptionBody",
+          language: 'json'
+        },
+      ],
+    },
+    {
+      label: "form.labelAuth",
+      icon: "hi-eye",
+      name: "auth",
+      settings: {
+        authProvider: datasource?.settings.authProvider
       },
-      {
-        name: "method",
-        label: "form.labelMethod",
-        type: "option",
-        default: "GET",
-        required: true,
-        options: [
-          {
-            label: "form.labelMethodGET",
-            value: "GET",
-          },
-          {
-            label: "form.labelMethodPOST",
-            value: "POST",
-          },
-          {
-            label: "form.labelMethodPUT",
-            value: "PUT",
-          },
-          {
-            label: "form.labelMethodDELETE",
-            value: "DELETE",
-          },
-        ],
-      },
-      {
-        name: "body",
-        label: "form.labelBody",
-        type: "text",
-        description: "form.descriptionBody",
-      },
-      {
-        name: "authProvider",
-        label: "form.labelAuthProvider",
-        type: "option",
-        placeholder: "form.placeholderAuthProvider",
-        options: dashboard.authProviders.map((a) => {
-          return {
-            value: a.name,
-            label: a.name,
-          };
-        }),
-      },
-    ];
-  };
+      fields: [
+        {
+          name: "authProvider",
+          label: "form.labelAuthProvider",
+          type: "option",
+          placeholder: "form.placeholderAuthProvider",
+          options: dashboard.authProviders.map((a) => {
+            return {
+              value: a.name,
+              label: a.name,
+            };
+          }),
+        },
+      ]
+    }
+  ];
 
   static newInstance(settings, newInstanceCallback, updateCallback) {
     newInstanceCallback(new JSONDatasource(settings, updateCallback));

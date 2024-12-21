@@ -16,8 +16,7 @@ const { dashboard } = storeToRefs(freeboardStore);
 const openDatasourceEditDialogBox = (datasource) => {
   freeboardStore.createComponent(DatasourceDialogBox, instance.appContext, {
     header: t("datasourcesList.titleEdit"),
-    settings: { ...datasource.settings, name: datasource.name },
-    type: datasource.type,
+    datasource,
     onOk: (newSettings) => {
       datasource.name = newSettings.settings.name;
       delete newSettings.settings.name;

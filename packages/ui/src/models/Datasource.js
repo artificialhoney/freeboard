@@ -2,7 +2,8 @@ import { storeToRefs } from "pinia";
 import { useFreeboardStore } from "../stores/freeboard";
 
 export class Datasource {
-  name = null;
+  title = null;
+  enabled = true;
   latestData = null;
   _settings = {};
   _type = null;
@@ -66,13 +67,14 @@ export class Datasource {
 
     this.latestData = newData;
     this.lastUpdated = new Date();
-    dashboard.value.processDatasourceUpdate();
+    dashboard.value.processDatasourceUpdate(this);
   }
 
   serialize() {
     return {
-      name: this.name,
+      title: this.title,
       type: this.type,
+      enabled: this.enabled,
       settings: this.settings,
     };
   }
@@ -81,6 +83,7 @@ export class Datasource {
     this.type = object.type;
     this.settings = object.settings;
     this.name = object.name;
+    this.enabled = object.enabled;
   }
 
   getDataRepresentation(dataPath) {

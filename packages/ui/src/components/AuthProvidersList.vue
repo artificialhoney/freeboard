@@ -15,8 +15,7 @@ const { dashboard } = storeToRefs(freeboardStore);
 const openAuthProviderEditDialogBox = (authprovider) => {
   freeboardStore.createComponent(AuthProviderDialogBox, instance.appContext, {
     header: t("authProvidersList.titleEdit"),
-    settings: { ...authprovider.settings, name: authprovider.name },
-    type: authprovider.type,
+    authprovider,
     onOk: (newSettings) => {
       authprovider.name = newSettings.settings.name;
       delete newSettings.settings.name;

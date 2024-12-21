@@ -25,21 +25,6 @@ export default defineConfig(({ mode }) => {
         "/proxy": {
           target: "http://localhost:8001",
           rewrite: (path) => path.replace("/proxy/", ""),
-        },
-        "/cables/api": {
-          target: "http://cables.gl",
-          changeOrigin: true,
-          rewrite: (path) => path.replace("/cables", ""),
-        },
-        "/cables": {
-          target: "http://localhost:9090",
-          rewrite: (path) => path.replace("/cables", ""),
-        },
-        "js/libs.ui.js": {
-          target: "http://localhost:9090"
-        },
-        "js/libs.ui.js": {
-          target: "http://localhost:9090"
         }
       }
     },

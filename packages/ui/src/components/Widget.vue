@@ -8,25 +8,30 @@ import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();
 
+const { widget } = defineProps({
+  widget: Object,
+});
+
 const freeboardStore = useFreeboardStore();
 const { isEditing, dashboard } = storeToRefs(freeboardStore);
 
 const widgetRef = ref(null);
 
-const openWidgetEditDialogBox = (widget) => {
+const openWidgetEditDialogBox = () => {
   freeboardStore.createComponent(WidgetDialogBox, instance.appContext, {
     header: t("widget.titleEdit"),
-    settings: widget.settings,
-    type: widget.type,
+    widget: widget,
     onOk: (newSettings) => {
-      widget.settings = newSettings.settings;
-      widget.type = newSettings.type;
+      w.settings = newSettings.settings;
+      w.type = newSettings.type;
+      w.title = newSettings.title;
+      w.enabled = newSettings.enabled;
       render();
     },
   });
 };
 
-const openWidgetDeleteDialogBox = (widget) => {
+const openWidgetDeleteDialogBox = () => {
   freeboardStore.createComponent(ConfirmDialogBox, instance.appContext, {
     title: t("widget.titleDelete"),
     onOk: () => {
@@ -35,9 +40,6 @@ const openWidgetDeleteDialogBox = (widget) => {
   });
 };
 
-const { widget } = defineProps({
-  widget: Object,
-});
 
 const render = () => {
   if (!widget.shouldRender || !widgetRef.value) {
@@ -58,7 +60,7 @@ const instance = getCurrentInstance();
       <Transition>
         <ul class="widget__sub-section__board-toolbar" v-if="isEditing">
           <li
-            @click="() => widget.pane.moveWidgetUp(widget)"
+            @click="() => widget.pane.moveWidgetUp()"
             class="widget__sub-section__board-toolbar__item"
           >
             <i class="widget__sub-section__board-toolbar__item__icon"
@@ -66,7 +68,7 @@ const instance = getCurrentInstance();
             ></i>
           </li>
           <li
-            @click="() => widget.pane.moveWidgetDown(widget)"
+            @click="() => widget.pane.moveWidgetDown()"
             class="widget__sub-section__board-toolbar__item"
           >
             <i class="widget__sub-section__board-toolbar__item__icon"
@@ -74,7 +76,7 @@ const instance = getCurrentInstance();
             ></i>
           </li>
           <li
-            @click="() => openWidgetEditDialogBox(widget)"
+            @click="() => openWidgetEditDialogBox()"
             class="widget__sub-section__board-toolbar__item"
           >
             <i class="widget__sub-section__board-toolbar__item__icon"
@@ -82,7 +84,7 @@ const instance = getCurrentInstance();
             ></i>
           </li>
           <li
-            @click="() => openWidgetDeleteDialogBox(widget)"
+            @click="() => openWidgetDeleteDialogBox()"
             class="widget__sub-section__board-toolbar__item"
           >
             <i class="widget__sub-section__board-toolbar__item__icon"

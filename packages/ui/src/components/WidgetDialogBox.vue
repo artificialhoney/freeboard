@@ -5,15 +5,29 @@ import Form from "./Form.vue";
 import SelectFormElement from "./SelectFormElement.vue";
 import { useFreeboardStore } from "../stores/freeboard";
 import { storeToRefs } from "pinia";
+import TabNavigator from "./TabNavigator.vue";
+import { merge } from "../merge";
 
 const freeboardStore = useFreeboardStore();
 
-const { widgetPlugins } = storeToRefs(freeboardStore);
+const { widgetPlugins, dashboard } = storeToRefs(freeboardStore);
 
-const form = ref(null);
-const typeRef = ref(type);
+const { header, onClose, onOk, widget } = defineProps({
+  header: String,
+  onClose: Function,
+  onOk: Function,
+  widget: Object,
+});
+
+const typeRef = ref(null);
 
 const fields = ref([]);
+const components = ref({});
+
+const storeComponentRef = (name, el) => {
+  components.value[name] = el;
+};
+
 
 watch(
   typeRef,
@@ -22,9 +36,30 @@ watch(
       fields.value = [];
       return;
     }
-    const data = [...freeboardStore.getWidgetPluginFields(newValue)];
+    const widgetFields = widgetPlugins.value[newValue].fields(widget, dashboard.value, {
+      label: "form.labelGeneral",
+      icon: "hi-solid-home",
+      name: "general",
+      settings: {
+        title: widget?.title,
+        enabled: widget?.enabled,
+      },
+      fields: [
+        {
+          name: "title",
+          label: "form.labelTitle",
+          type: "text",
+          required: true,
+        },
+        {
+          name: "enabled",
+          label: "form.labelEnabled",
+          type: "boolean",
+        },
+      ],
+    })
 
-    fields.value = data;
+    fields.value = widgetFields;
   },
   { immediate: true },
 );
@@ -36,21 +71,25 @@ const widgetPluginsOptions = computed(() => {
   }));
 });
 
-const { header, onClose, onOk, settings, type } = defineProps({
-  header: String,
-  onClose: Function,
-  onOk: Function,
-  settings: Object,
-  type: String,
-});
-
 const dialog = ref(null);
 
 const onDialogBoxOk = () => {
-  if (form.value.hasErrors()) {
+  if (fields.value.some((f) => components.value[f.name].hasErrors())) {
     return;
   }
-  onOk({ settings: form.value.getValue(), type: typeRef.value });
+  const s = {};
+  const result = {};
+  fields.value.forEach((f) => {
+    const v = components.value[f.name].getValue();
+    Object.keys(v).forEach((k) => {
+      if (["type", "title", "enabled"].includes(k)) {
+        result[k] = v[k];
+      } else {
+        s[k] = v[k];
+      }
+    });
+  });
+  onOk({ ...result, settings: s });
   dialog.value.closeModal();
 };
 </script>
@@ -77,7 +116,15 @@ const onDialogBoxOk = () => {
         />
       </div>
     </div>
-    <Form ref="form" :settings="settings" :fields="fields" v-if="typeRef" />
+    <TabNavigator :fields="fields" v-if="typeRef">
+      <template v-slot:[field.name] v-for="field in fields">
+        <Form
+          :ref="(el) => storeComponentRef(field.name, el)"
+          :settings="field.settings"
+          :fields="field.fields"
+        />
+      </template>
+    </TabNavigator>
   </DialogBox>
 </template>
 

@@ -188,10 +188,10 @@ export class Dashboard {
     this.panes = [];
   }
 
-  processDatasourceUpdate() {
+  processDatasourceUpdate(datasource) {
     this.panes?.forEach((pane) => {
       pane.widgets?.forEach((widget) => {
-        widget.processDatasourceUpdate();
+        widget.processDatasourceUpdate(datasource);
       });
     });
   }

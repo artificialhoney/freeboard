@@ -2,7 +2,8 @@ import { storeToRefs } from "pinia";
 import { useFreeboardStore } from "../stores/freeboard";
 
 export class AuthProvider {
-  name = null;
+  title = null;
+  enabled = true;
   _type = null;
   _settings = null;
 
@@ -33,9 +34,10 @@ export class AuthProvider {
 
   serialize() {
     return {
-      name: this.name,
+      title: this.title,
       type: this.type,
       settings: this.settings,
+      enabled: this.enabled,
     };
   }
 
@@ -43,6 +45,8 @@ export class AuthProvider {
     this._type = object.type;
     this._settings = object.settings;
     this.name = object.name;
+    this.enabled = object.enabled;
+    this.title = object.title;
     this.updateAuthProviderInstance();
   }
 
