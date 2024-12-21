@@ -31,7 +31,10 @@ onMounted(() => (index.value = 0));
       </ul>
     </div>
     <div ref="tabs" class="tab-navigator__tabs">
-      <slot :name="field.name" v-for="field in fields.filter((_f,i) => i === index)" :key="field.name"></slot>
+      <div v-for="(field, i) in fields" :style="{display: index === i ? 'inherit' : 'none'}">
+        <slot :name="field.name" :key="field.name"></slot>
+      </div>
+
     </div>
   </div>
 </template>

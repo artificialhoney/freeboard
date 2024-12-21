@@ -60,6 +60,14 @@ const instance = getCurrentInstance();
       <Transition>
         <ul class="widget__sub-section__board-toolbar" v-if="isEditing">
           <li
+            @click="() => widget.enabled = !widget.enabled"
+            class="widget__sub-section__board-toolbar__item"
+          >
+            <i class="widget__sub-section__board-toolbar__item__icon"
+              ><v-icon :name="widget.enabled ? 'hi-pause' : 'hi-play'"></v-icon
+            ></i>
+          </li>
+          <li
             @click="() => widget.pane.moveWidgetUp()"
             class="widget__sub-section__board-toolbar__item"
           >

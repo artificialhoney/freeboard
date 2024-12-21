@@ -26,7 +26,6 @@
 
 .tab-navigator .tab-navigator__tabs > * {
   width: 100%;
-  transition: height 250ms linear;
 }
 
 .tab-navigator .tab-navigator__menu__board-toolbar {

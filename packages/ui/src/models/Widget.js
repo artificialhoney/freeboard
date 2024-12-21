@@ -64,7 +64,7 @@ export class Widget {
   render(element) {
     this.shouldRender = false;
     if (
-      this.widgetInstance !== undefined &&
+      this.enabled && this.widgetInstance !== undefined &&
       typeof this.widgetInstance.render === "function"
     ) {
       this.widgetInstance.render(element);
@@ -92,7 +92,7 @@ export class Widget {
 
   processDatasourceUpdate(datasource) {
     if (
-      this.widgetInstance !== undefined &&
+      this.enabled && this.widgetInstance !== undefined &&
       typeof this.widgetInstance.processDatasourceUpdate === "function"
     ) {
       this.widgetInstance.processDatasourceUpdate(datasource);

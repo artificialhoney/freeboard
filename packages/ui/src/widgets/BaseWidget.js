@@ -44,10 +44,10 @@ export class BaseWidget {
       },
       fields: [
         {
-          name: "script",
-          label: "form.labelScript",
+          name: "html",
+          label: "form.labelHTML",
           type: "code",
-          language: "javascript",
+          language: "html",
         },
       ],
     },

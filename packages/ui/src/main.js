@@ -32,7 +32,9 @@ import {
   HiSolidArchive,
   HiPencilAlt,
   HiBeaker,
-  HiSolidBriefcase
+  HiSolidBriefcase,
+  HiPlay,
+  HiPause
 } from "oh-vue-icons/icons";
 
 import { createPinia, storeToRefs } from "pinia";
@@ -65,7 +67,9 @@ addIcons(
   HiSolidArchive,
   HiPencilAlt,
   HiBeaker,
-  HiSolidBriefcase
+  HiSolidBriefcase,
+  HiPlay,
+  HiPause
 );
 
 const i18n = createI18n({

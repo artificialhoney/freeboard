@@ -29,7 +29,6 @@ const { hideLabels, ...props } = defineProps({
 
 const settings = reactive({ ...props.settings });
 
-const model = ref({});
 const components = ref({});
 
 const getValue = () => {
@@ -65,10 +64,10 @@ const hasErrors = () => {
 
 const validateField = (key) => {
   const e = [];
-  fields.value
-    .find((f) => f.name === key)
-    .validators.forEach((validator) => {
-      const result = validator(model.value[key]);
+  const field =fields.value.find((f) => f.name === key);
+
+  field.validators.forEach((validator) => {
+      const result = validator(field.model);
 
       if (result.error) {
         e.push(result.error);
