@@ -1,6 +1,6 @@
 import { MAX_COLUMNS, MIN_COLUMNS } from "./models/Dashboard";
 
-export default async (dashboard) => {
+export default (dashboard) => {
   return [
     {
       label: "form.labelGeneral",
@@ -113,7 +113,7 @@ export default async (dashboard) => {
               name: "url",
               label: "form.labelUrl",
               type: "list",
-              options: await fetch("https://api.cdnjs.com/libraries/")
+              options: fetch("https://api.cdnjs.com/libraries/")
                 .then((r) => r.json())
                 .then((data) =>
                   data.results.map((r) => ({

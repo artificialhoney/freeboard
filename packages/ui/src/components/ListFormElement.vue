@@ -2,36 +2,43 @@
 import { computed, onMounted, ref, watch } from "vue";
 import { levenshteinDistance } from "../fuzzy";
 import { useI18n } from "vue-i18n";
+import { asyncComputed } from "@vueuse/core";
 
 const { t } = useI18n();
 
 const props = defineProps(["modelValue", "secret", "disabled", "options"]);
 const emit = defineEmits(["update:modelValue"]);
 
-const opts = ref([])
-
 const show = ref(false)
 const value = ref(props.modelValue)
 
-const filter = () => {
-  opts.value = props.options.map(opt => ({
-    value: opt.value,
-    label: opt.label,
-    prio: levenshteinDistance(value.value, opt.value)
-  }))
-  .sort(a,b => a.prio - b.prio)
-  .slice(0, 10)
+const filter = async () => {
+  const result = (await props.options).filter(opt => opt.value).map(opt => {
+    return {
+      value: opt.value,
+      label: opt.label,
+      prio: levenshteinDistance(value.value, opt.label)
+    }
+  })
+  .sort((a,b) => a.prio - b.prio)
+
+  return result.slice(0, 10);
 }
 
-onMounted(filter);
+const opts = ref([])
+
+const onSearch = async () => {
+  opts.value = await filter();
+}
 
 const onLinkClicked = (option) => {
   value.value = option.value
   label.value = option.label
+  show.value = false;
 }
 
-const label = computed(() => {
-  const opt = props.options.find(o => o.value === value.value)
+const label = asyncComputed(async () => {
+  const opt = (await props.options).find(o => o.value === value.value)
   if (opt) {
     return opt.label
   } else {
@@ -40,27 +47,42 @@ const label = computed(() => {
 })
 
 watch(show, () => {
-  if (show.value) {
-    return;
-  }
-  emit("update:modelValue", value.value);
+  emit("update:modelValue", value);
 })
 </script>
 
 <template>
   <div class="list-form-element">
-    <button @click="show = !show" class="list-form-element__drop-button">{{label}}</button>
-    <div class="list-form-element__dropdown-content" :class="{'list-form-element__dropdown-content--show': show}">
-      <input
-        class="list-form-element__dropdown-content__input"
-        type="text"
-        v-model="value"
-        :placeholder="$t('form.placeholderList')"
-        :disabled="props.disabled"
-        @keyup="filter"
-      />
-      <a :href="option.value" v-for="option in opts" class="list-form-element__dropdown-content__link" @click="onLinkClicked(option)">{{option.label}}</a>
-    </div>
+    <button
+      @click="show = !show"
+      class="list-form-element__drop-button"
+      type="button"
+    >
+      {{ label }}
+    </button>
+    <Transition>
+      <div class="list-form-element__dropdown-content" v-if="show">
+        <input
+          class="list-form-element__dropdown-content__input"
+          type="text"
+          v-model="value"
+          :placeholder="$t('form.placeholderList')"
+          :disabled="props.disabled"
+          @keyup.prevent="onSearch"
+        />
+
+        <ul>
+          <li v-for="option in opts">
+            <a
+              :href="option.value"
+              class="list-form-element__dropdown-content__link"
+              @click.prevent="() => onLinkClicked(option)"
+              >{{ option.label }}</a
+            >
+          </li>
+        </ul>
+      </div>
+    </Transition>
   </div>
 </template>
 

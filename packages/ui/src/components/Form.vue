@@ -22,10 +22,11 @@ import ListFormElement from "./ListFormElement.vue";
 
 const { t } = useI18n();
 
-const { hideLabels, ...props } = defineProps({
+const { hideLabels, skipTranslate, ...props } = defineProps({
   fields: Array,
   settings: Object,
   hideLabels: Boolean,
+  skipTranslate: Boolean,
 });
 
 const settings = reactive({ ...props.settings });
@@ -88,7 +89,22 @@ const arrayFormElementRef = markRaw(ArrayFormElement);
 const codeEditorFormElementRef = markRaw(CodeEditorFormElement);
 const listFormElementRef = markRaw(ListFormElement);
 
+const resolveFieldOptions = async (field) => {
+  const promises = [];
+  if (typeof field.options === 'object') {
+    promises.push(field.options);
+  }
+
+  return new Promise(async (resolve) => {
+    await Promise.all(promises);
+    resolve(field);
+  })
+}
+
 const translateField = (field) => {
+  if (skipTranslate) {
+    return field;
+  }
   if (field.label) {
     field.label = t(field.label);
   }
@@ -105,13 +121,15 @@ const translateField = (field) => {
     field.placeholder = t(field.placeholder);
   }
 
-  if (field.settings) {
+  if (Array.isArray(field.settings)) {
     field.settings.forEach(translateField);
   }
 
-  if (field.options) {
+  if (Array.isArray(field.options)) {
     field.options.forEach(translateField);
   }
+
+  return field;
 };
 
 const fieldToFormElement = (field) => {
@@ -184,8 +202,10 @@ const fields = ref(null);
 
 const f = toRef(props, "fields");
 
-watch(f, () => (fields.value = f.value.map(fieldToFormElement)), {
-  immediate: true,
+watch(f, async () => {
+  fields.value = await Promise.all(f.value.map(fieldToFormElement).map(translateField).map(resolveFieldOptions))
+}, {
+  immediate: true
 });
 
 const onUpdate = () => {

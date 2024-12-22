@@ -11,8 +11,13 @@ const value = ref([]);
 
 watch(
   () => props.modelValue,
-  (v) => (value.value = v && [...v]),
-);
+  (v) => {
+    if (!v) {
+      return
+    }
+    value.value = v && [...v]
+  },
+ {immediate: true});
 
 const onSettingChange = (index, v) => {
   value.value[index] = v;
@@ -65,6 +70,7 @@ defineExpose({
               :settings="val"
               :fields="options"
               :hideLabels="true"
+              :skipTranslate="true"
               @change="(v) => onSettingChange(index, v)"
             />
           </td>

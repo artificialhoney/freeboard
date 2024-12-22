@@ -14,7 +14,7 @@
 
 .list-form-element .list-form-element__drop-button:hover,
 .list-form-element__drop-button:focus {
-  background-color: var(--color-primary);
+  background-color:   var(--color-primary);
 }
 
 .list-form-element .list-form-element__dropdown-content__input {
@@ -30,7 +30,6 @@
 }
 
 .list-form-element .list-form-element__dropdown-content {
-  height: 0px;
   position: absolute;
   background-color: #f6f6f6;
   min-width: 230px;
@@ -39,7 +38,6 @@
 }
 
 .list-form-element .list-form-element__dropdown-content--show {
-  height: auto;
   transition: height ease-in-out 250ms;
 }
 

@@ -14,7 +14,7 @@ const { t } = useI18n();
 const freeboardStore = useFreeboardStore();
 const { dashboard } = storeToRefs(freeboardStore);
 
-const fields = ref((await createSettings(dashboard.value))[0].fields);
+const fields = ref(createSettings(dashboard.value)[0].fields);
 const settings = ref({});
 
 const form = ref(null);
