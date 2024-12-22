@@ -4,11 +4,11 @@
 }
 
 .pane .pane__header {
-  background-color: var(--color-shade-1);
+  background-color: var(--color-shade-6);
   height: 30px;
   margin: 0;
   padding: 0 10px 0 10px;
-  color: var(--color-shade-8);
+  color: var(--color-shade-0);
   text-transform: uppercase;
   display: flex;
   justify-content: space-between;

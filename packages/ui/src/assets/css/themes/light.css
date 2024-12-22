@@ -2,7 +2,7 @@ body.light {
   --color-primary:#b87051;
   --color-accent: #b87051;
   --color-secondary: #802b00;
-  --color-error: #aa7575;
+  --color-error: #802b00;
   --color-foreground: #2a2a2a;
   --color-background: #a1a1a1;
 
@@ -20,22 +20,5 @@ body.light {
 
   --color-overlay: rgba(0, 0, 0, 0.8);
   --color-shadow: rgba(0, 0, 0, 0.075);
-  --color-highlight: rgba(0, 102, 255, 0.8);
+  --color-highlight: rgba(184, 112, 81, 0.8);
 }
-
-/* body.light .column-toolbar .column-toolbar__board-toolbar__item__icon {
-  color: var(--color-shade-0) !important;
-}
-
-body.light .header__admin-bar__admin-menu__board-logo {
-  color: var(--color-foreground) !important;
-}
-
-body.light .header__admin-bar__admin-menu__board-logo .ra {
-  fill: var(--color-accent) !important;
-}
-
-body.light .freeboard-control__board-toolbar__item__icon,
-body.light .dashboard-control__board-toolbar__item__icon {
-  color: var(--color-accent) !important;
-} */
