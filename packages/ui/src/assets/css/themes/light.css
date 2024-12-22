@@ -1,5 +1,5 @@
 body.light {
-  --color-primary: #eef2f8;
+  --color-primary: #0066ff;
   --color-accent: #0066ff;
   --color-secondary: #802b00;
   --color-error: #aa7575;
@@ -28,7 +28,7 @@ body.light .column-toolbar .column-toolbar__board-toolbar__item__icon {
 }
 
 body.light .header__admin-bar__admin-menu__board-logo {
-  color: var(--color-primary) !important;
+  color: var(--color-foreground) !important;
 }
 
 body.light .header__admin-bar__admin-menu__board-logo .ra {

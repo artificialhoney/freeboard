@@ -15,7 +15,7 @@
 
 .freeboard-control .freeboard-control__board-toolbar__item {
   display: flex;
-  color: var(--color-primary);
+  color: var(--color-foreground);
   cursor: pointer;
   margin: 0px 0px 0px 5px;
   padding: 4px;
