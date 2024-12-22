@@ -18,6 +18,7 @@ import SelectFormElement from "./SelectFormElement.vue";
 import ArrayFormElement from "./ArrayFormElement.vue";
 import CodeEditorFormElement from "./CodeEditorFormElement.vue";
 import { useI18n } from "vue-i18n";
+import ListFormElement from "./ListFormElement.vue";
 
 const { t } = useI18n();
 
@@ -85,6 +86,7 @@ const switchFormElementRef = markRaw(SwitchFormElement);
 const selectFormElementRef = markRaw(SelectFormElement);
 const arrayFormElementRef = markRaw(ArrayFormElement);
 const codeEditorFormElementRef = markRaw(CodeEditorFormElement);
+const listFormElementRef = markRaw(ListFormElement);
 
 const translateField = (field) => {
   if (field.label) {
@@ -158,6 +160,11 @@ const fieldToFormElement = (field) => {
       validators.push(validateRequired);
     }
     type = codeEditorFormElementRef;
+  } else if (field.type === "list") {
+    if (field.required) {
+      validators.push(validateRequired);
+    }
+    type = listFormElementRef;
   }
 
   const value = field.model ? field.model : settings[field.name] || field.default;

@@ -1,0 +1,55 @@
+.list-form-element {
+  position: relative;
+  display: inline-block;
+}
+
+.list-form-element .list-form-element__drop-button {
+  background-color: var(--color-primary);
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.list-form-element .list-form-element__drop-button:hover,
+.list-form-element__drop-button:focus {
+  background-color: var(--color-primary);
+}
+
+.list-form-element .list-form-element__dropdown-content__input {
+  box-sizing: border-box;
+  font-size: 16px;
+  padding: 14px 20px 12px 45px;
+  border: none;
+  border-bottom: 1px solid #ddd;
+}
+
+.list-form-element .list-form-element__dropdown-content__input:focus {
+  outline: 3px solid #ddd;
+}
+
+.list-form-element .list-form-element__dropdown-content {
+  height: 0px;
+  position: absolute;
+  background-color: #f6f6f6;
+  min-width: 230px;
+  border: 1px solid #ddd;
+  z-index: 1;
+}
+
+.list-form-element .list-form-element__dropdown-content--show {
+  height: auto;
+  transition: height ease-in-out 250ms;
+}
+
+.list-form-element .list-form-element__dropdown-content__link {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.list-form-element .list-form-element__dropdown-content__link:hover {
+  background-color: #f1f1f1;
+}

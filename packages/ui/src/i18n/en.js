@@ -46,6 +46,7 @@ export const en = {
     buttonCancel: "Cancel",
   },
   form: {
+    labelList: 'Select...',
     labelService: 'Service',
     labelAuth: 'Auth',
     labelHTTP: "HTTP",
@@ -95,14 +96,9 @@ export const en = {
     labelThemeAuto: "Auto",
     labelThemeDark: "Dark",
     labelThemeLight: "Light",
-    descriptionBody:
-      "The body of the request. Normally only used if method is POST",
-    descriptionUseProxy:
-      "A direct JSON connection will be tried first, if that fails, you can use the Proxy.",
-    descriptionTemplate:
-      "Can be a HTML template, or javascript that outputs HTML.",
     suffixRefresh: "seconds",
     placeholderAuthProvider: "Select an auth provider",
+    placeholderList: "Search..."
   },
   freeboardControl: {
     labelSave: "Save Freeboard",
