@@ -9,6 +9,7 @@
           v-model="select"
           :options="props.options"
           :placeholder="$t('typeSelect.placeholderType')"
+          :placeholderDisabled="true"
         />
       </div>
     </div>

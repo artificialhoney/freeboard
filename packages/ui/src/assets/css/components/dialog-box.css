@@ -22,7 +22,7 @@
 }
 
 .dialog-box .dialog-box__modal__header {
-  background-color: var(--color-shade-1);
+  background-color: var(--color-shade-3);
   height: 40px;
   margin: 0;
   padding: 0 10px 0 10px;
@@ -30,13 +30,13 @@
   text-transform: uppercase;
   font-family: "Helvetica-Neue", "Helvetica", "Arial", sans-serif;
   font-style: normal;
-  color: var(--color-shade-8);
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
 .dialog-box .dialog-box__modal__content {
+  background-color: var(--color-shade-2);
   padding: 25px;
   padding-bottom: 55px;
   height: 100%;
@@ -45,7 +45,7 @@
 }
 
 .dialog-box .dialog-box__modal__footer {
-  background-color: var(--color-shade-1);
+  background-color: var(--color-shade-3);
   height: 40px;
   margin: 0;
   color: var(--color-shade-8);

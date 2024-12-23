@@ -7,6 +7,7 @@ import { Datasource } from "../models/Datasource";
 import { getCurrentInstance } from "vue";
 import TextButton from "./TextButton.vue";
 import { useI18n } from "vue-i18n";
+import ActionButton from "./ActionButton.vue";
 
 const { t } = useI18n();
 
@@ -107,9 +108,9 @@ const instance = getCurrentInstance();
       </tbody>
     </table>
     <div class="datasources-list__operations">
-      <TextButton @click="() => openDatasourceAddDialogBox()">{{
+      <ActionButton @click="() => openDatasourceAddDialogBox()">{{
         t("datasourcesList.buttonAdd")
-      }}</TextButton>
+      }}</ActionButton>
     </div>
   </div>
 </template>

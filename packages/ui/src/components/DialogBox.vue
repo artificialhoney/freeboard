@@ -1,5 +1,5 @@
 <script setup lang="js">
-import { onMounted, ref } from "vue";
+import { onDeactivated, onMounted, ref } from "vue";
 import TextButton from "./TextButton.vue";
 
 const show = ref(false);
@@ -20,8 +20,21 @@ const onCancel = (event) => {
   closeModal();
 };
 
+const onKey = (e) => {
+  if (e.code === 'Escape') {
+    onCancel(e);
+  } else if (e.code === 'Enter') {
+    onOk(e)
+  }
+}
+
 onMounted(() => {
   show.value = true;
+  window.addEventListener('keydown', onKey)
+});
+
+onDeactivated(() => {
+  window.removeEventListener('keydown', onKey)
 });
 
 const { header, ok, cancel, okDisabled } = defineProps({
@@ -47,7 +60,7 @@ defineExpose({
           <slot />
         </section>
         <footer class="dialog-box__modal__footer">
-          <TextButton :disabled="okDisabled" v-if="ok" @click="onOk">
+          <TextButton :disabled="okDisabled" v-if="ok" @click="onOk" @submit="onOk" form="form" >
             {{ ok }}
           </TextButton>
           <TextButton v-if="cancel" @click="onCancel">

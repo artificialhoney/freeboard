@@ -1,7 +1,7 @@
 <script setup lang="js">
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 
-const props = defineProps(["modelValue", "options", "placeholder", "disabled"]);
+const props = defineProps(["modelValue", "options", "placeholder", "disabled", "placeholderDisabled"]);
 const emit = defineEmits(["update:modelValue"]);
 
 const errors = ref([]);
@@ -9,6 +9,12 @@ const errors = ref([]);
 const onInput = (value) => {
   emit("update:modelValue", value);
 };
+
+onMounted(() => {
+  if (!props.modelValue && props.options?.length) {
+    onInput(props.options[0].value)
+  }
+})
 
 defineExpose({
   errors,
@@ -21,7 +27,7 @@ defineExpose({
       :disabled="props.disabled"
       class="select-form-element__select"
     >
-      <option value="" :selected="modelValue === ''" v-if="placeholder">
+      <option value="" :selected="modelValue === ''" v-if="placeholder" :disabled="props.placeholderDisabled">
         {{ placeholder }}
       </option>
       <option

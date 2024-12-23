@@ -7,6 +7,7 @@ import { AuthProvider } from "../models/AuthProvider";
 import { getCurrentInstance } from "vue";
 import TextButton from "./TextButton.vue";
 import { useI18n } from "vue-i18n";
+import ActionButton from "./ActionButton.vue";
 
 const { t } = useI18n();
 const freeboardStore = useFreeboardStore();
@@ -94,9 +95,9 @@ const instance = getCurrentInstance();
       </tbody>
     </table>
     <div class="auth-providers-list__operations">
-      <TextButton @click="() => openAuthProviderAddDialogBox()">{{
+      <ActionButton @click="() => openAuthProviderAddDialogBox()">{{
         $t("authProvidersList.buttonAdd")
-      }}</TextButton>
+      }}</ActionButton>
     </div>
   </div>
 </template>

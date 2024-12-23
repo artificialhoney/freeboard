@@ -24,3 +24,9 @@
 .datasources-list .datasources-list__table__body__row__cell__board-toolbar {
   display: flex;
 }
+
+.datasources-list .datasources-list__operations {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

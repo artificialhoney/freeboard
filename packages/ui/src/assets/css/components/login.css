@@ -1,3 +1,4 @@
-.login .login__dialog-box {
-  background: none;
+.login {
+  background: var(--color-shade-2);
+  height: 100%;
 }

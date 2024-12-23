@@ -25,3 +25,9 @@
   .auth-providers-list__table__body__row__cell__board-toolbar {
   display: flex;
 }
+
+.auth-providers-list .auth-providers-list__operations {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
