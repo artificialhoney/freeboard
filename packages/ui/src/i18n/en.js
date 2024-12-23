@@ -128,8 +128,8 @@ export const en = {
     titleEdit: "Edit widget",
     titleDelete: "delete widget",
   },
-  widgetDialogBox: {
+  typeSelect: {
     labelType: "Type",
-    placeholderType: "Select a widget type...",
+    placeholderType: "Select...",
   },
 };

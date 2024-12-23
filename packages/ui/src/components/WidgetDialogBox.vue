@@ -7,6 +7,7 @@ import { useFreeboardStore } from "../stores/freeboard";
 import { storeToRefs } from "pinia";
 import TabNavigator from "./TabNavigator.vue";
 import { merge } from "../merge";
+import TypeSelect from "./TypeSelect.vue";
 
 const freeboardStore = useFreeboardStore();
 
@@ -105,18 +106,7 @@ const onDialogBoxOk = () => {
     class="widget-dialog-box"
   >
     <template #header>
-      <div class="widget-dialog-box__form__row">
-        <div class="widget-dialog-box__form__row__label">
-          <label>{{ $t("widgetDialogBox.labelType") }}</label>
-        </div>
-        <div class="widget-dialog-box__form__row__value">
-          <SelectFormElement
-            v-model="typeRef"
-            :options="widgetPluginsOptions"
-            :placeholder="$t('widgetDialogBox.placeholderType')"
-          />
-        </div>
-      </div>
+      <TypeSelect v-model="typeRef" :options="widgetPluginsOptions" />
     </template>
     <TabNavigator :fields="fields" v-if="typeRef">
       <template v-slot:[field.name] v-for="field in fields">

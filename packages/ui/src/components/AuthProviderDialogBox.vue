@@ -6,6 +6,7 @@ import SelectFormElement from "./SelectFormElement.vue";
 import { useFreeboardStore } from "../stores/freeboard";
 import { storeToRefs } from "pinia";
 import TabNavigator from "./TabNavigator.vue";
+import TypeSelect from "./TypeSelect.vue";
 
 const freeboardStore = useFreeboardStore();
 
@@ -38,7 +39,7 @@ watch(
 
     const authFields = authPlugins.value[newValue].fields(authProvider, dashboard.value, {
       label: "form.labelGeneral",
-      icon: "hi-solid-home",
+      icon: "hi-home",
       name: "general",
       settings: {
         title: authProvider?.title,
@@ -104,18 +105,9 @@ const onDialogBoxOk = () => {
     @ok="onDialogBoxOk"
     class="auth-provider-dialog-box"
   >
-    <div class="auth-provider-dialog-box__form__row">
-      <div class="auth-provider-dialog-box__form__row__label">
-        <label>{{ $t("authProviderDialogBox.labelType") }}</label>
-      </div>
-      <div class="auth-provider-dialog-box__form__row__value">
-        <SelectFormElement
-          v-model="typeRef"
-          :options="authPluginsOptions"
-          :placeholder="$t('authProviderDialogBox.placeholderType')"
-        />
-      </div>
-    </div>
+    <template #header>
+      <TypeSelect v-model="typeRef" :options="authPluginsOptions" />
+    </template>
     <TabNavigator :fields="fields">
       <template v-slot:[field.name] v-for="field in fields">
         <Form

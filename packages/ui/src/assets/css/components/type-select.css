@@ -1,0 +1,17 @@
+.type-select .type-select__form__row {
+  display: flex;
+  width: 150px;
+}
+
+.type-select .type-select__form__row__label {
+  text-align: right;
+  padding-right: 14px;
+  padding-top: 4px;
+  width: 20%;
+}
+
+.type-select .type-select__form__row__value {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+}

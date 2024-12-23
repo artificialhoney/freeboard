@@ -7,6 +7,7 @@ import { useFreeboardStore } from "../stores/freeboard";
 import { storeToRefs } from "pinia";
 import { merge } from "../merge";
 import TabNavigator from "./TabNavigator.vue";
+import TypeSelect from "./TypeSelect.vue";
 
 const freeboardStore = useFreeboardStore();
 
@@ -41,7 +42,7 @@ watch(
 
     const datasourceFields = datasourcePlugins.value[newValue].fields(datasource, dashboard.value, {
       label: "form.labelGeneral",
-      icon: "hi-solid-home",
+      icon: "hi-home",
       name: "general",
       settings: {
         title: datasource?.title,
@@ -107,18 +108,9 @@ const onDialogBoxOk = () => {
     @close="onClose"
     @ok="() => onDialogBoxOk()"
   >
-    <div class="datasource-dialog-box__form__row">
-      <div class="datasource-dialog-box__form__row__label">
-        <label>{{ $t("datasourceDialogBox.labelType") }}</label>
-      </div>
-      <div class="datasource-dialog-box__form__row__value">
-        <SelectFormElement
-          v-model="typeRef"
-          :options="datasourcePluginsOptions"
-          :placeholder="$t('datasourceDialogBox.placeholderType')"
-        />
-      </div>
-    </div>
+    <template #header>
+      <TypeSelect v-model="typeRef" :options="datasourcePluginsOptions" />
+    </template>
     <TabNavigator :fields="fields" v-if="typeRef" ref="tabNavigator">
 
       <template v-slot:[field.name] v-for="field in fields">

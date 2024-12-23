@@ -36,6 +36,7 @@
 }
 
 .form .form__row__suffix {
+  color: var(--color-shade-8);
   display: inline-block;
   height: 22px;
   padding: 4px 15px;

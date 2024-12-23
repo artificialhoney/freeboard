@@ -20,10 +20,6 @@
   gap: 10px;
 }
 
-.pane .pane__board-toolbar__item {
-
-}
-
 .pane .pane__header__board-toolbar__item__icon:hover {
   color: var(--color-primary);
 }

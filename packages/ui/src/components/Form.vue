@@ -68,7 +68,7 @@ const validateField = (key) => {
   const e = [];
   const field =fields.value.find((f) => f.name === key);
 
-  field.validators.forEach((validator) => {
+  field?.validators.forEach((validator) => {
       const result = validator(field.model);
 
       if (result.error) {

@@ -40,7 +40,7 @@ export class JSONDatasource {
     },
     {
       label: "form.labelHTTP",
-      icon: "hi-solid-briefcase",
+      icon: "hi-briefcase",
       name: "http",
       settings: {
         method: datasource?.settings.method,
