@@ -1,12 +1,10 @@
 .widget {
-  height: 100%;
   background-color: var(--color-shade-3);
   display: inline;
 }
 
 .widget .widget__sub-section {
   background-color: var(--color-shade-3);
-  height: 100%;
   position: relative;
 }
 

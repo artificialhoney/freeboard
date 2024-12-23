@@ -60,6 +60,11 @@ const instance = getCurrentInstance();
       <Transition>
         <ul class="widget__sub-section__board-toolbar" v-if="isEditing">
           <li
+            class="widget__sub-section__board-toolbar__item"
+          >
+            {{ widget.title }}
+          </li>
+          <li
             @click="() => widget.enabled = !widget.enabled"
             class="widget__sub-section__board-toolbar__item"
           >
