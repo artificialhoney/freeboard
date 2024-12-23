@@ -1,6 +1,6 @@
 body.dark {
   --color-primary: #b88f51;
-  --color-accent: #ff9900;
+  --color-accent: #b88f51;
   --color-secondary: #005580;
   --color-error: #aa7575;
   --color-foreground: #d3d4d4;
@@ -20,5 +20,5 @@ body.dark {
 
   --color-overlay: rgba(0, 0, 0, 0.8);
   --color-shadow: rgba(0, 0, 0, 0.075);
-  --color-highlight: rgba(255, 153, 0, 0.8);
+  --color-highlight: rgba(184, 143, 81, 0.8);
 }

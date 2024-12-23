@@ -1,14 +1,14 @@
 .pane {
-  background: var(--color-shade-5);
+  background: var(--color-shade-0);
   height: 100%;
 }
 
 .pane .pane__header {
-  background-color: var(--color-shade-6);
+  background-color: var(--color-shade-2);
   height: 30px;
   margin: 0;
   padding: 0 10px 0 10px;
-  color: var(--color-shade-0);
+  color: var(--color-shade-8);
   text-transform: uppercase;
   display: flex;
   justify-content: space-between;

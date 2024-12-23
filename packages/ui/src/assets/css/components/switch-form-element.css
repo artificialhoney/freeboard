@@ -36,13 +36,13 @@
 
 .switch-form-element .switch-form-element__label__inner__on {
   padding-left: 6px;
-  background-color: var(--color-shade-0);
-  color: var(--color-shade-0);
+  background-color: var(--color-shade-1);
+  color: var(--color-shade-8);
 }
 
 .switch-form-element .switch-form-element__label__inner__off {
   padding-right: 6px;
-  background-color: var(--color-background);
+  background-color: var(--color-shade-1);
   color: var(--color-shade-8);
   text-align: right;
 }
