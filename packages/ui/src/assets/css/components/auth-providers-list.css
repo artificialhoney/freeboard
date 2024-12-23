@@ -12,18 +12,31 @@
   padding: 8px;
   line-height: 20px;
   text-align: left;
-  vertical-align: top;
   border-bottom: solid 1px var(--color-shade-4);
 }
 
 .auth-providers-list .auth-providers-list__table__head__row__cell {
   font-weight: bold;
-  vertical-align: bottom;
+  color: var(--color-shade-6);
 }
 
-.auth-providers-list
-  .auth-providers-list__table__body__row__cell__board-toolbar {
+.auth-providers-list .auth-providers-list__table__body__row {
+  width: 100%;
+}
+
+.auth-providers-list .auth-providers-list__table__body__row__cell__board-toolbar {
   display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-providers-list .auth-providers-list__table__body__row__cell__board-toolbar__item__icon {
+  cursor: pointer;
+  color: var(--color-shade-6);
+}
+
+.auth-providers-list .auth-providers-list__table__body__row__cell__board-toolbar__item__icon:hover {
+  color: var(--color-primary);
 }
 
 .auth-providers-list .auth-providers-list__operations {

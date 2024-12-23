@@ -63,7 +63,8 @@ const instance = getCurrentInstance();
           <th class="auth-providers-list__table__head__row__cell">
             {{ $t("authProvidersList.labelName") }}
           </th>
-          <th>&nbsp;</th>
+          <th class="auth-providers-list__table__head__row__cell">&nbsp;</th>
+          <th class="auth-providers-list__table__head__row__cell">&nbsp;</th>
         </tr>
       </thead>
       <tbody class="auth-providers-list__table__body">
@@ -71,20 +72,20 @@ const instance = getCurrentInstance();
           v-for="authProvider in dashboard.authProviders"
           class="auth-providers-list__table__body__row"
         >
-          <td class="auth-providers-list__table__body__row__cell">
+          <td class="auth-providers-list__table__body__row__cell" colspan="2">
             <TextButton
               @click="() => openAuthProviderEditDialogBox(authProvider)"
-              >{{ authProvider.name }}</TextButton
+              >{{ authProvider.title }}</TextButton
             >
           </td>
           <td class="auth-providers-list__table__body__row__cell">
-            <ul class="datasources-list__table__body__row__cell__board-toolbar">
+            <ul class="auth-providers-list__table__body__row__cell__board-toolbar">
               <li
                 @click="() => openAuthProviderDeleteDialogBox(authProvider)"
-                class="datasources-list__table__body__row__cell__board-toolbar__item"
+                class="auth-providers-list__table__body__row__cell__board-toolbar__item"
               >
                 <i
-                  class="datasources-list__table__body__row__cell__board-toolbar__item__icon"
+                  class="auth-providers-list__table__body__row__cell__board-toolbar__item__icon"
                 >
                   <v-icon name="hi-trash"></v-icon>
                 </i>

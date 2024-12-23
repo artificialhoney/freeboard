@@ -12,20 +12,30 @@
   padding: 8px;
   line-height: 20px;
   text-align: left;
-  vertical-align: top;
   border-bottom: solid 1px var(--color-shade-4);
 }
 
 .datasources-list .datasources-list__table__head__row__cell {
   font-weight: bold;
-  vertical-align: bottom;
+  color: var(--color-shade-6);
 }
 
 .datasources-list .datasources-list__table__body__row__cell__board-toolbar {
   display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.datasources-list .datasources-list__operations {
+.datasources-list .datasources-list__table__body__row__cell__board-toolbar__item__icon {
+  cursor: pointer;
+  color: var(--color-shade-6);
+}
+
+.datasources-list .datasources-list__table__body__row__cell__board-toolbar__item__icon:hover {
+  color: var(--color-primary);
+}
+
+.datasources-list .datasources-list-list__operations {
   display: flex;
   align-items: center;
   justify-content: center;

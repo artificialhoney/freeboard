@@ -9,6 +9,7 @@
   display: flex;
   min-height: 30px;
   height: 100%;
+  align-items: center;
 }
 
 .widget .widget__sub-section__widget-output {
@@ -23,6 +24,14 @@
   display: flex;
   gap: 5px;
   position: absolute;
-  right: 0;
+  right: 10px;
   color: var(--color-shade-8);
+}
+
+.widget .widget__sub-section__board-toolbar__item__icon {
+  color: var(--color-shade-8);
+}
+
+.widget .widget__sub-section__board-toolbar__item__icon:hover {
+  color: var(--color-primary);
 }

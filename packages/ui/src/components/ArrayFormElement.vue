@@ -75,15 +75,15 @@ defineExpose({
               @change="(v) => onSettingChange(index, v)"
             />
           </td>
-          <td class="array-form-element__table__body__row__table-operations">
+          <td class="array-form-element__table__body__row__cell">
             <ul
-              class="array-form-element__table__body__row__table-operations__board-toolbar"
+              class="array-form-element__table__body__row__cell__board-toolbar"
             >
               <li
-                class="array-form-element__table__body__row__table-operations__board_toolbar__item"
+                class="array-form-element__table__body__row__cell__board-toolbar__item"
               >
                 <i
-                  class="array-form-element__table__body__row__table-operations__board_toolbar__item__icon"
+                  class="array-form-element__table__body__row__cell__board-toolbar__item__icon"
                   @click="onSettingRemove(index)"
                 >
                   <v-icon name="hi-trash"></v-icon>
