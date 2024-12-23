@@ -2,6 +2,7 @@
 import { ref, watch } from "vue";
 import Form from "./Form.vue";
 import TextButton from "./TextButton.vue";
+import ActionButton from "./ActionButton.vue";
 
 const props = defineProps(["modelValue", "options"]);
 const emit = defineEmits(["update:modelValue"]);
@@ -58,6 +59,7 @@ defineExpose({
               >{{ setting.label }}</span
             >
           </th>
+          <th>&nbsp;</th>
         </tr>
       </thead>
       <tbody class="array-form-element__table__body">
@@ -94,9 +96,9 @@ defineExpose({
       </tbody>
     </table>
     <div class="array-form-element__operations">
-      <TextButton @click="onSettingAdd()">{{
+      <ActionButton @click="onSettingAdd()">{{
         $t("arrayFormElement.buttonAdd")
-      }}</TextButton>
+      }}</ActionButton>
     </div>
   </div>
 </template>

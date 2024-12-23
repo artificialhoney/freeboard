@@ -17,22 +17,12 @@
   border-bottom: solid 1px var(--color-shade-4);
 }
 
-.array-form-element .array-form-element__table__body__row {
-  display: flex;
-  align-items: center;
-  width: 100%;
-}
-
-.array-form-element .array-form-element__table__body__row__cell {
-  width: 90%;
-}
-
 .array-form-element .array-form-element__table__head__row__cell,
 .array-form-element .array-form-element__table__body__row__cell {
-  padding: 8px;
-  line-height: 20px;
-  text-align: left;
-  vertical-align: top;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .array-form-element .array-form-element__table__head__row__cell {

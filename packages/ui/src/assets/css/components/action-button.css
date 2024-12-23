@@ -6,6 +6,8 @@
   font-weight: 800;
   padding: 8px 16px;
   cursor: pointer;
+  border-radius: 5%;
+  margin: 0 0 16px;
 }
 
 .action-button:hover {
