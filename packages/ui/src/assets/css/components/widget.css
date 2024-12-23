@@ -6,6 +6,7 @@
 .widget .widget__sub-section {
   background-color: var(--color-shade-3);
   position: relative;
+  min-height: 30px;
 }
 
 .widget .widget__sub-section__widget-output {

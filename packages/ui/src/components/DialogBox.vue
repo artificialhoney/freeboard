@@ -23,8 +23,6 @@ const onCancel = (event) => {
 const onKey = (e) => {
   if (e.code === 'Escape') {
     onCancel(e);
-  } else if (e.code === 'Enter') {
-    onOk(e)
   }
 }
 

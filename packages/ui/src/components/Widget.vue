@@ -20,7 +20,7 @@ const widgetRef = ref(null);
 const openWidgetEditDialogBox = () => {
   freeboardStore.createComponent(WidgetDialogBox, instance.appContext, {
     header: t("widget.titleEdit"),
-    widget: widget,
+    widget,
     onOk: (newSettings) => {
       widget.settings = newSettings.settings;
       widget.type = newSettings.type;

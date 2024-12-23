@@ -29,7 +29,7 @@ const { hideLabels, skipTranslate, ...props } = defineProps({
   skipTranslate: Boolean,
 });
 
-const settings = reactive({ ...props.settings });
+const p = reactive({ ...props });
 
 const components = ref({});
 
@@ -185,7 +185,7 @@ const fieldToFormElement = (field) => {
     type = listFormElementRef;
   }
 
-  const value = field.model ? field.model : settings[field.name] || field.default;
+  const value = field.model?.value || p.settings[field.name] || field.default;
 
   field.model = ref(value)
 
@@ -226,12 +226,10 @@ const onUpdate = () => {
             :is="field.component"
             :disabled="field.disabled"
             v-model="field.model"
-            :validators="field.validators"
             :options="field.options || field.settings"
             :placeholder="field.placeholder"
             :secret="field.type === 'password'"
             :language="field.language"
-            @update:modelValue="onUpdate"
           ></component>
         </div>
         <div
