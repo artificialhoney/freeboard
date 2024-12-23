@@ -1,6 +1,7 @@
 .widget {
   background-color: var(--color-shade-3);
-  display: inline;
+  display: flex;
+  height: 100%;
 }
 
 .widget .widget__sub-section {
