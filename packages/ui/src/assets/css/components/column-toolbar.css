@@ -39,5 +39,9 @@
 }
 
 .column-toolbar .column-toolbar__board-toolbar__item__icon {
-  color: var(--color-foreground);
+  color: var(--color-shade-8);
+}
+
+.column-toolbar .column-toolbar__board-toolbar__item__icon:hover {
+  color: var(--color-primary);
 }
