@@ -1,15 +1,12 @@
 .widget {
   height: 100%;
-  background-color: var(--color-shade-5);
+  background-color: var(--color-shade-3);
+  display: inline;
 }
 
 .widget .widget__sub-section {
   padding: 0;
   border-bottom: solid 1px var(--color-shade-3);
-  display: flex;
-  min-height: 30px;
-  height: 100%;
-  align-items: center;
 }
 
 .widget .widget__sub-section__widget-output {
