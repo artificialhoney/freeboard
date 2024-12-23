@@ -39,7 +39,6 @@
   background-color: var(--color-shade-2);
   color: var(--color-shade-8);
   padding: 25px;
-  padding-bottom: 55px;
   height: 100%;
   display: flex;
   flex-direction: column;

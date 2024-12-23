@@ -24,6 +24,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 5px;
 }
 
 .datasources-list .datasources-list__table__body__row__cell__board-toolbar__item__icon {
