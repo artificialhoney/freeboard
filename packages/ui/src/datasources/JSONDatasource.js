@@ -76,7 +76,6 @@ export class JSONDatasource {
           name: "body",
           label: "form.labelBody",
           type: "code",
-          description: "form.descriptionBody",
           language: 'json'
         },
       ],

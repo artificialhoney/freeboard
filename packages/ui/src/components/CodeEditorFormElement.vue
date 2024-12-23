@@ -40,7 +40,7 @@ defineExpose({
   <vue-monaco-editor
     class="code-editor-form-element"
     v-model:value="code"
-    :theme="`vs-${dashboard.settings.theme === 'dark' ? 'dark' : 'light'}`"
+    theme="vs-dark"
     :options="MONACO_EDITOR_OPTIONS"
     :language="typeof props.language === 'Function' ? props.language() : props.language"
     @mount="handleMount"
