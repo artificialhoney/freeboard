@@ -38,7 +38,7 @@ watch(
     }
     const widgetFields = widgetPlugins.value[newValue].fields(widget, dashboard.value, {
       label: "form.labelGeneral",
-      icon: "hi-solid-home",
+      icon: "hi-home",
       name: "general",
       settings: {
         title: widget?.title,
@@ -104,18 +104,20 @@ const onDialogBoxOk = () => {
     @ok="() => onDialogBoxOk()"
     class="widget-dialog-box"
   >
-    <div class="widget-dialog-box__form__row">
-      <div class="widget-dialog-box__form__row__label">
-        <label>{{ $t("widgetDialogBox.labelType") }}</label>
+    <template #header>
+      <div class="widget-dialog-box__form__row">
+        <div class="widget-dialog-box__form__row__label">
+          <label>{{ $t("widgetDialogBox.labelType") }}</label>
+        </div>
+        <div class="widget-dialog-box__form__row__value">
+          <SelectFormElement
+            v-model="typeRef"
+            :options="widgetPluginsOptions"
+            :placeholder="$t('widgetDialogBox.placeholderType')"
+          />
+        </div>
       </div>
-      <div class="widget-dialog-box__form__row__value">
-        <SelectFormElement
-          v-model="typeRef"
-          :options="widgetPluginsOptions"
-          :placeholder="$t('widgetDialogBox.placeholderType')"
-        />
-      </div>
-    </div>
+    </template>
     <TabNavigator :fields="fields" v-if="typeRef">
       <template v-slot:[field.name] v-for="field in fields">
         <Form

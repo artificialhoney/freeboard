@@ -4,7 +4,7 @@ export default (dashboard) => {
   return [
     {
       label: "form.labelGeneral",
-      icon: "hi-solid-home",
+      icon: "hi-home",
       name: "general",
       settings: {
         title: dashboard.title,
@@ -98,7 +98,7 @@ export default (dashboard) => {
     },
     {
       label: "form.labelResources",
-      icon: "hi-solid-archive",
+      icon: "hi-archive",
       name: "resources",
       settings: {
         resources: dashboard.settings.resources,

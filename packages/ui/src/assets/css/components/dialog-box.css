@@ -9,7 +9,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-shade-8);
 }
 
 .dialog-box .dialog-box__modal {
@@ -22,11 +21,6 @@
   justify-content: space-between;
 }
 
-.modal.small {
-  max-width: 500px;
-  width: 100%;
-}
-
 .dialog-box .dialog-box__modal__header {
   background-color: var(--color-shade-1);
   height: 40px;
@@ -36,9 +30,10 @@
   text-transform: uppercase;
   font-family: "Helvetica-Neue", "Helvetica", "Arial", sans-serif;
   font-style: normal;
-  color: var(--color-foreground);
+  color: var(--color-shade-8);
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
 .dialog-box .dialog-box__modal__content {

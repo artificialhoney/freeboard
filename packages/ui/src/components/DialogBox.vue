@@ -41,6 +41,7 @@ defineExpose({
       <div class="dialog-box__modal">
         <header class="dialog-box__modal__header">
           <h2>{{ header }}</h2>
+          <slot name="header"></slot>
         </header>
         <section class="dialog-box__modal__content">
           <slot />

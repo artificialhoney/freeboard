@@ -53,7 +53,7 @@ export class BaseWidget {
     },
     {
       label: "form.labelResources",
-      icon: "hi-solid-archive",
+      icon: "hi-archive",
       name: "resources",
       settings: {
         resources: widget?.settings.resources,

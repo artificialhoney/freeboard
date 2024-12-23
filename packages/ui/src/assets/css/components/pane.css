@@ -1,5 +1,5 @@
 .pane {
-  background: var(--color-shade-0);
+  background: var(--color-shade-3);
   height: 100%;
 }
 
@@ -18,4 +18,12 @@
 .pane .pane__header__board-toolbar {
   display: flex;
   gap: 10px;
+}
+
+.pane .pane__board-toolbar__item {
+
+}
+
+.pane .pane__header__board-toolbar__item__icon:hover {
+  color: var(--color-primary);
 }
