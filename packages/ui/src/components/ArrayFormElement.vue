@@ -55,7 +55,6 @@ defineExpose({
           <th class="array-form-element__table__head__row__cell">
             <span
               v-for="setting in options"
-              :style="{ width: 100 / options.length + '%' }"
               >{{ setting.label }}</span
             >
           </th>
