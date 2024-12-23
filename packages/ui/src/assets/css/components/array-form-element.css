@@ -31,6 +31,10 @@
   justify-content: space-between;
 }
 
+.array-form-element .array-form-element__operations {
+  padding-left: 4px;
+}
+
 :deep(.form) {
   flex-direction: row !important;
   gap: 10px;
