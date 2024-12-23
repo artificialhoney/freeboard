@@ -40,7 +40,7 @@ export class BaseWidget {
       icon: "hi-code",
       name: "html",
       settings: {
-        script: widget?.settings.html,
+        html: widget?.settings.html,
       },
       fields: [
         {
