@@ -35,7 +35,7 @@
   color: var(--color-primary);
 }
 
-.datasources-list .datasources-list-list__operations {
+.datasources-list .datasources-list__operations {
   display: flex;
   align-items: center;
   justify-content: center;
