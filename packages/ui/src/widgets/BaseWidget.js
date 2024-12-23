@@ -127,6 +127,8 @@ export class BaseWidget {
     this.iframeElement = document.createElement("iframe");
     this.iframeElement.style.width = "100%";
     this.iframeElement.style.height = "100%";
+
+    this.widgetElement.appendChild(this.iframeElement);
     this.onSettingsChanged(settings);
   }
 
