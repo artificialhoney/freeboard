@@ -17,8 +17,6 @@ import { BaseWidget } from "../widgets/BaseWidget";
 
 const freeboardStore = useFreeboardStore();
 
-const { dashboard } = storeToRefs(freeboardStore);
-
 const cssClass = usePreferredColorScheme();
 
 watch(
@@ -35,7 +33,7 @@ const { id } = defineProps({
 
 const idRef = ref(id);
 
-const { showLoadingIndicator, isEditing, isSaved } =
+const { showLoadingIndicator, isEditing, isSaved, dashboard } =
   storeToRefs(freeboardStore);
 
 const router = useRouter();
@@ -87,7 +85,7 @@ const handleResult = (newResult) => {
 watch(result, handleResult);
 onResult((result) => handleResult(result.data));
 
-watch(dashboard, () => {
+watch(() => dashboard, () => {
   freeboardStore.saveSettingsToLocalStorage();
 });
 
