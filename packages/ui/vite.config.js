@@ -7,12 +7,13 @@ import vue from "@vitejs/plugin-vue";
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
   return {
+    base: "/freeboard/",
     plugins: [vue()],
     resolve: {
       alias: {
         "~": path.resolve(
           __dirname,
-          env.FREEBOARD_NODE_MODULES || "./../../node_modules",
+          env.FREEBOARD_NODE_MODULES || "./../../node_modules"
         ),
       },
     },
@@ -24,7 +25,7 @@ export default defineConfig(({ mode }) => {
         "/graphql": "http://localhost:4001",
         "/proxy": "http://localhost:8001",
         "/connect": "http://localhost:9001",
-      }
+      },
     },
   };
 });
