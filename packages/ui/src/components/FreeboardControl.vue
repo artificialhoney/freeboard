@@ -44,6 +44,7 @@ const saveDashboard = async () => {
       class="freeboard-control__board-toolbar freeboard-control__board-toolbar"
     >
       <li
+        v-if="!__FREEBOARD_STATIC__"
         @click="() => saveDashboard()"
         class="freeboard-control__board-toolbar__item"
       >

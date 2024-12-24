@@ -102,7 +102,7 @@ showLoadingIndicator.value = false;
   <Transition>
     <div class="freeboard">
       <Preloader v-if="showLoadingIndicator" />
-      <Header v-if="freeboardStore.isLoggedIn() && !showLoadingIndicator" />
+      <Header v-if="!showLoadingIndicator" />
       <Board v-if="!showLoadingIndicator" />
     </div>
   </Transition>
