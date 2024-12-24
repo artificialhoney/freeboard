@@ -119,7 +119,3 @@ const onDialogBoxOk = () => {
     </TabNavigator>
   </DialogBox>
 </template>
-
-<style lang="css" scoped>
-@import url("../assets/css/components/widget-dialog-box.css");
-</style>

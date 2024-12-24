@@ -25,7 +25,7 @@ jobs:
       - name: Install Packages and Build Application # Installs npm packages and builds the Vue.js application.
         run: |
           npm install
-          npm run build
+          FREEBOARD_STATIC=true npm run build
 
       - name: Setup Pages # Configures pages for deployment.
         id: pages

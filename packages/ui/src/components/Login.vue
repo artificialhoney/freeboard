@@ -64,7 +64,7 @@ const onDialogBoxOk = async () => {
       :ok="$t('login.buttonOk')"
       @ok="() => onDialogBoxOk()"
     >
-      <Form ref="form" :fields="fields" />
+      <Form ref="form" :fields="fields" :settings="{}" />
     </DialogBox>
   </div>
 </template>

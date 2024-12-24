@@ -39,7 +39,6 @@ import {
 } from "oh-vue-icons/icons";
 
 import { createPinia, storeToRefs } from "pinia";
-import router from "./router";
 import { useFreeboardStore } from "./stores/freeboard";
 import { SSELink } from "./sse";
 import { createHead } from "@unhead/vue";
