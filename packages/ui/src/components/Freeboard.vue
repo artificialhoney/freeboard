@@ -89,7 +89,7 @@ onResult((result) => handleResult(result.data));
 
 watch(dashboard, () => {
   freeboardStore.saveSettingsToLocalStorage();
-})
+});
 
 freeboardStore.loadSettingsFromLocalStorage(!idRef.value);
 freeboardStore.loadAuthPlugin(HeaderAuthProvider);

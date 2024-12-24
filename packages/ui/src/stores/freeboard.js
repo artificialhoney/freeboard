@@ -76,14 +76,7 @@ export const useFreeboardStore = defineStore("freeboard", {
 
       this.widgetPlugins[plugin.typeName] = plugin;
     },
-    async saveDashboard(id, dashboard) {
-      const { mutate: createDashboard, error: createError } = useMutation(
-        DASHBOARD_CREATE_MUTATION
-      );
-      const { mutate: updateDashboard, error: updateError } = useMutation(
-        DASHBOARD_UPDATE_MUTATION,
-      );
-
+    async saveDashboard(id, dashboard, createDashboard, updateDashboard) {
       if (this.isSaved && this.dashboard.isOwner) {
         updateDashboard({ id, dashboard: dashboard });
       } else {

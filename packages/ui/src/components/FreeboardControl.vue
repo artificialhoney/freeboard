@@ -11,12 +11,19 @@ const { dashboard, isSaved } = storeToRefs(freeboardStore);
 
 const router = useRouter();
 
+const { mutate: createDashboard } = useMutation(
+        DASHBOARD_CREATE_MUTATION
+      );
+      const { mutate: updateDashboard } = useMutation(
+        DASHBOARD_UPDATE_MUTATION,
+      );
+
 const saveDashboard = async () => {
   const d = dashboard.value.serialize();
   const id = d._id;
   delete d._id;
 
-  await freeboardStore.saveDashboard(id, d);
+  await freeboardStore.saveDashboard(id, d, createDashboard, updateDashboard);
 };
 
 const iStatic = __FREEBOARD_STATIC__;
