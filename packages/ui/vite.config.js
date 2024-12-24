@@ -7,6 +7,7 @@ import vue from "@vitejs/plugin-vue";
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
   return {
+    base: '/freeboard/',
     plugins: [vue()],
     resolve: {
       alias: {
