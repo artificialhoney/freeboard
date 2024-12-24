@@ -1,6 +1,5 @@
 .widget {
   background-color: var(--color-shade-3);
-  display: flex;
   height: 100%;
 }
 
@@ -25,6 +24,10 @@
   right: 10px;
   top: 5px;
   color: var(--color-shade-8);
+}
+
+.widget .widget__sub-section__board-toolbar__item {
+  cursor: pointer;
 }
 
 .widget .widget__sub-section__board-toolbar__item__icon {
