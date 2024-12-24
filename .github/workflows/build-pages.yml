@@ -34,6 +34,8 @@ jobs:
 
       - name: Upload artifact # Uploads the build artifact.
         uses: actions/upload-pages-artifact@v2
+        with:
+          path: packages/ui/dist
 
   deploy:
     name: Deploy Application # Defines the name of the deployment job.
