@@ -37,6 +37,8 @@ const saveDashboard = async () => {
     router.push(`/${result.data.createDashboard._id}`);
   }
 };
+
+const iStatic = __FREEBOARD_STATIC__;
 </script>
 <template>
   <div class="freeboard-control">
@@ -44,7 +46,7 @@ const saveDashboard = async () => {
       class="freeboard-control__board-toolbar freeboard-control__board-toolbar"
     >
       <li
-        v-if="!__FREEBOARD_STATIC__"
+        v-if="!iStatic"
         @click="() => saveDashboard()"
         class="freeboard-control__board-toolbar__item"
       >
