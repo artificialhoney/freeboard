@@ -85,7 +85,7 @@ const handleResult = (newResult) => {
 watch(result, handleResult);
 onResult((result) => handleResult(result.data));
 
-const d = reactive(dashboard);
+const d = reactive(dashboard.value);
 
 watch(d, () => {
   freeboardStore.saveSettingsToLocalStorage();
