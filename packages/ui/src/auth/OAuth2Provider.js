@@ -48,6 +48,14 @@ export class OAuth2Provider {
     return this.currentSettings;
   }
 
+  get url() {
+    return `/connect/${this.service}`
+  }
+
+  get body() {
+    return JSON.parse(this.currentSettings.body)
+  }
+
   getAccessToken() {
     if (
       this.tokenProperties &&
@@ -58,31 +66,8 @@ export class OAuth2Provider {
       this.tokenProperties &&
       this.tokenProperties[EXPIRES_AT_PROPERTY_NAME] >= new Date()
     ) {
-      return fetch(proxy(this.currentSettings.url), {
-        body: new URLSearchParams({
-          refresh_token: this.tokenProperties.refresh_token,
-        }),
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        method: "POST",
-      })
-        .then((response) => ({
-          ...response.json(),
-          refresh_token: this.tokenProperties.refresh_token,
-        }))
-        .then((d) => (this.tokenProperties = this.parseToken(d)))
-        .then((p) => p.access_token);
-    } else {
-      return fetch(proxy(this.currentSettings.url), {
-        body: new URLSearchParams({
-          grant_type: "password",
-          client_id: this.currentSettings.client_id,
-          client_secret: this.currentSettings.client_secret,
-          username: this.currentSettings.username || undefined,
-          password: this.currentSettings.password || undefined,
-          // scope: this.currentSettings.scope || undefined,
-        }),
+      return fetch(this.url, {
+        body: new URLSearchParams(this.body),
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },

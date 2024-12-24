@@ -17,5 +17,5 @@ app.use(
 );
 
 app.listen(PORT, "0.0.0.0", () => {
-  console.log(`Proxy listening on port ${PORT}`);
+  console.log(`Oauth Proxy listening on port ${PORT}`);
 });
