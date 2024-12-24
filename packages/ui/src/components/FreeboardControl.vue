@@ -9,13 +9,6 @@ import { watch } from "vue";
 const freeboardStore = useFreeboardStore();
 const { dashboard, isSaved } = storeToRefs(freeboardStore);
 
-const { mutate: createDashboard, error: createError } = useMutation(
-  DASHBOARD_CREATE_MUTATION,
-);
-const { mutate: updateDashboard, error: updateError } = useMutation(
-  DASHBOARD_UPDATE_MUTATION,
-);
-
 const router = useRouter();
 
 watch([createError, updateError], () => {
@@ -24,18 +17,11 @@ watch([createError, updateError], () => {
 });
 
 const saveDashboard = async () => {
-  const { isSaved } = storeToRefs(freeboardStore);
   const d = dashboard.value.serialize();
   const id = d._id;
   delete d._id;
-  if (isSaved.value && dashboard.value.isOwner) {
-    updateDashboard({ id, dashboard: d });
-  } else {
-    const result = await createDashboard({ dashboard: d });
-    isSaved.value = true;
-    dashboard.value._id = result.data.createDashboard._id;
-    router.push(`/${result.data.createDashboard._id}`);
-  }
+
+  await freeboardStore.saveDashboard(id, d);
 };
 
 const iStatic = __FREEBOARD_STATIC__;
@@ -46,7 +32,6 @@ const iStatic = __FREEBOARD_STATIC__;
       class="freeboard-control__board-toolbar freeboard-control__board-toolbar"
     >
       <li
-        v-if="!iStatic"
         @click="() => saveDashboard()"
         class="freeboard-control__board-toolbar__item"
       >

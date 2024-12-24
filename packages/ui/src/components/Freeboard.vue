@@ -17,6 +17,8 @@ import { BaseWidget } from "../widgets/BaseWidget";
 
 const freeboardStore = useFreeboardStore();
 
+const { dashboard } = storeToRefs(freeboardStore);
+
 const cssClass = usePreferredColorScheme();
 
 watch(
@@ -85,7 +87,11 @@ const handleResult = (newResult) => {
 watch(result, handleResult);
 onResult((result) => handleResult(result.data));
 
-freeboardStore.loadSettingsFromLocalStorage();
+watch(dashboard, () => {
+  freeboardStore.saveSettingsToLocalStorage();
+})
+
+freeboardStore.loadSettingsFromLocalStorage(!idRef.value);
 freeboardStore.loadAuthPlugin(HeaderAuthProvider);
 freeboardStore.loadAuthPlugin(OAuth2Provider);
 freeboardStore.loadDatasourcePlugin(JSONDatasource);

@@ -3,6 +3,8 @@ import renderComponent from "../render";
 import { Dashboard } from "../models/Dashboard";
 import { useI18n } from "vue-i18n";
 import { usePreferredColorScheme } from "@vueuse/core";
+import { useMutation } from "@vue/apollo-composable";
+import { DASHBOARD_CREATE_MUTATION, DASHBOARD_UPDATE_MUTATION } from "../gql";
 
 export const useFreeboardStore = defineStore("freeboard", {
   state: () => ({
@@ -18,7 +20,7 @@ export const useFreeboardStore = defineStore("freeboard", {
     token: null,
   }),
   actions: {
-    loadSettingsFromLocalStorage() {
+    loadSettingsFromLocalStorage(dashboard) {
       const item = localStorage.getItem("freeboard");
       if (!item) {
         return;
@@ -27,11 +29,18 @@ export const useFreeboardStore = defineStore("freeboard", {
       if (settings.token) {
         this.token = settings.token;
       }
+      if (dashboard && settings.dashboard) {
+        this.dashboard = new Dashboard();
+        this.dashboard.deserialize(settings.dashboard);
+      }
     },
     saveSettingsToLocalStorage() {
       const settings = {};
       if (this.token) {
         settings.token = this.token;
+      }
+      if (this.dashboard) {
+        settings.dashboard = this.dashboard.serialize();
       }
       localStorage.setItem("freeboard", JSON.stringify(settings));
     },
@@ -66,6 +75,23 @@ export const useFreeboardStore = defineStore("freeboard", {
       }
 
       this.widgetPlugins[plugin.typeName] = plugin;
+    },
+    async saveDashboard(id, dashboard) {
+      const { mutate: createDashboard, error: createError } = useMutation(
+        DASHBOARD_CREATE_MUTATION
+      );
+      const { mutate: updateDashboard, error: updateError } = useMutation(
+        DASHBOARD_UPDATE_MUTATION,
+      );
+
+      if (this.isSaved && this.dashboard.isOwner) {
+        updateDashboard({ id, dashboard: dashboard });
+      } else {
+        const result = await createDashboard({ dashboard: dashboard });
+        this.isSaved = true;
+        this.dashboard._id = result.data.createDashboard._id;
+        router.push(`/${result.data.createDashboard._id}`);
+      }
     },
     createAsset(type, value, inline) {
       let node = null;
