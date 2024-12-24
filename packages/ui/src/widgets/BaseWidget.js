@@ -65,8 +65,8 @@ export class BaseWidget {
           type: "array",
           settings: [
             {
-              name: "url",
-              label: "form.labelUrl",
+              name: "asset",
+              label: "form.labelAsset",
               type: "list",
               options: fetch("https://api.cdnjs.com/libraries/")
                 .then((r) => r.json())

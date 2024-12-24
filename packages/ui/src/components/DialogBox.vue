@@ -55,10 +55,12 @@ defineExpose({
           <slot name="header"></slot>
         </header>
         <section class="dialog-box__modal__content">
-          <slot />
+          <form id="form" @submit.prevent="onOk">
+            <slot />
+          </form>
         </section>
         <footer class="dialog-box__modal__footer">
-          <TextButton :disabled="okDisabled" v-if="ok" @click="onOk" @submit="onOk" form="form" >
+          <TextButton :disabled="okDisabled" v-if="ok" type="submit" form="form" >
             {{ ok }}
           </TextButton>
           <TextButton v-if="cancel" @click="onCancel">

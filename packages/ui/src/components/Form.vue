@@ -214,7 +214,7 @@ const onUpdate = () => {
 </script>
 
 <template>
-  <form class="form" action="" id="form">
+  <div class="form">
     <div class="form__row" v-for="field in fields">
       <div class="form__row__label" v-if="!hideLabels">
         <label>{{ field.label }}</label>
@@ -247,7 +247,7 @@ const onUpdate = () => {
         {{ field.suffix }}
       </div>
     </div>
-  </form>
+  </div>
 </template>
 
 <style lang="css" scoped>

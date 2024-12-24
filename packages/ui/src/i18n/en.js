@@ -46,6 +46,7 @@ export const en = {
     buttonCancel: "Cancel",
   },
   form: {
+    labelAsset: 'Asset',
     labelList: 'Select...',
     labelService: 'Service',
     labelAuth: 'Auth',
