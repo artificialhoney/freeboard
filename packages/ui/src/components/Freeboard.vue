@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from "vue";
+import { reactive, ref, watch } from "vue";
 import Header from "./Header.vue";
 import Board from "./Board.vue";
 import { useFreeboardStore } from "../stores/freeboard";
@@ -85,9 +85,11 @@ const handleResult = (newResult) => {
 watch(result, handleResult);
 onResult((result) => handleResult(result.data));
 
-watch(() => dashboard, () => {
+const d = reactive(dashboard);
+
+watch(d, () => {
   freeboardStore.saveSettingsToLocalStorage();
-});
+})
 
 freeboardStore.loadSettingsFromLocalStorage(!idRef.value);
 freeboardStore.loadAuthPlugin(HeaderAuthProvider);
