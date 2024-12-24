@@ -11,11 +11,6 @@ const { dashboard, isSaved } = storeToRefs(freeboardStore);
 
 const router = useRouter();
 
-watch([createError, updateError], () => {
-  freeboardStore.logout();
-  router.push("/login");
-});
-
 const saveDashboard = async () => {
   const d = dashboard.value.serialize();
   const id = d._id;
