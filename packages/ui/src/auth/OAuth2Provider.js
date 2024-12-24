@@ -49,7 +49,7 @@ export class OAuth2Provider {
   }
 
   get url() {
-    return `/connect/${this.service}`
+    return `/connect/${this.currentSettings.service}`
   }
 
   get body() {
