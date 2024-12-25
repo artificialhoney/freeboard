@@ -92,6 +92,8 @@ watch(d, () => {
 })
 
 freeboardStore.loadSettingsFromLocalStorage(!idRef.value);
+freeboardStore.loadDashboardAssets();
+freeboardStore.loadDashboardTheme();
 freeboardStore.loadAuthPlugin(HeaderAuthProvider);
 freeboardStore.loadAuthPlugin(OAuth2Provider);
 freeboardStore.loadDatasourcePlugin(JSONDatasource);

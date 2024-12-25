@@ -41,7 +41,6 @@ const openSettingsDialogBox = () => {
       onChange(settings.value);
       freeboardStore.loadDashboardAssets();
       freeboardStore.loadDashboardTheme();
-      freeboardStore.saveSettingsToLocalStorage();
     },
   });
 };
