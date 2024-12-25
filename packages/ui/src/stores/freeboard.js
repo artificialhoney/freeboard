@@ -32,6 +32,9 @@ export const useFreeboardStore = defineStore("freeboard", {
       if (dashboard && settings.dashboard) {
         this.dashboard = new Dashboard();
         this.dashboard.deserialize(settings.dashboard);
+      } else if (settings.dashboard) {
+        const d = new Dashboard().deserialize(settings.dashboard);
+        this.dashboard.settings = d.settings;
       }
     },
     saveSettingsToLocalStorage() {
