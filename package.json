@@ -3,7 +3,7 @@
   "title": "freeboard",
   "version": "1.2.0-dev",
   "scripts": {
-    "dev": " concurrently --kill-others \"docker compose -f docker-compose.mongo.yml up\"  \"npm run dev --workspace=packages/ui\" \"npm run dev --workspace=packages/api\"  \"npm run dev --workspace=packages/proxy\" \"npm run dev --workspace=packages/oauth\"",
+    "dev": " concurrently --kill-others \"docker compose -f docker-compose.mongo.yml up --build\"  \"npm run dev --workspace=packages/ui\" \"npm run dev --workspace=packages/api\"  \"npm run dev --workspace=packages/proxy\" \"npm run dev --workspace=packages/oauth\"",
     "lint:fix": "eslint --fix"
   },
   "devDependencies": {

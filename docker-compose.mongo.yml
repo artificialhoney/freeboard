@@ -2,11 +2,12 @@ services:
   mongo:
     image: ${FREEBOARD_MONGO_IMAGE:-mongo}
     restart: unless-stopped
-    container_name: mongo
+    container_name: freeboard-mongo
     ports:
       - 27017:27017
     volumes:
       - ${FREEBOARD_MONGO_DB_PATH:-./db}:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     environment:
       MONGO_INITDB_ROOT_USERNAME: freeboard
       MONGO_INITDB_ROOT_PASSWORD: unsecure
