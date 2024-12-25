@@ -31,6 +31,10 @@ const { hideLabels, skipTranslate, ...props } = defineProps({
 
 const p = reactive({ ...props });
 
+const onUpdate = () => {
+  emit("change", getValue());
+};
+
 const components = ref({});
 
 const getValue = () => {
@@ -185,10 +189,6 @@ const fieldToFormElement = (field) => {
     type = listFormElementRef;
   }
 
-  const value = field.model?.value || p.settings[field.name] || field.default;
-
-  field.model = ref(value)
-
   return { ...field, component: type, validators };
 };
 
@@ -204,13 +204,15 @@ const f = toRef(props, "fields");
 
 watch(f, async () => {
   fields.value = await Promise.all(f.value.map(fieldToFormElement).map(translateField).map(resolveFieldOptions))
+  fields.value.forEach((field) => {
+    const value = field.model?.value || p.settings[field.name] || field.default;
+    const r = ref(value)
+    field.model = r;
+    watch(r, onUpdate)
+  })
 }, {
   immediate: true
 });
-
-const onUpdate = () => {
-  emit("change", getValue());
-};
 </script>
 
 <template>

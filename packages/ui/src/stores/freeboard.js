@@ -33,7 +33,8 @@ export const useFreeboardStore = defineStore("freeboard", {
         this.dashboard = new Dashboard();
         this.dashboard.deserialize(settings.dashboard);
       } else if (settings.dashboard) {
-        const d = new Dashboard().deserialize(settings.dashboard);
+        const d = new Dashboard()
+        d.deserialize(settings.dashboard);
         this.dashboard.settings = d.settings;
       }
     },
